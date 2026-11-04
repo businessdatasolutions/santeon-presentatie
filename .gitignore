@@ -11,3 +11,7 @@ Offerte*.pdf
 2026-07-04-offerte-santeon.html
 2026-07-04-santeon-pitch-mail.md
 notes-22-06-2026.md
+
+# Lokale presentatieserver (npm)
+node_modules/
+dist/

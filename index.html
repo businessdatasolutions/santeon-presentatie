@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Santeon-presentatie</title>
+<style>
+  :root{
+    --paper:#E9EDEB; --card:#fff; --ink:#0B2A28; --petrol:#0E3B39; --line:#D2DAD7;
+    --muted:#5C6B67; --mutedSoft:#8A9793; --agent:#6D4AFF; --agentSoft:#EFEBFF;
+    --ok:#2E8B72; --warn:#B23A2E;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:40px 16px}
+  .wrap{max-width:760px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--mutedSoft)}
+  h1{font-size:26px;letter-spacing:-.3px;margin:6px 0 4px}
+  .lede{color:var(--muted);margin:0 0 22px;font-size:14.5px}
+
+  .status{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+    border-radius:11px;padding:12px 14px;margin-bottom:26px;font-size:14px}
+  .status .dot{width:10px;height:10px;border-radius:99px;background:var(--mutedSoft);flex-shrink:0}
+  .status.ok .dot{background:var(--ok)}
+  .status.fout .dot{background:var(--warn)}
+  .status .sub{color:var(--mutedSoft);font-family:var(--mono);font-size:11.5px;margin-left:auto}
+  .status button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:#fff;border-radius:7px;
+    padding:4px 10px;cursor:pointer;color:var(--petrol)}
+
+  h2{font-family:var(--mono);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);
+    margin:22px 0 8px;font-weight:600}
+  a.item{display:flex;gap:14px;align-items:baseline;background:var(--card);border:1px solid var(--line);
+    border-radius:11px;padding:13px 15px;margin-bottom:8px;text-decoration:none;color:inherit;
+    transition:border-color .15s, box-shadow .15s}
+  a.item:hover,a.item:focus-visible{border-color:var(--agent);box-shadow:0 0 0 3px var(--agentSoft);outline:none}
+  .t{font-weight:700;font-size:15px}
+  .d{color:var(--muted);font-size:13px;margin-top:2px}
+  .tag{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--mutedSoft);white-space:nowrap}
+  .demo .t{color:var(--agent)}
+  footer{margin-top:30px;color:var(--mutedSoft);font-size:12px;line-height:1.6}
+  code{font-family:var(--mono);font-size:11.5px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="eyebrow">Santeon-inspiratiedag · 10 november 2026</div>
+  <h1>AI en kwaliteitsmanagement in de zorg</h1>
+  <p class="lede">Alle onderdelen van de sessie, in de volgorde van de sessie-flow. Elk onderdeel opent in een eigen tabblad.</p>
+
+  <div class="status" id="status" role="status">
+    <span class="dot"></span>
+    <span id="status-tekst">AI-verbinding controleren…</span>
+    <span class="sub" id="status-model"></span>
+    <button type="button" id="status-opnieuw">Opnieuw</button>
+  </div>
+
+  <h2>Deel 1 · AI-kansen in context</h2>
+  <a class="item" href="background-material/2026-07-01-ai-maturity-frameworks-visuals.html#maturity-measurement" target="_blank" rel="noopener">
+    <div><div class="t">Realitycheck: hoe zeldzaam is "volwassen"?</div>
+    <div class="d">Maturity-bar uit de atlas (sectie 0)</div></div>
+    <span class="tag">atlas §0</span>
+  </a>
+
+  <h2>Brug · Ask → Assist → Automate</h2>
+  <a class="item" href="background-material/vim-workflow.svg" target="_blank" rel="noopener">
+    <div><div class="t">VIM-workflow</div>
+    <div class="d">Volledig diagram met routes en eindpunten (kansenkaart, Route 3)</div></div>
+    <span class="tag">svg</span>
+  </a>
+  <a class="item" href="background-material/vim-workflow-simplified.png" target="_blank" rel="noopener">
+    <div><div class="t">VIM-workflow, vereenvoudigd</div>
+    <div class="d">Rustiger versie voor op het scherm</div></div>
+    <span class="tag">png</span>
+  </a>
+  <a class="item" href="background-material/2026-07-01-ai-maturity-frameworks-visuals.html#beutler" target="_blank" rel="noopener">
+    <div><div class="t">Ask → Assist → Automate</div>
+    <div class="d">Groeimodel uit de atlas (sectie 9)</div></div>
+    <span class="tag">atlas §9</span>
+  </a>
+
+  <h2>Deel 2 · Praktische demonstratie</h2>
+  <a class="item demo" href="demo.html" target="_blank" rel="noopener">
+    <div><div class="t">Live demo: VIM-triage bij St. Machteld</div>
+    <div class="d">Data lake → ontologie → OKF → AI-agent → rapportage. Met doorvragen (0501) en escalatie (0505).</div></div>
+    <span class="tag">live AI</span>
+  </a>
+  <a class="item" href="vim-agent-animatie.html" target="_blank" rel="noopener">
+    <div><div class="t">Back-up: verwerkingsanimatie</div>
+    <div class="d">Gescript, werkt zonder internet. Zelfde casussen, inclusief 0505.</div></div>
+    <span class="tag">offline</span>
+  </a>
+
+  <footer>
+    Starten: <code>npm start</code> in de projectmap. De API-sleutel staat in <code>.env</code> en blijft op deze computer;
+    de browser praat alleen met deze lokale server. Zonder werkende verbinding valt de demo terug op regelgebaseerde triage (label "fallback").
+  </footer>
+</main>
+
+<script>
+  async function controleer() {
+    const box = document.getElementById("status");
+    const tekst = document.getElementById("status-tekst");
+    const model = document.getElementById("status-model");
+    box.className = "status";
+    tekst.textContent = "AI-verbinding controleren…";
+    model.textContent = "";
+    try {
+      const r = await fetch("/api/status", { cache: "no-store" });
+      const s = await r.json();
+      box.className = "status " + (s.verbonden ? "ok" : "fout");
+      tekst.textContent = s.melding;
+      model.textContent = s.model;
+    } catch {
+      box.className = "status fout";
+      tekst.textContent = "Lokale server niet bereikbaar — start met npm start";
+    }
+  }
+  document.getElementById("status-opnieuw").addEventListener("click", controleer);
+  controleer();
+</script>
+</body>
+</html>
