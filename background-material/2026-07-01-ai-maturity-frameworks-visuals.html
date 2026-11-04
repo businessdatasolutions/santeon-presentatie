@@ -7,9 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<script src="https://d3js.org/d3.v7.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js" integrity="sha384-1NLkwxMO2sOqcq7rQkFBhIAUJtbt8ziLxhVKVgKfFGMEU8pF+GEq5LVogviveup6" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js" integrity="sha384-WmdflGW9aGfoBdHc4rRyWzYuAjEmDwMdGdiPNacbwfGKxBW/SO6guzuQ76qjnSlr" crossorigin="anonymous"></script>
+<!-- Libraries are vendored (pinned copies) so the atlas works offline and from file://.
+     The old unpinned d3.v7.min.js CDN URL started serving d3 7.9.2, which failed the SRI hash and blocked d3. -->
+<script src="vendor/d3-7.9.0.min.js"></script>
+<script src="vendor/rough-4.6.6.js"></script>
+<script src="vendor/mermaid-10.9.1.min.js"></script>
 
 <style>
   :root{
@@ -182,6 +184,19 @@
   }
   .viz{ overflow: hidden; }
   .viz svg{ width: 100%; height: auto; display: block; }
+  /* Notes added by the 2026-11-04 wiki re-query: what changed since the July edition. */
+  .update-note{
+    margin: .9rem 0 0;
+    padding: .6rem .85rem;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 8px 8px 0;
+    font-size: .84rem;
+    color: var(--ink);
+  }
+  .update-note b:first-child{ color: var(--accent); }
+  .update-note code{ font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .78rem; }
+  header.page .update-note{ max-width: 82ch; }
   .caption-note{
     margin-top: .6rem;
     font-size: .8rem;
@@ -218,10 +233,18 @@
 <header class="page">
   <h1>AI Maturity &amp; AI-Adoption Frameworks — a Visual Atlas</h1>
   <p class="lede">
-    Twelve visuals, one per framework the <em>ai-wiki</em> tracks in
-    <code>syntheses/organizational-frameworks-for-ai-adoption</code> and
-    <code>threads/ai-maturity-measurement-comparison</code>. Companion to the
-    <a href="2026-07-01-ai-maturity-frameworks-overview-query-trace.md">traceable query answer</a>.
+    Thirteen visuals, one per framework the <em>ai-wiki</em> tracks in
+    <code>syntheses/organizational-frameworks-for-ai-adoption</code>,
+    <code>threads/ai-maturity-measurement-comparison</code> and (since August 2026)
+    <code>syntheses/ai-worker-maturity-levels</code>. Companion to the traceable query answer
+    <code>ai-wiki/inspiration/2026-11-04-ai-maturity-frameworks-overview-query-trace.md</code>.
+  </p>
+  <p class="update-note">
+    <b>Updated 4 Nov 2026</b> from a re-run of the July wiki query. What changed:
+    (1) the maturity cross-walk (section 0) is unchanged, with one new axis: the individual worker;
+    (2) the frameworks synthesis grew from 14 to 20 sources but added no new layer. It now frames the field's problem as
+    <i>"orchestration, not adoption"</i> (Tate) and flags TAM / UTAUT / DOI / TOE as not yet placed;
+    (3) a new worker-level scale, drawn as section 12. Still missing from the wiki: Gartner's and Deloitte's maturity models.
   </p>
   <div class="legend">
     <span class="swatch"><span class="dot" style="background:#e8590c"></span><b>D3.js</b> — proportional / numeric data (2×2s, treemap, bar chart)</span>
@@ -243,6 +266,7 @@
   <a href="#beutler">Ask→Assist→Automate</a>
   <a href="#harness">Agent Harness</a>
   <a href="#carucci">Resistance-as-Data</a>
+  <a href="#worker">Worker maturity L0–L5</a>
 </nav>
 
 <main>
@@ -257,6 +281,15 @@
     <p class="desc">Five independent surveys, five different definitions of "success," five numbers that all land in the same narrow band. Adoption breadth (78–88%) is high; maturity depth is not.</p>
     <div class="viz"><svg id="viz-maturity" viewBox="0 0 900 340" role="img" aria-label="Bar chart comparing five AI maturity measurement instruments, all reporting between 1% and 15%"></svg></div>
     <div class="caption-note" id="note-maturity">Hover a bar for the instrument's methodology note.</div>
+    <p class="update-note">
+      <b>Nov 2026:</b> the five numbers still stand. Every one of them measures the <em>firm</em>. In August the wiki added the
+      individual worker as a separate unit of analysis (see section 12). The evidence is one self-reported case, and the axis is not yet validated.
+      Adjacent figures since July measure value or production, not maturity, so they are not drawn as bars:
+      about 30% of pilots reach production (one firm's index, BBC <i>AI Decoded</i>), and BCG finds that
+      "just 26% of organizations have achieved value from AI". A caution on the adoption side: Goldman Sachs (Hatzius)
+      attributes the widely cited jump in US firm adoption (~10% → &gt;20%) to a looser survey question.
+      Sources: <code>threads/ai-maturity-measurement-comparison</code>, <code>concepts/enterprise-ai-adoption</code>.
+    </p>
   </section>
 
   <!-- 1. Werner-Le-Brun Tin Man vs Octopus -->
@@ -395,6 +428,11 @@ flowchart BT
   style Assist fill:#74c0fc,stroke:#1971c2
   style Automate fill:#1971c2,stroke:#0b4a86,color:#fff
     </pre>
+    <p class="update-note">
+      <b>Nov 2026:</b> the worker scale (section 12) maps this ladder onto individuals:
+      Ask ≈ L1 Conversationalist, Assist ≈ L2 Operator, Automate (entry) ≈ L3 Delegator.
+      Source: <code>syntheses/ai-worker-maturity-levels</code>.
+    </p>
   </section>
 
   <!-- 10. Agent harness -->
@@ -441,13 +479,46 @@ flowchart TB
     </pre>
   </section>
 
+  <!-- 12. Worker maturity scale (added 2026-11-04) -->
+  <section class="card wide" id="worker">
+    <div class="card-head">
+      <h2>12 · Worker layer — AI Worker Maturity, L0 → L5</h2>
+      <span class="tool-tag mermaid">Mermaid</span>
+    </div>
+    <p class="source">ai-wiki synthesis, Aug 2026 (17 sources; confidence 0.80) — <code>syntheses/ai-worker-maturity-levels</code></p>
+    <p class="desc">"How mature is the individual, not the firm?" Six levels, each defined by who produces, who checks and who decides, not by which tools someone owns. Beutler's ladder (section 9) maps onto L1–L3.</p>
+    <pre class="mermaid" id="viz-worker">
+flowchart LR
+  L0["L0 Bystander&lt;br/&gt;no meaningful AI use"] --> L1["L1 Conversationalist&lt;br/&gt;chat, drafts, summaries;&lt;br/&gt;output taken at face value"]
+  L1 --> L2["L2 Operator&lt;br/&gt;iterates, adds context,&lt;br/&gt;verifies before use"]
+  L2 --> L3["L3 Delegator&lt;br/&gt;hands over whole tasks&lt;br/&gt;against explicit specs"]
+  L3 --> L4["L4 Orchestrator&lt;br/&gt;runs several agents;&lt;br/&gt;designs the environment"]
+  L4 --> L5["L5 Multiplier&lt;br/&gt;builds the systems&lt;br/&gt;others work in"]
+  L1 -.- A1(["≈ Ask"])
+  L2 -.- A2(["≈ Assist"])
+  L3 -.- A3(["≈ Automate (entry)"])
+  style L0 fill:#f1f3f5,stroke:#868e96
+  style L1 fill:#e7f5ff,stroke:#1971c2
+  style L2 fill:#a5d8ff,stroke:#1971c2
+  style L3 fill:#74c0fc,stroke:#1971c2
+  style L4 fill:#1971c2,stroke:#0b4a86,color:#fff
+  style L5 fill:#0b4a86,stroke:#0b4a86,color:#fff
+  style A1 fill:#fff9db,stroke:#f08c00
+  style A2 fill:#fff9db,stroke:#f08c00
+  style A3 fill:#fff9db,stroke:#f08c00
+    </pre>
+    <div class="caption-note">Scored on six dimensions (tooling, delegation, verification, context design, scope of judgment, learning). A real profile is usually uneven across them. The fusion is wiki-authored and not validated against outcomes, and self-assessment is known to be biased, so score against behaviour, not identity.</div>
+  </section>
+
 </main>
 
 <footer class="page">
-  <p>Generated 2026-07-01 as a companion to the <code>/wqa</code> traceable answer on AI-maturity frameworks
-  (<a href="2026-07-01-ai-maturity-frameworks-overview-query-trace.md">audit report</a> ·
-  <a href="2026-07-01-ai-maturity-frameworks-overview-query-trace.json">JSON trace</a>).
-  Requires an internet connection for the Mermaid / D3.js / Rough.js CDN scripts and Google Fonts.</p>
+  <p>Generated 2026-07-01 as a companion to the <code>/wqa</code> traceable answer on AI-maturity frameworks;
+  updated 2026-11-04 from a re-run of the same query. Audit report and JSON trace:
+  <code>ai-wiki/inspiration/2026-11-04-ai-maturity-frameworks-overview-query-trace.{md,json}</code>
+  (July edition: <code>2026-07-01-…</code>).
+  Mermaid, D3.js and Rough.js load from pinned copies in <code>vendor/</code>, so the page works offline.
+  Only the Google Fonts need a connection; without one, system fonts are used.</p>
 </footer>
 
 <script>
