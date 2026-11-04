@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Maturity &amp; AI-Adoption Frameworks — Visual Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://d3js.org/d3.v7.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js" integrity="sha384-1NLkwxMO2sOqcq7rQkFBhIAUJtbt8ziLxhVKVgKfFGMEU8pF+GEq5LVogviveup6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js" integrity="sha384-WmdflGW9aGfoBdHc4rRyWzYuAjEmDwMdGdiPNacbwfGKxBW/SO6guzuQ76qjnSlr" crossorigin="anonymous"></script>
+
+<style>
+  :root{
+    --bg: #f6f5f1;
+    --surface: #ffffff;
+    --ink: #1b1b1f;
+    --ink-soft: #55565f;
+    --border: #e3e1d9;
+    --accent: #1971c2;
+    --accent-soft: #e7f5ff;
+    --mermaid-tag: #7048e8;
+    --d3-tag: #e8590c;
+    --rough-tag: #d6336c;
+    --radius: 18px;
+    --maxw: 1360px;
+    font-size: 16px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg: #14151a;
+      --surface: #1c1d24;
+      --ink: #f1f1f4;
+      --ink-soft: #b6b7c2;
+      --border: #34353f;
+      --accent: #74c0fc;
+      --accent-soft: #1c2b3a;
+    }
+  }
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.5;
+  }
+  a{ color: var(--accent); }
+  header.page{
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: clamp(2rem, 4vw, 3.5rem) clamp(1.25rem, 4vw, 2.5rem) 1rem;
+  }
+  header.page h1{
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 .5rem;
+  }
+  header.page p.lede{
+    max-width: 68ch;
+    color: var(--ink-soft);
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
+  }
+  .legend{
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem 1.2rem;
+    margin: 1.25rem 0 0;
+    padding: .9rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: .9rem;
+  }
+  .legend b{ font-weight: 700; }
+  .swatch{ display:inline-flex; align-items:center; gap:.4rem; }
+  .dot{ width:.7rem; height:.7rem; border-radius:50%; display:inline-block; }
+  nav.toc{
+    max-width: var(--maxw);
+    margin: 1.25rem auto 0;
+    padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    position: sticky;
+    top: 0;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(6px);
+    z-index: 10;
+    padding-block: .75rem;
+  }
+  nav.toc a{
+    text-decoration: none;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: .35rem .7rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  nav.toc a:hover{ color: var(--accent); border-color: var(--accent); }
+
+  main{
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem) 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(540px, 1fr));
+    gap: 1.75rem;
+    align-items: start;
+  }
+  section.card{
+    container-type: inline-size;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.5rem 1.6rem;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.03);
+    scroll-margin-top: 4.5rem;
+  }
+  section.card.wide{ grid-column: 1 / -1; }
+  .card-head{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .4rem;
+    margin-bottom: .35rem;
+  }
+  .card-head .tool-tag{ order: 1; }
+  .card-head h2{ order: 2; }
+  .card-head h2{
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .tool-tag{
+    flex: none;
+    font-family: "JetBrains Mono", monospace;
+    font-size: .68rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    padding: .28rem .55rem;
+    border-radius: 6px;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .tool-tag.mermaid{ background: var(--mermaid-tag); }
+  .tool-tag.d3{ background: var(--d3-tag); }
+  .tool-tag.rough{ background: var(--rough-tag); }
+
+  .source{
+    font-size: .78rem;
+    color: var(--ink-soft);
+    margin: 0 0 .9rem;
+  }
+  .source code{
+    font-family: "JetBrains Mono", monospace;
+    font-size: .74rem;
+    background: var(--accent-soft);
+    padding: .05rem .35rem;
+    border-radius: 4px;
+  }
+  .desc{ font-size: .92rem; color: var(--ink-soft); margin: 0 0 1rem; }
+  /* Charts hardcode dark ink for text/lines (Mermaid's own theme CSS, and this
+     page's D3 + Rough.js drawing code) — none of that repaints for
+     prefers-color-scheme. Giving every chart its own fixed light canvas keeps
+     that text legible in both light and dark reading modes. */
+  .viz, .mermaid{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: #fdfdfb;
+    border: 1px solid #e3e1d9;
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  .viz{ overflow: hidden; }
+  .viz svg{ width: 100%; height: auto; display: block; }
+  .caption-note{
+    margin-top: .6rem;
+    font-size: .8rem;
+    color: var(--ink-soft);
+    text-align: center;
+    min-height: 1.2em;
+  }
+  .dl-link{
+    display: inline-block;
+    margin-top: .5rem;
+    font-size: .78rem;
+    font-family: "JetBrains Mono", monospace;
+  }
+  footer.page{
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 2.5rem) 3rem;
+    color: var(--ink-soft);
+    font-size: .85rem;
+  }
+  footer.page a{ color: var(--accent); }
+  /* Fixed light-mode ink — these sit inside the always-light .viz canvas
+     (see above), so they must not flip with prefers-color-scheme. */
+  .quad-label, .axis-label{ font-size: 13px; fill: #55565f; }
+  .quad-title{ font-weight: 700; font-size: 15px; fill: #1b1b1f; }
+  .quad-sub{ font-size: 11.5px; fill: #55565f; }
+  /* Rough.js sections sit on the fixed light .viz canvas (see above) in both
+     themes, so this label stays dark ink regardless of prefers-color-scheme. */
+  .rough-label{ font-family: "Caveat", cursive; fill: #1b1b1f; }
+</style>
+</head>
+<body>
+
+<header class="page">
+  <h1>AI Maturity &amp; AI-Adoption Frameworks — a Visual Atlas</h1>
+  <p class="lede">
+    Twelve visuals, one per framework the <em>ai-wiki</em> tracks in
+    <code>syntheses/organizational-frameworks-for-ai-adoption</code> and
+    <code>threads/ai-maturity-measurement-comparison</code>. Companion to the
+    <a href="2026-07-01-ai-maturity-frameworks-overview-query-trace.md">traceable query answer</a>.
+  </p>
+  <div class="legend">
+    <span class="swatch"><span class="dot" style="background:#e8590c"></span><b>D3.js</b> — proportional / numeric data (2×2s, treemap, bar chart)</span>
+    <span class="swatch"><span class="dot" style="background:#7048e8"></span><b>Mermaid</b> — sequences, stages, stacks, mind-maps</span>
+    <span class="swatch"><span class="dot" style="background:#d6336c"></span><b>Rough.js</b> (Excalidraw's own hand-drawn engine) — conceptual / metaphorical diagrams</span>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Jump to framework">
+  <a href="#maturity-measurement">Maturity numbers</a>
+  <a href="#werner">Tin Man / Octopus</a>
+  <a href="#cisco">Cisco 5 Foundations</a>
+  <a href="#mitcisr">MIT CISR 4 Stages</a>
+  <a href="#ransbotham">Augmented Learners</a>
+  <a href="#mckinsey">McKinsey Rewired</a>
+  <a href="#nishar">Nishar-Nohria 4-Model</a>
+  <a href="#bain">Bain/OpenAI 4-Step</a>
+  <a href="#anandwu">Anand-Wu 2×2</a>
+  <a href="#beutler">Ask→Assist→Automate</a>
+  <a href="#harness">Agent Harness</a>
+  <a href="#carucci">Resistance-as-Data</a>
+</nav>
+
+<main>
+
+  <!-- 0. BONUS: Maturity measurement comparison -->
+  <section class="card wide" id="maturity-measurement">
+    <div class="card-head">
+      <h2>0 · How "mature" is rare — five instruments, one story</h2>
+      <span class="tool-tag d3">D3.js — bar chart</span>
+    </div>
+    <p class="source">Cross-instrument comparison — <code>threads/ai-maturity-measurement-comparison</code></p>
+    <p class="desc">Five independent surveys, five different definitions of "success," five numbers that all land in the same narrow band. Adoption breadth (78–88%) is high; maturity depth is not.</p>
+    <div class="viz"><svg id="viz-maturity" viewBox="0 0 900 340" role="img" aria-label="Bar chart comparing five AI maturity measurement instruments, all reporting between 1% and 15%"></svg></div>
+    <div class="caption-note" id="note-maturity">Hover a bar for the instrument's methodology note.</div>
+  </section>
+
+  <!-- 1. Werner-Le-Brun Tin Man vs Octopus -->
+  <section class="card wide" id="werner">
+    <div class="card-head">
+      <h2>1 · Org-design layer — Tin Man vs. Octopus</h2>
+      <span class="tool-tag rough">Excalidraw-style (Rough.js)</span>
+    </div>
+    <p class="source">Werner &amp; Le-Brun, HBR Nov–Dec 2025 — <code>sources/2026-04-28-werner-lebrun-octopus-organization</code></p>
+    <p class="desc">"Is your organization structurally capable of adapting?" A rigid, hierarchical Tin&nbsp;Man optimized for a complicated world, vs. an adaptive, distributed Octopus built for a complex one.</p>
+    <div class="viz"><svg id="viz-werner" viewBox="0 0 1200 760" role="img" aria-label="Comparison sketch: a rigid pyramid hierarchy labelled Tin Man Org versus a distributed network of teams around a shared purpose labelled Octopus Org"></svg></div>
+    <a class="dl-link" href="2026-07-01-tin-man-vs-octopus.excalidraw" download>⬇ open the native .excalidraw file</a>
+  </section>
+
+  <!-- 2. Cisco 5 Foundations -->
+  <section class="card" id="cisco">
+    <div class="card-head">
+      <h2>2 · Readiness layer — Cisco 5 Foundations</h2>
+      <span class="tool-tag rough">Excalidraw-style (Rough.js)</span>
+    </div>
+    <p class="source">MITTRI / Cisco, 2025 — <code>sources/2026-04-28-mittri-cisco-ai-enabled-enterprise</code></p>
+    <p class="desc">"Do you have the prerequisites?" Five pillars hold up AI readiness — and only 13% of companies clear the bar today.</p>
+    <div class="viz"><svg id="viz-cisco" viewBox="0 0 1200 900" role="img" aria-label="Five pillars labelled Strategy, Infrastructure, Data, Governance, and Culture and Talent supporting a capstone labelled AI Readiness"></svg></div>
+    <a class="dl-link" href="2026-07-01-cisco-5-foundations.excalidraw" download>⬇ open the native .excalidraw file</a>
+  </section>
+
+  <!-- 3. MIT CISR Four Stages -->
+  <section class="card" id="mitcisr">
+    <div class="card-head">
+      <h2>3 · Capability progression — MIT CISR Four Stages</h2>
+      <span class="tool-tag mermaid">Mermaid</span>
+    </div>
+    <p class="source">Woerner, Weill, Sebastian, Káganer / MIT CISR — <code>sources/2026-04-28-mit-sloan-ai-maturity</code></p>
+    <p class="desc">"Where are we in the maturity curve?" Four stages, N=721 (2022). The financial inflection sits precisely at Stage 2→3, gated by the "Four&nbsp;S" challenges.</p>
+    <pre class="mermaid" id="viz-mitcisr">
+flowchart LR
+  S1["Stage 1&lt;br/&gt;Experiment &amp; Prepare&lt;br/&gt;&lt;b&gt;28%&lt;/b&gt;"] --> S2["Stage 2&lt;br/&gt;Build Pilots &amp; Capabilities&lt;br/&gt;&lt;b&gt;34%&lt;/b&gt;"]
+  S2 -- "Four S blockers:&lt;br/&gt;Strategy · Systems&lt;br/&gt;Synchronization · Stewardship" --> S3["Stage 3&lt;br/&gt;Develop AI Ways of Working&lt;br/&gt;&lt;b&gt;31%&lt;/b&gt;"]
+  S3 --> S4["Stage 4&lt;br/&gt;Become AI Future-Ready&lt;br/&gt;&lt;b&gt;7%&lt;/b&gt;"]
+  style S1 fill:#ffe066,stroke:#e8590c
+  style S2 fill:#ffa94d,stroke:#e8590c
+  style S3 fill:#69db7c,stroke:#2f9e44
+  style S4 fill:#20c997,stroke:#087f5b,color:#fff
+    </pre>
+  </section>
+
+  <!-- 4. Ransbotham/Kiron Augmented Learners -->
+  <section class="card" id="ransbotham">
+    <div class="card-head">
+      <h2>4 · Organizational learning — Augmented Learners</h2>
+      <span class="tool-tag d3">D3.js — treemap</span>
+    </div>
+    <p class="source">Ransbotham, Kiron et al. — MIT SMR × BCG, N=3,467 — <code>sources/2026-05-07-ransbotham-augmented-learners</code></p>
+    <p class="desc">"How does our org metabolize AI interactions?" A 2×2 of organizational-learning × AI-specific-learning capability. Cell area is proportional to the actual survey share.</p>
+    <div class="viz"><svg id="viz-ransbotham" viewBox="0 0 700 460" role="img" aria-label="Treemap of four learner types sized by share: Limited Learners 59 percent, Organizational Learners 14 percent, AI-specific Learners 12 percent, Augmented Learners 15 percent"></svg></div>
+    <div class="caption-note">Augmented Learners (15%, high×high) are 1.6–2.2× more likely to feel prepared for disruption.</div>
+  </section>
+
+  <!-- 5. McKinsey Rewired -->
+  <section class="card" id="mckinsey">
+    <div class="card-head">
+      <h2>5 · Transformation playbook — McKinsey <em>Rewired</em></h2>
+      <span class="tool-tag mermaid">Mermaid — mind-map</span>
+    </div>
+    <p class="source">Lamarre, Smaje, Levin et al., 2nd ed. — <code>sources/2026-05-03-rewired-second-edition-sample</code></p>
+    <p class="desc">"What's our transformation playbook?" Six capabilities, ~20% EBITDA uplift, $3:$1 ROI across ~20 AI-leader deep-dive companies.</p>
+    <pre class="mermaid" id="viz-mckinsey">
+mindmap
+  root((McKinsey&lt;br/&gt;Rewired))
+    Business-led roadmap
+    Talent
+    Operating model
+    Technology
+    Data
+    Adoption &amp; scaling
+    </pre>
+  </section>
+
+  <!-- 6. Nishar-Nohria 4-model -->
+  <section class="card" id="nishar">
+    <div class="card-head">
+      <h2>6 · Firm-boundary layer — Build / Compose / Collaborate / Buy&nbsp;Outcomes</h2>
+      <span class="tool-tag d3">D3.js — spectrum + bars</span>
+    </div>
+    <p class="source">Nishar &amp; Nohria, HBR.org, 2026 — <code>sources/2026-05-05-nishar-nohria-end-of-one-size-fits-all</code></p>
+    <p class="desc">"Where does the boundary of our firm sit?" A per-workflow decision, no longer a firm-wide one — the boundary "becomes a variable rather than a given."</p>
+    <div class="viz"><svg id="viz-nishar" viewBox="0 0 900 430" role="img" aria-label="Spectrum from Build to Buy Outcomes, with a bar chart showing enterprise GenAI app spending rising from 1.7 billion dollars in 2023 to 37 billion dollars in 2025"></svg></div>
+  </section>
+
+  <!-- 7. Bain/OpenAI 4-step -->
+  <section class="card" id="bain">
+    <div class="card-head">
+      <h2>7 · Trap-escape layer — Bain/OpenAI 4-Step</h2>
+      <span class="tool-tag mermaid">Mermaid</span>
+    </div>
+    <p class="source">Dutt, Chatterji et al., Bain &amp; Company + OpenAI — <code>sources/2026-05-02-dutt-chatterji-ai-experimentation-to-transformation</code></p>
+    <p class="desc">"How do we avoid the micro-productivity trap?" A repeating loop, not a one-off project — 10–25% EBITDA gains in worked cases.</p>
+    <pre class="mermaid" id="viz-bain">
+flowchart LR
+  A["1. Narrow possibilities&lt;br/&gt;strategically"] --> B["2. Reimagine&lt;br/&gt;workflows"]
+  B --> C["3. Engage those&lt;br/&gt;closest to the process"]
+  C --> D["4. Measure outcomes&lt;br/&gt;+ continuous evals"]
+  D -.->|iterate| A
+  style A fill:#e7f5ff,stroke:#1971c2
+  style B fill:#d0ebff,stroke:#1971c2
+  style C fill:#a5d8ff,stroke:#1971c2
+  style D fill:#74c0fc,stroke:#1971c2
+    </pre>
+  </section>
+
+  <!-- 8. Anand-Wu 2x2 -->
+  <section class="card" id="anandwu">
+    <div class="card-head">
+      <h2>8 · Task-deployment layer — Anand-Wu 2×2</h2>
+      <span class="tool-tag d3">D3.js — quadrant</span>
+    </div>
+    <p class="source">Anand &amp; Wu, HBR Nov–Dec 2025 — <code>sources/2026-04-28-anand-wu-genai-playbook</code></p>
+    <p class="desc">"Which task do we point AI at first?" Cost of errors × type of knowledge. Hover a quadrant for its deployment pattern.</p>
+    <div class="viz"><svg id="viz-anandwu" viewBox="0 0 640 620" role="img" aria-label="2 by 2 matrix crossing cost of errors with type of knowledge, naming four zones: human-first, quality control, creative catalyst, and no regrets"></svg></div>
+    <div class="caption-note" id="note-anandwu">Hover a zone above for its deployment pattern and examples.</div>
+  </section>
+
+  <!-- 9. Beutler ladder -->
+  <section class="card" id="beutler">
+    <div class="card-head">
+      <h2>9 · Deployment-maturity layer — Ask → Assist → Automate</h2>
+      <span class="tool-tag mermaid">Mermaid</span>
+    </div>
+    <p class="source">Joe Beutler, OpenAI — Enterprise AI Summit 2026 — <code>sources/2026-06-02-architecting-ai-native-organizations-redesign-work-at-scale-joe-beutler</code></p>
+    <p class="desc">"Given we're deploying on a workflow, how much agency do we grant it — and in what sequence?"</p>
+    <pre class="mermaid" id="viz-beutler">
+flowchart BT
+  Ask["ASK&lt;br/&gt;read-only, no actions"] --> Assist["ASSIST&lt;br/&gt;human-in-the-loop"]
+  Assist --> Automate["AUTOMATE&lt;br/&gt;full autonomy,&lt;br/&gt;exceptions routed to humans"]
+  style Ask fill:#e7f5ff,stroke:#1971c2
+  style Assist fill:#74c0fc,stroke:#1971c2
+  style Automate fill:#1971c2,stroke:#0b4a86,color:#fff
+    </pre>
+  </section>
+
+  <!-- 10. Agent harness -->
+  <section class="card" id="harness">
+    <div class="card-head">
+      <h2>10 · Runtime-engineering layer — Agent Harness</h2>
+      <span class="tool-tag mermaid">Mermaid</span>
+    </div>
+    <p class="source">Chatterjee 2026 + Kokane 2026 — <code>sources/2026-05-07-chatterjee-anatomy-of-agent-harness</code></p>
+    <p class="desc">"What runtime infrastructure must exist between model and user?" The model is rented; the harness is owned and compounds.</p>
+    <pre class="mermaid" id="viz-harness">
+flowchart TB
+  Model(("Foundation Model&lt;br/&gt;rented &amp; swappable")) --> Ctx
+  subgraph Harness["Agent Harness — owned, compounds"]
+    Ctx["Context"] --> Con["Constraints"] --> Contr["Contracts"] --> Comp["Compounding"]
+    Comp -. telemetry .-> Ctx
+  end
+  style Model fill:#f1f3f5,stroke:#868e96
+  style Harness fill:#fff9db,stroke:#f08c00
+    </pre>
+  </section>
+
+  <!-- 11. Carucci cross-cutting -->
+  <section class="card" id="carucci">
+    <div class="card-head">
+      <h2>11 · Cross-cutting lens — Resistance as Data</h2>
+      <span class="tool-tag mermaid">Mermaid</span>
+    </div>
+    <p class="source">Ron Carucci, HBR.org, 2026 — <code>sources/2026-05-07-carucci-resistance-as-data</code></p>
+    <p class="desc">Applies to <em>any</em> layer above: when pushback arrives, it's signal, not noise — unless a leader trap suppresses it.</p>
+    <pre class="mermaid" id="viz-carucci">
+flowchart TB
+  P(("Team pushback&lt;br/&gt;at any layer")) --> T["3 Leader Traps&lt;br/&gt;to avoid"]
+  T --> T1["Personalize"]
+  T --> T2["Moralize"]
+  T --> T3["Rush to resolution"]
+  P --> S["4 Signal Categories&lt;br/&gt;to diagnose"]
+  S --> S1["Loss"]
+  S --> S2["Anxiety"]
+  S --> S3["Lack of control"]
+  S --> S4["Flaws in change"]
+  style T fill:#ffc9c9,stroke:#e03131
+  style S fill:#b2f2bb,stroke:#2f9e44
+    </pre>
+  </section>
+
+</main>
+
+<footer class="page">
+  <p>Generated 2026-07-01 as a companion to the <code>/wqa</code> traceable answer on AI-maturity frameworks
+  (<a href="2026-07-01-ai-maturity-frameworks-overview-query-trace.md">audit report</a> ·
+  <a href="2026-07-01-ai-maturity-frameworks-overview-query-trace.json">JSON trace</a>).
+  Requires an internet connection for the Mermaid / D3.js / Rough.js CDN scripts and Google Fonts.</p>
+</footer>
+
+<script>
+mermaid.initialize({ startOnLoad: false, theme: "neutral", securityLevel: "loose", fontFamily: "Inter, sans-serif" });
+/* mermaid@10.9.1's batched mermaid.run() has a render race when several diagrams
+   (esp. a mindmap alongside flowcharts) are processed in the same call — it
+   intermittently throws "Syntax error in text" on otherwise-valid diagrams.
+   Running them one at a time, awaited, avoids the race. */
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(async () => {
+  const nodes = Array.from(document.querySelectorAll("pre.mermaid"));
+  for (const node of nodes) {
+    try {
+      await mermaid.run({ nodes: [node] });
+    } catch (err) {
+      console.error("Mermaid render failed for", node.id, err);
+    }
+  }
+});
+</script>
+
+<script>
+/* ---------------------------------------------------------------------
+   Shared helpers
+--------------------------------------------------------------------- */
+function svgEl(name, attrs = {}) {
+  const e = document.createElementNS("http://www.w3.org/2000/svg", name);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+
+/* ---------------------------------------------------------------------
+   0. Maturity measurement bar chart (D3)
+--------------------------------------------------------------------- */
+(function () {
+  const data = [
+    { name: "AI Index / McKinsey", value: 1, note: "C-suite self-report “mature” GenAI rollout · n=2,854 (2024)" },
+    { name: "MIT CISR", value: 7, note: "Stage 4 “Future-ready” · N=721 (2022 baseline)" },
+    { name: "Werner-Le-Brun", value: 12, note: "General transformation success baseline, any industry (HBR)" },
+    { name: "Cisco / MITTRI", value: 13, note: "“Ready to leverage AI to full potential” · 2025 readiness survey" },
+    { name: "Ransbotham / Kiron", value: 15, note: "“Augmented Learners” cohort · N=3,467 (2024)" },
+  ].sort((a, b) => a.value - b.value);
+
+  const svg = d3.select("#viz-maturity"),
+    W = 900, H = 340, margin = { top: 20, right: 40, bottom: 34, left: 190 };
+  const innerW = W - margin.left - margin.right, innerH = H - margin.top - margin.bottom;
+
+  const x = d3.scaleLinear().domain([0, 20]).range([0, innerW]);
+  const y = d3.scaleBand().domain(data.map(d => d.name)).range([0, innerH]).padding(0.32);
+  const color = d3.scaleOrdinal().domain(data.map(d => d.name))
+    .range(["#ffa8a8", "#ffd43b", "#69db7c", "#4dabf7", "#845ef7"]);
+
+  const g = d3.select(svgEl("g", { transform: `translate(${margin.left},${margin.top})` }));
+  svg.node().appendChild(g.node());
+
+  g.append("g").call(d3.axisBottom(x).ticks(5).tickFormat(d => d + "%"))
+    .attr("transform", `translate(0,${innerH})`)
+    .call(sel => sel.selectAll("text").attr("font-size", "11px").attr("fill", "#55565f"))
+    .call(sel => sel.selectAll("line,path").attr("stroke", "#e3e1d9"));
+
+  g.append("g").call(d3.axisLeft(y).tickSize(0))
+    .call(sel => sel.selectAll("text").attr("font-size", "12.5px").attr("font-weight", 600).attr("fill", "#1b1b1f"))
+    .call(sel => sel.select(".domain").remove());
+
+  const note = document.getElementById("note-maturity");
+
+  g.selectAll("rect.bar").data(data).join("rect")
+    .attr("class", "bar")
+    .attr("x", 0).attr("y", d => y(d.name))
+    .attr("width", d => x(d.value)).attr("height", y.bandwidth())
+    .attr("rx", 6)
+    .attr("fill", d => color(d.name))
+    .style("cursor", "pointer")
+    .on("mouseenter", (e, d) => { note.textContent = `${d.name}: ${d.value}% — ${d.note}`; d3.select(e.currentTarget).attr("opacity", 0.75); })
+    .on("mouseleave", (e) => { note.textContent = "Hover a bar for the instrument's methodology note."; d3.select(e.currentTarget).attr("opacity", 1); });
+
+  g.selectAll("text.val").data(data).join("text")
+    .attr("class", "val")
+    .attr("x", d => x(d.value) + 8)
+    .attr("y", d => y(d.name) + y.bandwidth() / 2)
+    .attr("dy", "0.35em")
+    .attr("font-size", "12.5px").attr("font-weight", 700).attr("fill", "#1b1b1f")
+    .text(d => d.value + "%");
+})();
+
+/* ---------------------------------------------------------------------
+   4. Ransbotham / Kiron Augmented Learners treemap (D3)
+--------------------------------------------------------------------- */
+(function () {
+  const raw = [
+    { name: "Limited Learners", value: 59, tag: "low org · low AI-specific", color: "#dee2e6" },
+    { name: "Organizational Learners", value: 14, tag: "high org · low AI-specific", color: "#a5d8ff" },
+    { name: "AI-specific Learners", value: 12, tag: "low org · high AI-specific", color: "#d0bfff" },
+    { name: "Augmented Learners", value: 15, tag: "high org · high AI-specific", color: "#63e6be" },
+  ];
+  const W = 700, H = 460;
+  const root = d3.treemap().size([W, H]).paddingInner(4).paddingOuter(2)(
+    d3.hierarchy({ children: raw }).sum(d => d.value)
+  );
+
+  const svg = d3.select("#viz-ransbotham");
+  const cell = d3.select(svgEl("g")); svg.node().appendChild(cell.node());
+
+  const leaves = cell.selectAll("g.leaf").data(root.leaves()).join("g")
+    .attr("class", "leaf")
+    .attr("transform", d => `translate(${d.x0},${d.y0})`);
+
+  leaves.append("rect")
+    .attr("width", d => d.x1 - d.x0)
+    .attr("height", d => d.y1 - d.y0)
+    .attr("rx", 8)
+    .attr("fill", d => d.data.color)
+    .attr("stroke", "#fff").attr("stroke-width", 3);
+
+  leaves.append("text").attr("x", 12).attr("y", 26)
+    .attr("font-size", d => (d.x1 - d.x0) > 180 ? "17px" : "12.5px")
+    .attr("font-weight", 700).attr("fill", "#1b1b1f")
+    .text(d => d.data.name);
+
+  leaves.append("text").attr("x", 12).attr("y", d => (d.x1 - d.x0) > 180 ? 52 : 42)
+    .attr("font-size", d => (d.x1 - d.x0) > 180 ? "26px" : "16px")
+    .attr("font-weight", 800).attr("fill", "#1b1b1f")
+    .text(d => d.data.value + "%");
+
+  leaves.filter(d => (d.y1 - d.y0) > 90).append("text")
+    .attr("x", 12).attr("y", d => (d.x1 - d.x0) > 180 ? 76 : 62)
+    .attr("font-size", "11px").attr("fill", "#495057")
+    .text(d => d.data.tag);
+})();
+
+/* ---------------------------------------------------------------------
+   8. Anand-Wu 2x2 quadrant (D3)
+--------------------------------------------------------------------- */
+(function () {
+  const W = 640, H = 620, pad = 70, size = 460;
+  const svg = d3.select("#viz-anandwu");
+  const g = d3.select(svgEl("g", { transform: `translate(${pad},${pad - 10})` }));
+  svg.node().appendChild(g.node());
+
+  // Canonical HBR orientation: x = cost of errors (low→high, left→right),
+  // y = type of knowledge (tacit on top, explicit data on bottom).
+  const quads = [
+    { row: 0, col: 0, title: "Creative catalyst zone", sub: "AI creates options, human selects", detail: "Low cost of errors + tacit knowledge — advertisements, sales scripts, product ideation.", color: "#d0bfff" },
+    { row: 0, col: 1, title: "Human-first zone", sub: "Human leads, AI assists", detail: "High cost of errors + tacit knowledge — setting strategy, disciplinary decisions, hiring critical employees.", color: "#ffc9c9" },
+    { row: 1, col: 0, title: "No regrets zone", sub: "AI does it all — agents thrive here", detail: "Low cost of errors + explicit data — bulk inquiries, document summarization, résumé screening.", color: "#96f2d7" },
+    { row: 1, col: 1, title: "Quality control zone", sub: "AI produces, human verifies", detail: "High cost of errors + explicit data — drafting high-value contracts, production code, due diligence.", color: "#ffe066" },
+  ];
+  const half = size / 2;
+  const note = document.getElementById("note-anandwu");
+
+  g.selectAll("rect.q").data(quads).join("rect")
+    .attr("class", "q")
+    .attr("x", d => d.col * half).attr("y", d => d.row * half)
+    .attr("width", half - 4).attr("height", half - 4)
+    .attr("rx", 10)
+    .attr("fill", d => d.color)
+    .style("cursor", "pointer")
+    .on("mouseenter", (e, d) => { note.textContent = `${d.title}: ${d.detail}`; d3.select(e.currentTarget).attr("opacity", 0.75); })
+    .on("mouseleave", (e) => { note.textContent = "Hover a zone above for its deployment pattern and examples."; d3.select(e.currentTarget).attr("opacity", 1); });
+
+  g.selectAll("text.title").data(quads).join("text")
+    .attr("class", "quad-title")
+    .attr("x", d => d.col * half + 18).attr("y", d => d.row * half + 30)
+    .text(d => d.title);
+
+  g.selectAll("text.sub").data(quads).join("text")
+    .attr("class", "quad-sub")
+    .attr("x", d => d.col * half + 18).attr("y", d => d.row * half + 52)
+    .text(d => d.sub);
+
+  // Axes
+  g.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", size).attr("stroke", "#495057").attr("stroke-width", 2);
+  g.append("line").attr("x1", 0).attr("y1", size).attr("x2", size).attr("y2", size).attr("stroke", "#495057").attr("stroke-width", 2);
+
+  svg.append("text").attr("class", "axis-label").attr("text-anchor", "middle")
+    .attr("x", W / 2).attr("y", H - 12).text("Cost of errors:  low  ⟷  high");
+  svg.append("text").attr("class", "axis-label").attr("text-anchor", "middle")
+    .attr("transform", `translate(20,${H / 2}) rotate(-90)`).text("Type of knowledge:  explicit  ⟷  tacit");
+})();
+
+/* ---------------------------------------------------------------------
+   6. Nishar-Nohria spectrum + spend growth (D3)
+--------------------------------------------------------------------- */
+(function () {
+  const W = 900, H = 430;
+  const svg = d3.select("#viz-nishar");
+
+  const stages = [
+    { name: "Build", note: "directly on foundation models", color: "#1971c2" },
+    { name: "Compose", note: "vendor scaffolding, business-configured", color: "#4dabf7" },
+    { name: "Collaborate", note: "forward-deployed engineers, bespoke in weeks", color: "#a5d8ff" },
+    { name: "Buy Outcomes", note: "pay for the result, not the tool", color: "#e7f5ff" },
+  ];
+  const segW = 200, segY = 30, segH = 105, startX = 50;
+  const notePad = 16;
+
+  // Pixel-accurate greedy word-wrap (not a fixed word-count split) so long
+  // words/phrases (e.g. "forward-deployed") can't overflow the box — wraps
+  // to as many lines as the box actually needs, measured against the real
+  // rendered font via getComputedTextLength().
+  function wrapToWidth(textEl, str, maxWidth) {
+    const words = str.split(" ");
+    const lines = [];
+    let cur = "";
+    textEl.textContent = "";
+    for (const w of words) {
+      const candidate = cur ? cur + " " + w : w;
+      textEl.textContent = candidate;
+      if (textEl.getComputedTextLength() > maxWidth && cur) {
+        lines.push(cur);
+        cur = w;
+      } else {
+        cur = candidate;
+      }
+    }
+    if (cur) lines.push(cur);
+    textEl.textContent = "";
+    return lines;
+  }
+
+  const seg = d3.select(svgEl("g")); svg.node().appendChild(seg.node());
+  seg.selectAll("rect").data(stages).join("rect")
+    .attr("x", (d, i) => startX + i * segW).attr("y", segY)
+    .attr("width", segW - 6).attr("height", segH)
+    .attr("fill", d => d.color).attr("rx", 8);
+  seg.selectAll("text.name").data(stages).join("text")
+    .attr("class", "name")
+    .attr("x", (d, i) => startX + i * segW + (segW - 6) / 2).attr("y", segY + 36)
+    .attr("text-anchor", "middle").attr("font-weight", 800).attr("font-size", "17px")
+    .attr("fill", (d, i) => i < 2 ? "#fff" : "#1b1b1f")
+    .text(d => d.name);
+  seg.selectAll("text.note").data(stages).join("text")
+    .attr("class", "note")
+    .attr("x", (d, i) => startX + i * segW + (segW - 6) / 2)
+    .attr("text-anchor", "middle").attr("font-size", "11.5px")
+    .attr("fill", (d, i) => i < 2 ? "#e7f5ff" : "#495057")
+    .each(function (d) {
+      const lines = wrapToWidth(this, d.note, segW - 6 - notePad);
+      const startY = segY + 62 - (lines.length - 1) * 7;
+      d3.select(this).selectAll("tspan").data(lines).join("tspan")
+        .attr("x", d3.select(this).attr("x"))
+        .attr("dy", (dd, i) => i === 0 ? 0 : 14)
+        .text(dd => dd);
+      d3.select(this).attr("y", startY);
+    });
+
+  svg.append("text").attr("x", W / 2).attr("y", 16).attr("text-anchor", "middle")
+    .attr("class", "axis-label").text("own the workflow  ⟶  outsource the outcome");
+
+  // spend growth bars
+  const barY0 = 200, barMaxH = 130, barBase = barY0 + barMaxH;
+  const spend = [
+    { year: "2023", value: 1.7, color: "#ced4da" },
+    { year: "2025", value: 37, color: "#f08c00" },
+  ];
+  const bw = d3.scaleLinear().domain([0, 37]).range([0, barMaxH]);
+  const bx = 340;
+  seg.selectAll("rect.spend").data(spend).join("rect")
+    .attr("class", "spend")
+    .attr("x", (d, i) => bx + i * 140)
+    .attr("y", d => barBase - bw(d.value))
+    .attr("width", 90).attr("height", d => bw(d.value))
+    .attr("fill", d => d.color).attr("rx", 6);
+  seg.selectAll("text.spendval").data(spend).join("text")
+    .attr("class", "spendval")
+    .attr("x", (d, i) => bx + i * 140 + 45).attr("y", d => barBase - bw(d.value) - 10)
+    .attr("text-anchor", "middle").attr("font-weight", 800).attr("font-size", "15px").attr("fill", "#1b1b1f")
+    .text(d => "$" + d.value + "B");
+  seg.selectAll("text.spendyear").data(spend).join("text")
+    .attr("class", "spendyear")
+    .attr("x", (d, i) => bx + i * 140 + 45).attr("y", barBase + 20)
+    .attr("text-anchor", "middle").attr("font-size", "12.5px").attr("fill", "#495057")
+    .text(d => d.year);
+  seg.append("line").attr("x1", bx).attr("y1", barBase).attr("x2", bx + 230).attr("y2", barBase).attr("stroke", "#adb5bd");
+  svg.append("text").attr("x", bx + 115).attr("y", barBase + 50).attr("text-anchor", "middle")
+    .attr("class", "axis-label").text("enterprise GenAI app spending: ~22× in 2 years");
+})();
+
+/* ---------------------------------------------------------------------
+   1. Werner-Le-Brun Tin Man vs Octopus (Rough.js — Excalidraw's engine)
+--------------------------------------------------------------------- */
+(function () {
+  const svg = document.getElementById("viz-werner");
+  const rc = rough.svg(svg);
+
+  function label(x, y, txt, size = 22, anchor = "middle", weight = "600") {
+    const t = svgEl("text", { x, y, "text-anchor": anchor, class: "rough-label", "font-size": size, "font-weight": weight });
+    t.textContent = txt;
+    svg.appendChild(t);
+  }
+  function multiline(x, y, lines, size = 18, anchor = "start", lh = 24) {
+    lines.forEach((l, i) => label(x, y + i * lh, l, size, anchor, "500"));
+  }
+
+  // Left: Tin Man
+  svg.appendChild(rc.rectangle(50, 90, 520, 610, { fill: "#ffc9c9", fillStyle: "hachure", stroke: "#e03131", roughness: 1.6 }));
+  label(310, 135, "TIN MAN ORG", 30, "middle", "700");
+  label(310, 162, "predictability-optimized · complicated world", 14.5);
+
+  const leader = { x: 220, y: 195, w: 180, h: 55 };
+  const mgrA = { x: 110, y: 285, w: 150, h: 55 };
+  const mgrB = { x: 330, y: 285, w: 150, h: 55 };
+  const teams = [{ x: 70, y: 375, w: 120, h: 55 }, { x: 210, y: 375, w: 120, h: 55 }, { x: 350, y: 375, w: 120, h: 55 }];
+  [leader, mgrA, mgrB, ...teams].forEach(b => {
+    svg.appendChild(rc.rectangle(b.x, b.y, b.w, b.h, { fill: "#f8f9fa", fillStyle: "solid", stroke: "#495057", roughness: 1.4 }));
+  });
+  label(leader.x + leader.w / 2, leader.y + 34, "Leadership", 16);
+  label(mgrA.x + mgrA.w / 2, mgrA.y + 34, "Manager", 15);
+  label(mgrB.x + mgrB.w / 2, mgrB.y + 34, "Manager", 15);
+  teams.forEach(t => label(t.x + t.w / 2, t.y + 34, "Team", 14));
+
+  function connect(a, b) {
+    svg.appendChild(rc.line(a.x + a.w / 2, a.y + a.h, b.x + b.w / 2, b.y, { stroke: "#495057", roughness: 1.2 }));
+  }
+  connect(leader, mgrA); connect(leader, mgrB);
+  connect(mgrA, teams[0]); connect(mgrA, teams[1]); connect(mgrB, teams[1]); connect(mgrB, teams[2]);
+
+  multiline(80, 480, ["Leader antipatterns:", "• Compromise clarity", "• Undermine ownership", "• Stifle curiosity"], 17, "start", 24);
+  svg.appendChild(rc.rectangle(80, 600, 460, 70, { fill: "#fff5f5", fillStyle: "solid", stroke: "#e03131", strokeStyle: "dashed", roughness: 1.4 }));
+  multiline(310, 630, ["only 12% of transformations show", "sustainable gains after 3 years"], 14, "middle", 20);
+  label(80, 690, "leverage: parameters (low impact, easy)", 13, "start", "500");
+
+  // Right: Octopus
+  svg.appendChild(rc.rectangle(630, 90, 520, 610, { fill: "#a5d8ff", fillStyle: "hachure", stroke: "#1971c2", roughness: 1.6 }));
+  label(890, 135, "OCTOPUS ORG", 30, "middle", "700");
+  label(890, 162, "adaptive, distributed · complex world", 14.5);
+
+  const core = { cx: 890, cy: 300, w: 150, h: 85 };
+  const sats = [
+    { cx: 720, cy: 230, w: 120, h: 55, name: "Team A" },
+    { cx: 1060, cy: 230, w: 120, h: 55, name: "Team B" },
+    { cx: 700, cy: 400, w: 120, h: 55, name: "Team C" },
+    { cx: 1080, cy: 400, w: 120, h: 55, name: "Team D" },
+    { cx: 890, cy: 450, w: 150, h: 55, name: "Customer" },
+  ];
+  sats.forEach(s => {
+    svg.appendChild(rc.line(core.cx, core.cy, s.cx, s.cy, { stroke: "#1971c2", strokeWidth: 2.4, roughness: 1.5 }));
+  });
+  svg.appendChild(rc.ellipse(core.cx, core.cy, core.w, core.h, { fill: "#ffd43b", fillStyle: "solid", stroke: "#e8590c", roughness: 1.3 }));
+  multiline(core.cx, core.cy - 4, ["Shared", "purpose"], 15, "middle", 18);
+  sats.forEach(s => {
+    svg.appendChild(rc.ellipse(s.cx, s.cy, s.w, s.h, { fill: "#e7f5ff", fillStyle: "solid", stroke: "#1971c2", roughness: 1.3 }));
+    label(s.cx, s.cy + 5, s.name, 14);
+  });
+
+  multiline(660, 550, ["Three change principles:", "• Change WITH people, not TO them", "• Entwine learning + impact", "• Do less to achieve more"], 17, "start", 24);
+  svg.appendChild(rc.rectangle(660, 655, 460, 55, { fill: "#e7f5ff", fillStyle: "solid", stroke: "#1971c2", strokeStyle: "dashed", roughness: 1.4 }));
+  label(890, 688, "leverage: DNA (highest impact, hardest to change)", 13, "middle", "500");
+
+  label(600, 745, "Source: sources/2026-04-28-werner-lebrun-octopus-organization", 12.5, "middle", "400");
+})();
+
+/* ---------------------------------------------------------------------
+   2. Cisco 5 Foundations (Rough.js — Excalidraw's engine)
+--------------------------------------------------------------------- */
+(function () {
+  const svg = document.getElementById("viz-cisco");
+  const rc = rough.svg(svg);
+  function label(x, y, txt, size = 18, anchor = "middle", weight = "600") {
+    const t = svgEl("text", { x, y, "text-anchor": anchor, class: "rough-label", "font-size": size, "font-weight": weight });
+    t.textContent = txt;
+    svg.appendChild(t);
+  }
+  function multiline(x, y, lines, size = 13, lh = 17) {
+    lines.forEach((l, i) => label(x, y + i * lh, l, size, "middle", "500"));
+  }
+
+  const cap = { x: 380, y: 40, w: 440, h: 100 };
+  svg.appendChild(rc.rectangle(cap.x, cap.y, cap.w, cap.h, { fill: "#ffd43b", fillStyle: "solid", stroke: "#e8590c", roughness: 1.5 }));
+  label(cap.x + cap.w / 2, cap.y + 48, "AI READINESS", 28, "middle", "700");
+  label(cap.x + cap.w / 2, cap.y + 76, "only 13% of companies are “ready”", 15);
+
+  const pillars = [
+    { name: "Strategy", color: "#ffc9c9", note: "98% feel increased\nurgency this year" },
+    { name: "Infrastructure", color: "#ffe066", note: "68% say only\nmoderately ready" },
+    { name: "Data", color: "#b2f2bb", note: "unified, AI-consumable\ndata pipelines" },
+    { name: "Governance", color: "#a5d8ff", note: "responsible-AI\nembedded by design" },
+    { name: "Culture &\nTalent", color: "#d0bfff", note: "85% give themselves\n<18 months to act" },
+  ];
+  const pw = 210, gap = 24, totalW = pillars.length * pw + (pillars.length - 1) * gap;
+  const startX = (1200 - totalW) / 2, py = 260, ph = 380;
+
+  pillars.forEach((p, i) => {
+    const x = startX + i * (pw + gap);
+    svg.appendChild(rc.rectangle(x, py, pw, ph, { fill: p.color, fillStyle: "hachure", stroke: "#495057", roughness: 1.5 }));
+    svg.appendChild(rc.line(cap.x + cap.w / 2, cap.y + cap.h, x + pw / 2, py, { stroke: "#868e96", roughness: 1.2 }));
+    p.name.split("\n").forEach((line, li) => label(x + pw / 2, py + 40 + li * 26, line, 19, "middle", "700"));
+    multiline(x + pw / 2, py + ph + 30, p.note.split("\n"), 13, 18);
+  });
+
+  label(600, 760, "Source: sources/2026-04-28-mittri-cisco-ai-enabled-enterprise", 12.5, "middle", "400");
+})();
+</script>
+</body>
+</html>

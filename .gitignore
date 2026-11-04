@@ -1,0 +1,13 @@
+# Geheimen
+.env
+.env.*
+
+# Systeem- en toolrommel
+.DS_Store
+.playwright-mcp/
+
+# Zakelijk / vertrouwelijk (repo is publiek)
+Offerte*.pdf
+2026-07-04-offerte-santeon.html
+2026-07-04-santeon-pitch-mail.md
+notes-22-06-2026.md

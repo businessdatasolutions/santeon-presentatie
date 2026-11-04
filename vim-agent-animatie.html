@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIM-agent · verwerkingsanimatie</title>
+<style>
+  :root{
+    --paper:#E9EDEB; --card:#fff; --ink:#0B2A28; --petrol:#0E3B39; --petrolSoft:#16524E;
+    --line:#D2DAD7; --muted:#5C6B67; --mutedSoft:#8A9793; --agent:#6D4AFF; --agentSoft:#EFEBFF;
+    --sac1:#B23A2E; --sac2:#D97A28; --sac3:#D0A400; --sac4:#2E8B72;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--paper); color:var(--ink); min-height:100vh;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    background-image:radial-gradient(var(--line) 0.7px, transparent 0.7px);
+    background-size:22px 22px;
+    padding:28px 20px 40px;
+  }
+  .wrap{max-width:1180px;margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--mutedSoft)}
+  h1{font-size:23px;letter-spacing:-.3px;margin:4px 0 2px}
+  .lede{color:var(--muted);font-size:14px;margin:0}
+
+  /* controlebalk */
+  .bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:18px 0 10px}
+  button.ctrl{
+    display:inline-flex;align-items:center;gap:7px;background:var(--agent);color:#fff;border:none;
+    border-radius:9px;padding:9px 15px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;
+  }
+  button.ctrl.secondary{background:#fff;color:var(--petrol);border:1px solid var(--line)}
+  button.ctrl:focus-visible{outline:2px solid var(--agent);outline-offset:2px}
+  .dots{display:flex;gap:7px;margin-left:auto;align-items:center}
+  .dot{width:auto;height:26px;padding:0 11px;border-radius:99px;border:1px solid var(--line);background:#fff;
+    font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;font-family:var(--mono)}
+  .dot.on{background:var(--agentSoft);border-color:var(--agent);color:var(--agent)}
+
+  /* narratiebalk */
+  .caption{display:flex;align-items:center;gap:12px;background:var(--petrol);color:#EAF4F1;
+    border-radius:11px;padding:12px 16px;min-height:52px;margin-bottom:14px}
+  .cap-dot{width:9px;height:9px;border-radius:99px;background:var(--agent);flex-shrink:0;
+    box-shadow:0 0 0 0 rgba(109,74,255,.5);animation:ping 1.4s ease-out infinite}
+  .cap-main{font-size:15px;font-weight:700}
+  .cap-sub{font-size:12px;color:#9Fc7be;font-family:var(--mono);margin-top:1px}
+  .cap-phase{margin-left:auto;font-family:var(--mono);font-size:11px;color:#7fb3a9;letter-spacing:.5px}
+
+  /* scène */
+  .scene-scroll{overflow-x:auto;padding-bottom:6px}
+  .scene{display:flex;align-items:stretch;min-width:1080px}
+  .stage{flex:1;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px;
+    display:flex;flex-direction:column;min-height:340px;transition:border-color .3s, box-shadow .3s, transform .3s}
+  .stage.agent{flex:1.55}
+  .stage.active{border-color:var(--agent);box-shadow:0 0 0 3px var(--agentSoft);transform:translateY(-2px)}
+  .stage-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .stage-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;
+    background:#EAF1EF;color:var(--petrol);font-size:14px}
+  .stage.active .stage-ico{background:var(--agent);color:#fff}
+  .stage-title{font-weight:800;font-size:13.5px}
+  .stage-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--mutedSoft)}
+  .stage-body{margin-top:10px;flex:1;font-size:12.5px;line-height:1.5;color:var(--ink)}
+
+  /* connectoren */
+  .conn{width:46px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative}
+  .conn .rail{width:100%;height:3px;background:var(--line);border-radius:99px;position:relative;overflow:hidden}
+  .conn .pulse{position:absolute;top:0;left:-40%;width:40%;height:100%;border-radius:99px;
+    background:var(--agent);opacity:0}
+  .conn.flowing .pulse{opacity:1;animation:flow 0.8s linear}
+  .conn::after{content:"›";position:absolute;top:50%;right:6px;transform:translateY(-50%);
+    line-height:1;color:var(--mutedSoft);font-size:15px;font-weight:700}
+  .conn.flowing::after{color:var(--agent)}
+
+  /* data lake melding */
+  .melding{background:#F4F7F5;border:1px solid var(--line);border-radius:9px;padding:11px}
+  .melding .id{font-family:var(--mono);font-size:11px;color:var(--petrol);font-weight:700}
+  .melding .meta{font-size:11px;color:var(--mutedSoft);margin:2px 0 7px}
+  .melding .txt{font-size:12px;line-height:1.5;color:var(--ink)}
+
+  /* semantische chips */
+  .attr{display:flex;align-items:center;gap:7px;background:#EEF3F1;border:1px solid var(--line);
+    border-radius:8px;padding:5px 9px;margin-bottom:6px;opacity:0;transform:translateX(-8px);
+    transition:opacity .35s, transform .35s}
+  .attr.show{opacity:1;transform:none}
+  .attr .k{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ink)}
+  .attr .v{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-left:auto}
+  .cls-tag{display:inline-flex;align-items:center;gap:6px;background:var(--petrol);color:#fff;
+    border-radius:99px;padding:3px 10px;font-size:11px;font-weight:700;margin-bottom:9px}
+
+  /* OKF-graaf */
+  .okf-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;
+    color:var(--agent);margin-bottom:2px}
+  svg.graph{width:100%;height:auto;display:block}
+  .okf-node circle{fill:#fff;stroke:var(--mutedSoft);stroke-width:1.5;transition:fill .4s, stroke .4s, r .3s}
+  .okf-node text{font-family:var(--mono);font-size:8px;fill:var(--muted);transition:fill .4s, font-weight .4s}
+  .okf-node.cond circle{stroke-dasharray:3 3}
+  .okf-node.active circle{fill:var(--agent);stroke:var(--agent);r:12}
+  .okf-node.active text{fill:var(--agent);font-weight:700}
+  .okf-edge{stroke:var(--line);stroke-width:2;fill:none;stroke-dasharray:160;stroke-dashoffset:160;
+    transition:stroke-dashoffset .5s ease, stroke .4s}
+  .okf-edge.drawn{stroke-dashoffset:0;stroke:var(--agent)}
+
+  .findings{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;min-height:24px}
+  .chip{display:inline-flex;align-items:center;gap:5px;border-radius:99px;padding:3px 9px;
+    font-size:11px;font-weight:700;opacity:0;transform:translateY(4px);transition:opacity .3s, transform .3s}
+  .chip.show{opacity:1;transform:none}
+  .agent-status{font-family:var(--mono);font-size:10.5px;color:var(--agent);margin-top:8px;min-height:14px}
+
+  /* ASK/ANSWER — InfoProvider-uitwisseling */
+  .ask-block{margin-top:9px;background:var(--agentSoft);border-radius:8px;padding:8px 10px;
+    font-size:11.5px;line-height:1.55}
+  .ask-q{color:var(--agent);margin-bottom:3px}
+  .ask-a{color:var(--ink)}
+
+  /* rapportage */
+  .res-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .acties{display:flex;flex-direction:column;gap:5px}
+  .actie{background:#EEF3F1;border-radius:7px;padding:5px 9px;font-size:11.5px;color:var(--ink)}
+  .igj{margin-top:10px;background:#FBECEA;border:1px solid rgba(178,58,46,.28);border-radius:9px;
+    padding:9px 11px;font-size:11.5px;color:var(--ink);display:none}
+  .igj.show{display:block}
+  .esc{margin-top:10px;background:#FDF3E7;border:1px solid rgba(217,122,40,.35);border-radius:9px;
+    padding:9px 11px;font-size:11.5px;color:var(--ink);display:none}
+  .esc.show{display:block}
+  .judge-line{font-family:var(--mono);font-size:10.5px;color:var(--petrol);margin-top:9px}
+  .reveal{opacity:0;transform:translateY(6px);transition:opacity .4s, transform .4s}
+  .reveal.show{opacity:1;transform:none}
+
+  .foot{margin-top:20px;font-size:11.5px;color:var(--mutedSoft);text-align:center}
+
+  @keyframes flow{from{left:-40%}to{left:100%}}
+  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(109,74,255,.45)}70%{box-shadow:0 0 0 8px rgba(109,74,255,0)}100%{box-shadow:0 0 0 0 rgba(109,74,255,0)}}
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none!important;animation:none!important}
+    .conn.flowing .pulse{opacity:0}
+    .okf-edge{stroke-dashoffset:0}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Ziekenhuis St. Machteld · fictief</div>
+  <h1>Hoe de agent een incident verwerkt</h1>
+  <p class="lede">Van ruwe melding, via de semantische laag, met behulp van de OKF-kennisbundel, naar een vervolgroute.</p>
+
+  <div class="bar">
+    <button class="ctrl" id="playBtn" onclick="togglePlay()"><span id="playIco">❚❚</span> <span id="playTxt">Pauze</span></button>
+    <button class="ctrl secondary" onclick="restart()">↻ Opnieuw</button>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <div class="caption">
+    <span class="cap-dot"></span>
+    <div>
+      <div class="cap-main" id="capMain">Klaar om te starten</div>
+      <div class="cap-sub" id="capSub"></div>
+    </div>
+    <div class="cap-phase" id="capPhase"></div>
+  </div>
+
+  <div class="scene-scroll">
+    <div class="scene">
+
+      <!-- 01 Data Lake -->
+      <div class="stage" id="s1">
+        <div class="stage-head">
+          <div class="stage-ico">▤</div>
+          <div><div class="stage-title">Data Lake</div><div class="stage-sub">Laag 01 · ruw</div></div>
+        </div>
+        <div class="stage-body">
+          <div class="melding">
+            <div class="id" id="mId">—</div>
+            <div class="meta" id="mMeta">—</div>
+            <div class="txt" id="mTxt">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="conn" id="c1"><div class="rail"><div class="pulse"></div></div></div>
+
+      <!-- 02 Semantische laag -->
+      <div class="stage" id="s2">
+        <div class="stage-head">
+          <div class="stage-ico">◈</div>
+          <div><div class="stage-title">Semantische laag</div><div class="stage-sub">Laag 02 · ontologie</div></div>
+        </div>
+        <div class="stage-body">
+          <div class="cls-tag">● Incident</div>
+          <div id="attrList"></div>
+        </div>
+      </div>
+
+      <div class="conn" id="c2"><div class="rail"><div class="pulse"></div></div></div>
+
+      <!-- 03 Agent + OKF -->
+      <div class="stage agent" id="s3">
+        <div class="stage-head">
+          <div class="stage-ico">◆</div>
+          <div><div class="stage-title">AI-agent</div><div class="stage-sub">Laag 03/04 · OKF-walk</div></div>
+        </div>
+        <div class="stage-body">
+          <div class="okf-label">OKF-kennisbundel · knowledge atoms</div>
+          <svg class="graph" viewBox="0 0 300 200" role="img" aria-label="OKF-kennisgraaf die de agent beloopt">
+            <path class="okf-edge" id="e-cat"    d="M50,100 L165,44"/>
+            <path class="okf-edge" id="e-sac"    d="M50,100 L165,100"/>
+            <path class="okf-edge" id="e-prisma" d="M50,100 L165,156"/>
+            <path class="okf-edge" id="e-igj"    d="M165,100 L262,100"/>
+            <g class="okf-node" id="n-triage"><circle cx="50" cy="100" r="11"/><text x="50" y="124" text-anchor="middle">runbook·triage</text></g>
+            <g class="okf-node" id="n-cat"><circle cx="165" cy="44" r="11"/><text x="165" y="28" text-anchor="middle">taxo·categorie</text></g>
+            <g class="okf-node" id="n-sac"><circle cx="165" cy="100" r="11"/><text x="200" y="103" text-anchor="middle">metric·SAC</text></g>
+            <g class="okf-node" id="n-prisma"><circle cx="165" cy="156" r="11"/><text x="165" y="178" text-anchor="middle">taxo·PRISMA</text></g>
+            <g class="okf-node cond" id="n-igj"><circle cx="262" cy="100" r="11"/><text x="262" y="124" text-anchor="middle">runbook·IGJ</text></g>
+          </svg>
+          <div class="findings" id="findings"></div>
+          <div class="agent-status" id="agentStatus"></div>
+          <div class="ask-block reveal" id="askBlock">
+            <div class="ask-q"><b>Agent vraagt (ASK):</b> <span id="askQ"></span></div>
+            <div class="ask-a"><b>InfoProvider:</b> <span id="askA"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="conn" id="c3"><div class="rail"><div class="pulse"></div></div></div>
+
+      <!-- 04 Rapportage -->
+      <div class="stage" id="s4">
+        <div class="stage-head">
+          <div class="stage-ico">▦</div>
+          <div><div class="stage-title">Rapportage</div><div class="stage-sub">Laag 05 · routing</div></div>
+        </div>
+        <div class="stage-body">
+          <div class="res-badges reveal" id="resBadges"></div>
+          <div class="acties reveal" id="acties"></div>
+          <div class="judge-line reveal" id="judgeLine"></div>
+          <div class="igj" id="igj">⚠ <b>Calamiteit</b> — melden bij de IGJ binnen 3 werkdagen en onderzoeken met PRISMA/SIRE.</div>
+          <div class="esc" id="esc">❓ <b>Escalatie — onzeker:</b> <span id="escReason"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="foot">Fictieve onderwijssimulatie · Data Lake → semantische laag (ontologie) → Google OKF → AI-agent → rapportage</div>
+</div>
+
+<script>
+const SACc = {1:'#B23A2E',2:'#D97A28',3:'#D0A400',4:'#2E8B72'};
+const SACt = {1:'SAC 1 · Calamiteit',2:'SAC 2 · Ernstig',3:'SAC 3 · Matig',4:'SAC 4 · Gering'};
+
+const CASES = [
+  {
+    id:'VIM-2026-0485', afdeling:'IC', datum:'2026-06-14', melder:'Intensivist',
+    tekst:'Beademingsinstelling na overplaatsing niet gecontroleerd, verkeerde tidal volume ingesteld. Patiënt raakte respiratoir gedecompenseerd en is later overleden.',
+    attrs:[['incident_id','VIM-2026-0485'],['afdeling','IC'],['meldingsdatum','2026-06-14'],['beschrijving','vrije tekst']],
+    result:{categorie:'Medisch hulpmiddel',uitkomst:'Overlijden',gevolg:5,kans:2,sac:1,basis:'O — Organisatorisch',
+      boundaryLabel:'Overlijden of ernstige blijvende schade', citaat:'is later overleden',
+      acties:['Registreren','PRISMA-analyse','Melden IGJ']},
+    judge:{score:95, note:'Rationale citeert direct het overlijden — boundary condition SAC 1 sluitend onderbouwd.'},
+    igj:true
+  },
+  {
+    id:'VIM-2026-0447', afdeling:'Chirurgie', datum:'2026-06-08', melder:'Zaalarts',
+    tekst:'Bekende penicilline-allergie niet meegenomen in mondelinge overdracht. Patiënt kreeg amoxicilline en ontwikkelde een anafylactische reactie. Adrenaline toegediend, opname IC.',
+    attrs:[['incident_id','VIM-2026-0447'],['afdeling','Chirurgie'],['meldingsdatum','2026-06-08'],['beschrijving','vrije tekst']],
+    result:{categorie:'Overdracht / communicatie',uitkomst:'Tijdelijke schade',gevolg:4,kans:3,sac:2,basis:'O — Organisatorisch',
+      boundaryLabel:'Matige of tijdelijke schade', citaat:'ontwikkelde een anafylactische reactie',
+      acties:['Registreren','Bespreken VIM-commissie','PRISMA-analyse']},
+    verify:{issue:'Rationale gebruikte vage taal ("leek ernstig") i.p.v. een concreet citaat uit de melding.',
+      fixedRationale:'Anafylactische reactie na amoxicilline ondanks bekende penicilline-allergie in het dossier.'},
+    judge:{score:88, note:'Na correctie citeert de rationale de anafylactische reactie expliciet.'},
+    igj:false
+  },
+  {
+    id:'VIM-2026-0470', afdeling:'Geriatrie', datum:'2026-06-12', melder:'Verzorgende',
+    tekst:'Bed in te hoge stand achtergelaten na verzorging. Patiënt gleed bij opstaan langs de rand naar beneden, opgevangen door familie. Geen letsel geconstateerd.',
+    attrs:[['incident_id','VIM-2026-0470'],['afdeling','Geriatrie'],['meldingsdatum','2026-06-12'],['beschrijving','vrije tekst']],
+    result:{categorie:'Val',uitkomst:'Geen schade',gevolg:1,kans:3,sac:4,basis:'PRF — Patiëntgerelateerd',
+      boundaryLabel:'Bijna-incident / geen schade', citaat:'Geen letsel geconstateerd',
+      acties:['Registreren']},
+    judge:{score:90, note:'"Geen letsel geconstateerd" is een directe, concrete onderbouwing.'},
+    igj:false
+  },
+  {
+    id:'VIM-2026-0501', afdeling:'Interne', datum:'2026-06-17', melder:'Verpleegkundige',
+    tekst:'Patiënt kreeg subcutaan een dosis laagmoleculaire heparine toegediend. Onbekend of de voorgeschreven dubbelcheck bij hoogrisicomedicatie vooraf heeft plaatsgevonden — dit is niet vastgelegd in het EPD. Patiënt heeft geen klachten en geen bijwerkingen getoond.',
+    attrs:[['incident_id','VIM-2026-0501'],['afdeling','Interne'],['meldingsdatum','2026-06-17'],['beschrijving','vrije tekst']],
+    ask:{vraag:'Is de voorgeschreven dubbelcheck bij hoogrisicomedicatie vooraf uitgevoerd?',
+      antwoord:'Onbekend — dit is niet vermeld in de melding.'},
+    result:{categorie:'Medicatie',uitkomst:'Geen schade (onzeker)',gevolg:1,kans:3,sac:4,basis:'H — Menselijk (voorlopig)',
+      boundaryLabel:'Bijna-incident / geen schade — niet met zekerheid vast te stellen', citaat:'Onbekend of … dubbelcheck … heeft plaatsgevonden',
+      acties:['Registreren','Navragen bij afdeling']},
+    escalatie:{reden:'De kernvraag — is de dubbelcheck uitgevoerd? — blijft onbeantwoord, ook na navraag bij de InfoProvider.'},
+    judge:{score:60, note:'Rationale is eerlijk over de onzekerheid, maar de boundary condition kan niet worden bevestigd.'},
+    igj:false
+  },
+  {
+    id:'VIM-2026-0505', afdeling:'Chirurgie', datum:'2026-06-18', melder:'Coassistent',
+    tekst:'Volgens de verpleegkundige rapportage was sprake van een korte periode van bewusteloosheid na de ingreep; de dienstdoende arts noteert in hetzelfde dossier dat de patiënt "alert en aanspreekbaar" bleef. Geen vervolgonderzoek gedaan om dit te verifiëren.',
+    attrs:[['incident_id','VIM-2026-0505'],['afdeling','Chirurgie'],['meldingsdatum','2026-06-18'],['beschrijving','vrije tekst']],
+    ask:{vraag:'Welke waarneming is leidend — de rapportage van de verpleegkundige of de aantekening van de arts?',
+      antwoord:'Onbekend — beide waarnemingen staan naast elkaar in het dossier, geen aanvullende informatie beschikbaar.'},
+    result:{categorie:'Overdracht / communicatie',uitkomst:'Tegenstrijdig',gevolg:2,kans:2,sac:3,basis:'O — Organisatorisch (voorlopig)',
+      boundaryLabel:'Geringe schade — tegenstrijdig met mogelijk ernstiger lezing', citaat:'bewusteloosheid … vs. "alert en aanspreekbaar"',
+      acties:['Registreren','Dossieronderzoek ter verificatie']},
+    escalatie:{reden:'Verpleegkundige en arts noteren tegenstrijdige waarnemingen over het bewustzijn van de patiënt; geen vervolgonderzoek beschikbaar om dit op te helderen.'},
+    judge:{score:55, note:'Rationale benoemt de tegenstrijdigheid eerlijk, maar geen van beide lezingen kan worden bevestigd.'},
+    igj:false
+  }
+];
+
+const $ = id => document.getElementById(id);
+let ci=0, frames=[], fi=0, timer=null, paused=false;
+
+function clearActive(){ ['s1','s2','s3','s4'].forEach(s=>$(s).classList.remove('active'));
+  ['c1','c2','c3'].forEach(c=>$(c).classList.remove('flowing')); }
+function setStage(n){ $('s'+n).classList.add('active'); }
+function flow(n){ const c=$('c'+n); c.classList.remove('flowing'); void c.offsetWidth; c.classList.add('flowing'); }
+function caption(main,sub){ $('capMain').textContent=main; $('capSub').textContent=sub||''; }
+function phase(p){ $('capPhase').textContent=p; }
+function agentStatus(t){ $('agentStatus').textContent=t||''; }
+
+function resetGraph(){
+  ['n-triage','n-cat','n-sac','n-prisma','n-igj'].forEach(n=>$(n).classList.remove('active'));
+  ['e-cat','e-sac','e-prisma','e-igj'].forEach(e=>$(e).classList.remove('drawn'));
+  $('n-igj').classList.add('cond');
+}
+function lightNode(id){ $(id).classList.add('active'); if(id==='n-igj')$(id).classList.remove('cond'); }
+function drawEdge(id){ $(id).classList.add('drawn'); }
+
+function chip(text,color,bg){ const c=document.createElement('span'); c.className='chip';
+  c.style.color=color; c.style.background=bg; c.style.border='1px solid '+color+'33'; c.textContent=text;
+  $('findings').appendChild(c); requestAnimationFrame(()=>c.classList.add('show')); }
+
+function resetScene(cs){
+  clearActive(); resetGraph();
+  $('mId').textContent=cs.id; $('mMeta').textContent=cs.afdeling+' · '+cs.melder+' · '+cs.datum; $('mTxt').textContent=cs.tekst;
+  const al=$('attrList'); al.innerHTML='';
+  cs.attrs.forEach(([k,v])=>{ const d=document.createElement('div'); d.className='attr';
+    d.innerHTML='<span class="k">'+k+'</span><span class="v">'+v+'</span>'; al.appendChild(d); });
+  $('findings').innerHTML=''; agentStatus('');
+  $('askBlock').classList.remove('show'); $('askQ').textContent=''; $('askA').textContent='';
+  $('resBadges').classList.remove('show'); $('resBadges').innerHTML='';
+  $('acties').classList.remove('show'); $('acties').innerHTML='';
+  $('judgeLine').classList.remove('show'); $('judgeLine').textContent='';
+  $('igj').classList.remove('show');
+  $('esc').classList.remove('show'); $('escReason').textContent='';
+}
+function revealAttr(i){ const el=$('attrList').children[i]; if(el)el.classList.add('show'); }
+
+function badge(text,color,bg){ return '<span class="chip show" style="color:'+color+';background:'+bg+';border:1px solid '+color+'33">'+text+'</span>'; }
+function revealResult(cs){
+  const r=cs.result;
+  let badges =
+    badge(SACt[r.sac],'#fff',SACc[r.sac]) +
+    badge(r.categorie,'#0E3B39','#EAF1EF') +
+    badge(r.uitkomst,'#16524E','#EEF3F1') +
+    badge(r.basis,'#6D4AFF','#EFEBFF') +
+    badge('gevolg '+r.gevolg+' · kans '+r.kans,'#5C6B67','#F0F3F1');
+  if(cs.escalatie) badges += badge('❓ Escalatie — onzeker','#fff','#D97A28');
+  $('resBadges').innerHTML = badges;
+  $('acties').innerHTML = r.acties.map(a=>'<div class="actie">→ '+a+'</div>').join('');
+  $('resBadges').classList.add('show'); $('acties').classList.add('show');
+  if(cs.judge){ $('judgeLine').textContent='⚖ Judge-score: '+cs.judge.score+'/100 — '+cs.judge.note; $('judgeLine').classList.add('show'); }
+  if(cs.igj) $('igj').classList.add('show');
+  if(cs.escalatie){ $('escReason').textContent=cs.escalatie.reden; $('esc').classList.add('show'); }
+}
+
+function buildFrames(cs){
+  const r=cs.result;
+  const f=[
+    {fn:()=>{resetScene(cs); setStage(1); caption('Nieuwe melding binnengekomen','Data lake'); phase('1 / 5');}, d:1700},
+    {fn:()=>{flow(1); caption('Doorgeven aan de semantische laag','');}, d:800},
+    {fn:()=>{setStage(2); caption('Mappen naar de ontologie','Instantie van klasse Incident'); phase('2 / 5'); revealAttr(0);}, d:600},
+    {fn:()=>revealAttr(1), d:340},
+    {fn:()=>revealAttr(2), d:340},
+    {fn:()=>revealAttr(3), d:650},
+    {fn:()=>{flow(2); caption('Agent neemt het incident aan','');}, d:800},
+    {fn:()=>{setStage(3); lightNode('n-triage'); agentStatus('▶ leest triage-runbook…'); caption('Agent leest de OKF-runbook','runbook-triage-vim.md'); phase('3 / 5');}, d:1050},
+    {fn:()=>{drawEdge('e-cat'); lightNode('n-cat'); chip(r.categorie,'#0E3B39','#EAF1EF'); agentStatus('✓ categorie bepaald'); caption('Categorie bepalen via de taxonomie','taxonomy-incidentcategorie.md');}, d:1050},
+  ];
+
+  if(cs.ask){
+    f.push({fn:()=>{ agentStatus('❓ boundary condition niet met zekerheid vast te stellen — stelt een vraag'); caption('Feit ontbreekt: agent vraagt door','actie = ASK, niet gokken'); $('askQ').textContent=cs.ask.vraag; $('askBlock').classList.add('show'); }, d:1500});
+    f.push({fn:()=>{ $('askA').textContent=cs.ask.antwoord; agentStatus(cs.ask.antwoord.startsWith('Onbekend')?'⚠ feit blijft onbekend na navraag':'✓ feit vastgesteld via InfoProvider'); caption('InfoProvider antwoordt — kent alléén de meldingtekst','stateless orakel, verzint niets');}, d:1800});
+  }
+
+  f.push({fn:()=>{drawEdge('e-sac'); lightNode('n-sac'); chip(SACt[r.sac],'#fff',SACc[r.sac]); agentStatus('✓ boundary condition: '+r.boundaryLabel); caption('Ernst afleiden via boundary conditions','citaat: "'+r.citaat+'"');}, d:1300});
+  f.push({fn:()=>{drawEdge('e-prisma'); lightNode('n-prisma'); chip(r.basis,'#6D4AFF','#EFEBFF'); agentStatus('✓ basisoorzaak geclassificeerd'); caption('Basisoorzaak classificeren (PRISMA)','taxonomy-prisma-basisoorzaak.md');}, d:1100});
+
+  if(cs.verify){
+    f.push({fn:()=>{ agentStatus('🔍 verifieert eigen antwoord tegen de runbook…'); caption('Verificatielus: tweede, onafhankelijke check','');}, d:1000});
+    f.push({fn:()=>{ agentStatus('⚠ issue: '+cs.verify.issue); caption('Retry-feedback teruggestuurd naar de agent','max. 2 retries');}, d:1700});
+    f.push({fn:()=>{ agentStatus('↻ rationale gecorrigeerd: "'+cs.verify.fixedRationale+'"'); caption('Agent corrigeert en levert opnieuw op','geverifieerd ✓');}, d:1800});
+  } else {
+    f.push({fn:()=>{ agentStatus('🔍 geverifieerd tegen de runbook — geen issues gevonden'); caption('Verificatielus: tweede, onafhankelijke check','in orde, geen retry nodig');}, d:1000});
+  }
+
+  if(cs.escalatie){
+    f.push({fn:()=>{ agentStatus('❓ onvoldoende zekerheid — escaleert i.p.v. te gokken'); caption('Geen eenduidig antwoord uit melding + OKF','escalatie = true');}, d:1400});
+  } else if(cs.igj){
+    f.push({fn:()=>{drawEdge('e-igj'); lightNode('n-igj'); agentStatus('⚠ calamiteit — escaleren'); caption('Calamiteit → escaleren naar de IGJ','runbook-calamiteit-igj.md');}, d:1200});
+  }
+
+  f.push({fn:()=>{flow(3); caption('Routeren naar de rapportagelaag','');}, d:800});
+  f.push({fn:()=>{setStage(4); revealResult(cs); caption('Vervolgroute bepaald', cs.escalatie?'Onzeker — nadere verificatie nodig':(cs.igj?'Melden bij IGJ binnen 3 werkdagen':'Verwerkt en geregistreerd')); phase('5 / 5');}, d:2900});
+  f.push({fn:()=>{caption('Volgende melding…',''); }, d:1000});
+  return f;
+}
+
+function run(i){
+  if(i>=frames.length){ ci=(ci+1)%CASES.length; updateDots(); frames=buildFrames(CASES[ci]); run(0); return; }
+  frames[i].fn(); fi=i;
+  clearTimeout(timer);
+  if(!paused) timer=setTimeout(()=>run(i+1), frames[i].d);
+}
+function updateDots(){ [...$('dots').children].forEach((el,k)=>el.classList.toggle('on',k===ci)); }
+function togglePlay(){
+  paused=!paused;
+  $('playIco').textContent = paused?'▶':'❚❚';
+  $('playTxt').textContent = paused?'Afspelen':'Pauze';
+  if(!paused){ clearTimeout(timer); timer=setTimeout(()=>run(fi+1),150); }
+  else clearTimeout(timer);
+}
+function restart(){ clearTimeout(timer); paused=false; $('playIco').textContent='❚❚'; $('playTxt').textContent='Pauze';
+  frames=buildFrames(CASES[ci]); run(0); }
+function jump(idx){ clearTimeout(timer); paused=false; $('playIco').textContent='❚❚'; $('playTxt').textContent='Pauze';
+  ci=idx; updateDots(); frames=buildFrames(CASES[ci]); run(0); }
+
+(function init(){
+  const dots=$('dots');
+  CASES.forEach((cs,k)=>{ const b=document.createElement('button'); b.className='dot'; b.textContent=cs.id.slice(-4);
+    b.onclick=()=>jump(k); dots.appendChild(b); });
+  updateDots(); frames=buildFrames(CASES[0]); run(0);
+})();
+</script>
+</body>
+</html>
