@@ -24,7 +24,7 @@ Het publiek werkt met regels en procedures. Het publiek verkent niet graag zonde
 
 ### Signaal uit het netwerk (4 november 2026)
 
-De kwaliteitsadviseurs zoeken nog wat AI voor hen kan doen, ook bij incidentmeldingen. Eén vraag leeft sterk: **"Is AI wel veilig om te gebruiken — ja of nee?"** Er komen dus vragen over veiligheid.
+De kwaliteitsadviseurs zoeken nog wat AI voor hen kan doen, ook bij incidentmeldingen. Eén vraag komt vaak terug: **"Is AI wel veilig om te gebruiken?"** Er komen dus vragen over veiligheid.
 
 De outline beantwoordt deze vraag op vijf plaatsen:
 
@@ -93,8 +93,8 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 2. Vertel kort wie je bent.
 3. Vertel waarom je deze sessie geeft.
 4. Noem dat alle Santeon-ziekenhuizen in de zaal zitten.
-5. Noem meteen de vraag uit het netwerk: "Is AI wel veilig om te gebruiken — ja of nee?"
-6. Geef een belofte: "Daar kom ik expliciet op terug. Je gaat hier weg met drie vragen. Met die vragen beantwoord je de veiligheidsvraag voor je eigen ziekenhuis."
+5. Noem meteen de vraag uit het netwerk: "Is AI wel veilig om te gebruiken?"
+6. Geef een belofte: "Het antwoord is geen eenvoudig ja of nee. Het antwoord hangt af van drie vragen: is AI veilig voor de gegevens, voor de patiënt en voor de melder? Voor elke vraag geef ik je een toetssteen uit regels die je al kent. Aan het eind van de sessie bepaal je welke vragen je voor je eigen ziekenhuis al kunt beantwoorden. Voor de andere vragen weet je dan wie het antwoord kent."
 7. Geef de agenda: "Eerst vertel ik waarom dit belangrijk is. Dan laat ik zien hoe het veilig kan. Dan laten we het echt werken zien."
 
 **Opmerking:** door de belofte in stap 6 blijft niemand de hele sessie met de veiligheidsvraag zitten.
@@ -187,9 +187,9 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 
 **Opmerking:** Peron is een van de weinige bronnen in de wiki die specifiek over AI in de zorg gaan. Stap 6 gebruikt de kernwaarde van het publiek als model voor toezicht op AI.
 
-#### 2b. "Is het veilig — ja of nee?" Drie vragen in plaats van één (9 min)
+#### 2b. "Is het veilig?" Drie vragen in plaats van één (9 min)
 
-**Aanleiding:** juist deze vraag leeft in het netwerk. Neem de vraag serieus en letterlijk. Het eerlijke antwoord is niet "ja" of "nee". Het eerlijke antwoord is een wedervraag: "Veilig voor wie?" In de vraag zitten drie vragen. Voor alle drie heeft het publiek al een toetssteen in de eigen regels.
+**Aanleiding:** juist deze vraag komt vaak terug in het netwerk. Neem de vraag serieus en letterlijk. Het eerlijke antwoord is niet "ja" of "nee". Het eerlijke antwoord is een wedervraag: "Veilig voor wie?" In de vraag zitten drie vragen. Voor alle drie heeft het publiek al een toetssteen in de eigen regels.
 
 1. Zeg de aanleiding.
 2. Behandel vraag 1.
