@@ -6,16 +6,21 @@
 <title>VIM-agent · verwerkingsanimatie</title>
 <style>
   :root{
-    --paper:#E9EDEB; --card:#fff; --ink:#0B2A28; --petrol:#0E3B39; --petrolSoft:#16524E;
-    --line:#D2DAD7; --muted:#5C6B67; --mutedSoft:#8A9793; --agent:#6D4AFF; --agentSoft:#EFEBFF;
+    /* Huisstijl Business Data Solutions (brand-project/stylebook). Geel (--accent) is het merkaccent;
+       nooit als tekstkleur op licht of achter witte tekst. AI = warm zwart met geel licht plus het Bot-icoon
+       (--agent / --agentInk), als het licht van de vuurtoren. */
+    --paper:#f9f8f4; --card:#fff; --ink:#1a1a1a; --petrol:#1a1a1a; --petrolSoft:#4b5563;
+    --line:#e5e7eb; --muted:#4b5563; --mutedSoft:#6b7280; --accent:#d4db3e; --accentSoft:#fafbf0; --agent:#1a1a1a; --agentInk:#d4db3e;
+    --cream:#f5f0e6; --cream2:#f0ebe0;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
     --sac1:#B23A2E; --sac2:#D97A28; --sac3:#D0A400; --sac4:#2E8B72;
-    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --mono:"SF Mono",Monaco,Consolas,"Liberation Mono",monospace;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
   body{
     background:var(--paper); color:var(--ink); min-height:100vh;
-    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-family:var(--sans);-webkit-font-smoothing:antialiased;
     background-image:radial-gradient(var(--line) 0.7px, transparent 0.7px);
     background-size:22px 22px;
     padding:28px 20px 40px;
@@ -28,24 +33,24 @@
   /* controlebalk */
   .bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:18px 0 10px}
   button.ctrl{
-    display:inline-flex;align-items:center;gap:7px;background:var(--agent);color:#fff;border:none;
+    display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:var(--ink);border:none;
     border-radius:9px;padding:9px 15px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;
   }
   button.ctrl.secondary{background:#fff;color:var(--petrol);border:1px solid var(--line)}
-  button.ctrl:focus-visible{outline:2px solid var(--agent);outline-offset:2px}
+  button.ctrl:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .dots{display:flex;gap:7px;margin-left:auto;align-items:center}
   .dot{width:auto;height:26px;padding:0 11px;border-radius:99px;border:1px solid var(--line);background:#fff;
     font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;font-family:var(--mono)}
-  .dot.on{background:var(--agentSoft);border-color:var(--agent);color:var(--agent)}
+  .dot.on{background:var(--accent);border-color:var(--accent);color:var(--ink)}
 
   /* narratiebalk */
-  .caption{display:flex;align-items:center;gap:12px;background:var(--petrol);color:#EAF4F1;
+  .caption{display:flex;align-items:center;gap:12px;background:var(--petrol);color:#f9f8f4;
     border-radius:11px;padding:12px 16px;min-height:52px;margin-bottom:14px}
-  .cap-dot{width:9px;height:9px;border-radius:99px;background:var(--agent);flex-shrink:0;
-    box-shadow:0 0 0 0 rgba(109,74,255,.5);animation:ping 1.4s ease-out infinite}
+  .cap-dot{width:9px;height:9px;border-radius:99px;background:var(--agentInk);flex-shrink:0;
+    box-shadow:0 0 0 0 rgba(212,219,62,.5);animation:ping 1.4s ease-out infinite}
   .cap-main{font-size:15px;font-weight:700}
-  .cap-sub{font-size:12px;color:#9Fc7be;font-family:var(--mono);margin-top:1px}
-  .cap-phase{margin-left:auto;font-family:var(--mono);font-size:11px;color:#7fb3a9;letter-spacing:.5px}
+  .cap-sub{font-size:12px;color:#d1d5db;font-family:var(--mono);margin-top:1px}
+  .cap-phase{margin-left:auto;font-family:var(--mono);font-size:11px;color:#9ca3af;letter-spacing:.5px}
 
   /* scène */
   .scene-scroll{overflow-x:auto;padding-bottom:6px}
@@ -53,11 +58,12 @@
   .stage{flex:1;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px;
     display:flex;flex-direction:column;min-height:340px;transition:border-color .3s, box-shadow .3s, transform .3s}
   .stage.agent{flex:1.55}
-  .stage.active{border-color:var(--agent);box-shadow:0 0 0 3px var(--agentSoft);transform:translateY(-2px)}
+  .stage.active{border-color:var(--accent);box-shadow:0 0 0 3px rgba(212,219,62,.35);transform:translateY(-2px)}
   .stage-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
   .stage-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;
-    background:#EAF1EF;color:var(--petrol);font-size:14px}
-  .stage.active .stage-ico{background:var(--agent);color:#fff}
+    background:var(--cream);color:var(--ink);font-size:14px}
+  .stage.active .stage-ico{background:var(--accent);color:var(--ink)}
+  .stage.agent .stage-ico{background:var(--agent);color:var(--agentInk)}
   .stage-title{font-weight:800;font-size:13.5px}
   .stage-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--mutedSoft)}
   .stage-body{margin-top:10px;flex:1;font-size:12.5px;line-height:1.5;color:var(--ink)}
@@ -66,20 +72,20 @@
   .conn{width:46px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative}
   .conn .rail{width:100%;height:3px;background:var(--line);border-radius:99px;position:relative;overflow:hidden}
   .conn .pulse{position:absolute;top:0;left:-40%;width:40%;height:100%;border-radius:99px;
-    background:var(--agent);opacity:0}
+    background:var(--accent);opacity:0}
   .conn.flowing .pulse{opacity:1;animation:flow 0.8s linear}
   .conn::after{content:"›";position:absolute;top:50%;right:6px;transform:translateY(-50%);
     line-height:1;color:var(--mutedSoft);font-size:15px;font-weight:700}
-  .conn.flowing::after{color:var(--agent)}
+  .conn.flowing::after{color:var(--ink)}
 
   /* data lake melding */
-  .melding{background:#F4F7F5;border:1px solid var(--line);border-radius:9px;padding:11px}
+  .melding{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:11px}
   .melding .id{font-family:var(--mono);font-size:11px;color:var(--petrol);font-weight:700}
   .melding .meta{font-size:11px;color:var(--mutedSoft);margin:2px 0 7px}
   .melding .txt{font-size:12px;line-height:1.5;color:var(--ink)}
 
   /* semantische chips */
-  .attr{display:flex;align-items:center;gap:7px;background:#EEF3F1;border:1px solid var(--line);
+  .attr{display:flex;align-items:center;gap:7px;background:var(--cream);border:1px solid var(--line);
     border-radius:8px;padding:5px 9px;margin-bottom:6px;opacity:0;transform:translateX(-8px);
     transition:opacity .35s, transform .35s}
   .attr.show{opacity:1;transform:none}
@@ -90,13 +96,13 @@
 
   /* OKF-graaf */
   .okf-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;
-    color:var(--agent);margin-bottom:2px}
+    color:var(--ink);font-weight:700;margin-bottom:2px}
   svg.graph{width:100%;height:auto;display:block}
   .okf-node circle{fill:#fff;stroke:var(--mutedSoft);stroke-width:1.5;transition:fill .4s, stroke .4s, r .3s}
   .okf-node text{font-family:var(--mono);font-size:8px;fill:var(--muted);transition:fill .4s, font-weight .4s}
   .okf-node.cond circle{stroke-dasharray:3 3}
-  .okf-node.active circle{fill:var(--agent);stroke:var(--agent);r:12}
-  .okf-node.active text{fill:var(--agent);font-weight:700}
+  .okf-node.active circle{fill:var(--agent);stroke:var(--agentInk);stroke-width:3;r:12}
+  .okf-node.active text{fill:var(--ink);font-weight:700}
   .okf-edge{stroke:var(--line);stroke-width:2;fill:none;stroke-dasharray:160;stroke-dashoffset:160;
     transition:stroke-dashoffset .5s ease, stroke .4s}
   .okf-edge.drawn{stroke-dashoffset:0;stroke:var(--agent)}
@@ -105,18 +111,18 @@
   .chip{display:inline-flex;align-items:center;gap:5px;border-radius:99px;padding:3px 9px;
     font-size:11px;font-weight:700;opacity:0;transform:translateY(4px);transition:opacity .3s, transform .3s}
   .chip.show{opacity:1;transform:none}
-  .agent-status{font-family:var(--mono);font-size:10.5px;color:var(--agent);margin-top:8px;min-height:14px}
+  .agent-status{font-family:var(--mono);font-size:10.5px;color:var(--ink);margin-top:8px;min-height:14px}
 
   /* ASK/ANSWER — InfoProvider-uitwisseling */
-  .ask-block{margin-top:9px;background:var(--agentSoft);border-radius:8px;padding:8px 10px;
+  .ask-block{margin-top:9px;background:var(--cream);border-left:3px solid var(--agent);border-radius:8px;padding:8px 10px;
     font-size:11.5px;line-height:1.55}
-  .ask-q{color:var(--agent);margin-bottom:3px}
+  .ask-q{color:var(--ink);font-weight:600;margin-bottom:3px}
   .ask-a{color:var(--ink)}
 
   /* rapportage */
   .res-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
   .acties{display:flex;flex-direction:column;gap:5px}
-  .actie{background:#EEF3F1;border-radius:7px;padding:5px 9px;font-size:11.5px;color:var(--ink)}
+  .actie{background:var(--cream);border-radius:7px;padding:5px 9px;font-size:11.5px;color:var(--ink)}
   .igj{margin-top:10px;background:#FBECEA;border:1px solid rgba(178,58,46,.28);border-radius:9px;
     padding:9px 11px;font-size:11.5px;color:var(--ink);display:none}
   .igj.show{display:block}
@@ -128,9 +134,11 @@
   .reveal.show{opacity:1;transform:none}
 
   .foot{margin-top:20px;font-size:11.5px;color:var(--mutedSoft);text-align:center}
+  .merk{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;color:var(--ink);font-weight:700;font-size:13px}
+  .merk svg{width:24px;height:24px}
 
   @keyframes flow{from{left:-40%}to{left:100%}}
-  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(109,74,255,.45)}70%{box-shadow:0 0 0 8px rgba(109,74,255,0)}100%{box-shadow:0 0 0 0 rgba(109,74,255,0)}}
+  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(212,219,62,.45)}70%{box-shadow:0 0 0 8px rgba(212,219,62,0)}100%{box-shadow:0 0 0 0 rgba(212,219,62,0)}}
   @media (prefers-reduced-motion: reduce){
     *{transition:none!important;animation:none!important}
     .conn.flowing .pulse{opacity:0}
@@ -196,7 +204,7 @@
       <!-- 03 Agent + OKF -->
       <div class="stage agent" id="s3">
         <div class="stage-head">
-          <div class="stage-ico">◆</div>
+          <div class="stage-ico" title="AI"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div>
           <div><div class="stage-title">AI-agent</div><div class="stage-sub">Laag 03/04 · OKF-walk</div></div>
         </div>
         <div class="stage-body">
@@ -242,6 +250,7 @@
   </div>
 
   <div class="foot">Fictieve onderwijssimulatie · Data Lake → semantische laag (ontologie) → Google OKF → AI-agent → rapportage</div>
+  <div class="merk"><svg viewBox="0 0 32 32" role="img" aria-label="Logo Business Data Solutions"><g fill="#1a1a1a"><polygon points="9,29 11,10 17,10 19,29"/><polygon points="8,8.5 20,8.5 19,10 9,10"/><rect x="11" y="5" width="6" height="3.5"/><path d="M10.5 5 Q10.5 1.5 14 1.5 Q17.5 1.5 17.5 5 Z"/><rect x="13.5" y="0" width="1" height="1.8"/></g><rect x="13" y="6" width="2" height="2" fill="#d4db3e"/><g stroke="#d4db3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 4 L26 7 L21 10"/><path d="M26 4 L31 7 L26 10"/></g></svg>Business Data Solutions</div>
 </div>
 
 <script>
@@ -348,15 +357,18 @@ function resetScene(cs){
 }
 function revealAttr(i){ const el=$('attrList').children[i]; if(el)el.classList.add('show'); }
 
+// AI-teken: hetzelfde Bot-icoon als in de live demo (lucide "bot").
+const BOT='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>';
 function badge(text,color,bg){ return '<span class="chip show" style="color:'+color+';background:'+bg+';border:1px solid '+color+'33">'+text+'</span>'; }
 function revealResult(cs){
   const r=cs.result;
   let badges =
+    badge(BOT+' AI-voorstel','#d4db3e','#1a1a1a') +
     badge(SACt[r.sac],'#fff',SACc[r.sac]) +
-    badge(r.categorie,'#0E3B39','#EAF1EF') +
-    badge(r.uitkomst,'#16524E','#EEF3F1') +
-    badge(r.basis,'#6D4AFF','#EFEBFF') +
-    badge('gevolg '+r.gevolg+' · kans '+r.kans,'#5C6B67','#F0F3F1');
+    badge(r.categorie,'#1a1a1a','#f5f0e6') +
+    badge(r.uitkomst,'#4b5563','#f0ebe0') +
+    badge(r.basis,'#1a1a1a','#f5f0e6') +
+    badge('gevolg '+r.gevolg+' · kans '+r.kans,'#4b5563','#f0ebe0');
   if(cs.escalatie) badges += badge('❓ Escalatie — onzeker','#fff','#D97A28');
   $('resBadges').innerHTML = badges;
   $('acties').innerHTML = r.acties.map(a=>'<div class="actie">→ '+a+'</div>').join('');
@@ -377,7 +389,7 @@ function buildFrames(cs){
     {fn:()=>revealAttr(3), d:650},
     {fn:()=>{flow(2); caption('Agent neemt het incident aan','');}, d:800},
     {fn:()=>{setStage(3); lightNode('n-triage'); agentStatus('▶ leest triage-runbook…'); caption('Agent leest de OKF-runbook','runbook-triage-vim.md'); phase('3 / 5');}, d:1050},
-    {fn:()=>{drawEdge('e-cat'); lightNode('n-cat'); chip(r.categorie,'#0E3B39','#EAF1EF'); agentStatus('✓ categorie bepaald'); caption('Categorie bepalen via de taxonomie','taxonomy-incidentcategorie.md');}, d:1050},
+    {fn:()=>{drawEdge('e-cat'); lightNode('n-cat'); chip(r.categorie,'#1a1a1a','#f5f0e6'); agentStatus('✓ categorie bepaald'); caption('Categorie bepalen via de taxonomie','taxonomy-incidentcategorie.md');}, d:1050},
   ];
 
   if(cs.ask){
@@ -386,7 +398,7 @@ function buildFrames(cs){
   }
 
   f.push({fn:()=>{drawEdge('e-sac'); lightNode('n-sac'); chip(SACt[r.sac],'#fff',SACc[r.sac]); agentStatus('✓ boundary condition: '+r.boundaryLabel); caption('Ernst afleiden via boundary conditions','citaat: "'+r.citaat+'"');}, d:1300});
-  f.push({fn:()=>{drawEdge('e-prisma'); lightNode('n-prisma'); chip(r.basis,'#6D4AFF','#EFEBFF'); agentStatus('✓ basisoorzaak geclassificeerd'); caption('Basisoorzaak classificeren (PRISMA)','taxonomy-prisma-basisoorzaak.md');}, d:1100});
+  f.push({fn:()=>{drawEdge('e-prisma'); lightNode('n-prisma'); chip(r.basis,'#1a1a1a','#f5f0e6'); agentStatus('✓ basisoorzaak geclassificeerd'); caption('Basisoorzaak classificeren (PRISMA)','taxonomy-prisma-basisoorzaak.md');}, d:1100});
 
   if(cs.verify){
     f.push({fn:()=>{ agentStatus('🔍 verifieert eigen antwoord tegen de runbook…'); caption('Verificatielus: tweede, onafhankelijke check','');}, d:1000});

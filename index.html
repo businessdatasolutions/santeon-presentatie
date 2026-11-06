@@ -5,48 +5,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Santeon-presentatie</title>
 <style>
+  /* Huisstijl Business Data Solutions (brand-project/stylebook, v1 mei 2026).
+     Geel (--accent) is het merkaccent. AI = warm zwart met geel licht plus het Bot-icoon. */
   :root{
-    --paper:#E9EDEB; --card:#fff; --ink:#0B2A28; --petrol:#0E3B39; --line:#D2DAD7;
-    --muted:#5C6B67; --mutedSoft:#8A9793; --agent:#6D4AFF; --agentSoft:#EFEBFF;
+    --paper:#f9f8f4; --card:#fff; --ink:#1a1a1a; --line:#e5e7eb; --cream:#f5f0e6;
+    --muted:#4b5563; --mutedSoft:#6b7280; --accent:#d4db3e; --accentSoft:#fafbf0;
     --ok:#2E8B72; --warn:#B23A2E;
-    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:"SF Mono",Monaco,Consolas,"Liberation Mono",monospace;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);color:var(--ink);
-    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:40px 16px}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;
+    -webkit-font-smoothing:antialiased;padding:48px 16px}
   .wrap{max-width:760px;margin:0 auto}
-  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--mutedSoft)}
-  h1{font-size:26px;letter-spacing:-.3px;margin:6px 0 4px}
-  .lede{color:var(--muted);margin:0 0 22px;font-size:14.5px}
+  .eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mutedSoft);font-weight:600}
+  h1{font-size:36px;font-weight:700;line-height:1.2;margin:8px 0 12px}
+  .lede{color:var(--muted);margin:0 0 28px;font-size:18px;line-height:1.5;max-width:70ch}
 
   .status{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
-    border-radius:11px;padding:12px 14px;margin-bottom:26px;font-size:14px}
+    border-radius:12px;padding:12px 16px;margin-bottom:32px;font-size:14px}
   .status .dot{width:10px;height:10px;border-radius:99px;background:var(--mutedSoft);flex-shrink:0}
   .status.ok .dot{background:var(--ok)}
   .status.fout .dot{background:var(--warn)}
-  .status .sub{color:var(--mutedSoft);font-family:var(--mono);font-size:11.5px;margin-left:auto}
-  .status button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:#fff;border-radius:7px;
-    padding:4px 10px;cursor:pointer;color:var(--petrol)}
+  .status .sub{color:var(--mutedSoft);font-family:var(--mono);font-size:12px;margin-left:auto}
+  .status button{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--ink);background:#fff;border-radius:6px;
+    padding:4px 12px;cursor:pointer;color:var(--ink)}
 
-  h2{font-family:var(--mono);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);
-    margin:22px 0 8px;font-weight:600}
-  a.item{display:flex;gap:14px;align-items:baseline;background:var(--card);border:1px solid var(--line);
-    border-radius:11px;padding:13px 15px;margin-bottom:8px;text-decoration:none;color:inherit;
-    transition:border-color .15s, box-shadow .15s}
-  a.item:hover,a.item:focus-visible{border-color:var(--agent);box-shadow:0 0 0 3px var(--agentSoft);outline:none}
-  .t{font-weight:700;font-size:15px}
-  .d{color:var(--muted);font-size:13px;margin-top:2px}
-  .tag{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--mutedSoft);white-space:nowrap}
-  .demo .t{color:var(--agent)}
-  footer{margin-top:30px;color:var(--mutedSoft);font-size:12px;line-height:1.6}
-  code{font-family:var(--mono);font-size:11.5px}
+  h2{display:flex;align-items:baseline;gap:12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin:32px 0 8px;font-weight:600}
+  h2 .tijd{margin-left:auto;font-family:var(--mono);letter-spacing:0;text-transform:none;color:var(--mutedSoft);font-weight:400}
+  .item{display:flex;gap:14px;align-items:baseline;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:14px 16px;margin-bottom:8px;text-decoration:none;color:inherit}
+  a.item{transition:border-color .15s, background .15s, transform .15s}
+  .item.tekst{background:var(--cream);border-color:var(--cream)}
+  .nr{font-family:var(--mono);font-size:12px;color:var(--mutedSoft);min-width:2ch;flex-shrink:0}
+  a.item:hover,a.item:focus-visible{border-color:var(--accent);background:var(--accentSoft);transform:translateY(-2px);outline:none}
+  a.item:focus-visible{box-shadow:0 0 0 2px var(--ink)}
+  .t{font-weight:700;font-size:16px}
+  .d{color:var(--muted);font-size:14px;margin-top:2px}
+  .tag{margin-left:auto;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);white-space:nowrap;border:1px solid var(--line);border-radius:99px;padding:1px 10px}
+  /* AI = warm zwart met geel licht plus het Bot-icoon (zie CLAUDE.md, huisstijl) */
+  a.item.demo{border-left:4px solid var(--ink)}
+  .tag.ai{background:var(--ink);border-color:var(--ink);color:var(--accent);display:inline-flex;align-items:center;gap:4px}
+  footer{margin-top:36px;color:var(--mutedSoft);font-size:14px;line-height:1.6}
+  code{font-family:var(--mono);font-size:.9em;background:#fff;border:1px solid var(--line);border-radius:4px;padding:.1em .4em}
+  .merk{display:flex;align-items:center;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line);
+    color:var(--ink);font-weight:700;font-size:14px}
+  .merk svg{width:28px;height:28px;flex-shrink:0}
 </style>
 </head>
 <body>
 <main class="wrap">
   <div class="eyebrow">Santeon-inspiratiedag · 10 november 2026</div>
   <h1>AI en kwaliteitsmanagement in de zorg</h1>
-  <p class="lede">Alle onderdelen van de sessie, in de volgorde van de sessie-flow. Elk onderdeel opent in een eigen tabblad.</p>
+  <p class="lede">Hier staan alle onderdelen van de sessie, in de volgorde van de sessie. Elk onderdeel opent in een nieuw tabblad.</p>
 
   <div class="status" id="status" role="status">
     <span class="dot"></span>
@@ -55,45 +68,94 @@
     <button type="button" id="status-opnieuw">Opnieuw</button>
   </div>
 
-  <h2>Deel 1 · AI-kansen in context</h2>
+  <h2><span>0 · Opening</span><span class="tijd">5 min</span></h2>
+  <div class="item tekst">
+    <span class="nr">0</span>
+    <div><div class="t">"Is AI wel veilig om te gebruiken — ja of nee?"</div>
+    <div class="d">De vraag uit het netwerk. Je gaat hier weg met drie vragen. Daarmee beantwoord je die vraag voor je eigen ziekenhuis.</div></div>
+  </div>
+
+  <h2><span>1 · Waarom · AI als kans voor het vak</span><span class="tijd">10 min</span></h2>
   <a class="item" href="background-material/2026-07-01-ai-maturity-frameworks-visuals.html#maturity-measurement" target="_blank" rel="noopener">
+    <span class="nr">1b</span>
     <div><div class="t">Realitycheck: hoe zeldzaam is "volwassen"?</div>
-    <div class="d">Maturity-bar uit de atlas (sectie 0)</div></div>
+    <div class="d">Volwassenheidsbalk uit de atlas (sectie 0). De adoptie is hoog. Volwassenheid is zeldzaam.</div></div>
     <span class="tag">atlas §0</span>
   </a>
 
-  <h2>Brug · Ask → Assist → Automate</h2>
+  <h2><span>2 · Hoe · AI veilig gebruiken</span><span class="tijd">30 min</span></h2>
+  <div class="item tekst">
+    <span class="nr">2a</span>
+    <div><div class="t">Expliciete regels</div>
+    <div class="d">Je kwaliteitshandboek is de ontologie die AI nodig heeft. Elke standaard wordt een regel: regel → trigger → controle → handhaving.</div></div>
+  </div>
+  <div class="item tekst">
+    <span class="nr">2b</span>
+    <div><div class="t">Is het veilig? Drie vragen in plaats van één</div>
+    <div class="d">Veilig voor de gegevens · veilig voor de patiënt · veilig voor de melder. Toetsstenen: Wkkgz art. 9 en 11, KNMG "veilig melden".</div></div>
+  </div>
   <a class="item" href="background-material/vim-workflow.svg" target="_blank" rel="noopener">
-    <div><div class="t">VIM-workflow</div>
-    <div class="d">Volledig diagram met routes en eindpunten (kansenkaart, Route 3)</div></div>
+    <span class="nr">2c</span>
+    <div><div class="t">Kansenkaart: het VIM-werkproces</div>
+    <div class="d">Volledig schema met routes en eindpunten. Vijf kansen: melden, triage, analyse, trends en rapportage.</div></div>
     <span class="tag">svg</span>
   </a>
   <a class="item" href="background-material/vim-workflow-simplified.png" target="_blank" rel="noopener">
-    <div><div class="t">VIM-workflow, vereenvoudigd</div>
-    <div class="d">Rustiger versie voor op het scherm</div></div>
+    <span class="nr">2c</span>
+    <div><div class="t">VIM-werkproces, eenvoudig</div>
+    <div class="d">Rustige versie voor op het scherm</div></div>
     <span class="tag">png</span>
   </a>
   <a class="item" href="background-material/2026-07-01-ai-maturity-frameworks-visuals.html#beutler" target="_blank" rel="noopener">
+    <span class="nr">2c</span>
     <div><div class="t">Ask → Assist → Automate</div>
-    <div class="d">Groeimodel uit de atlas (sectie 9)</div></div>
+    <div class="d">Groeimodel uit de atlas (sectie 9). Toegepast op route 3: een trendanalyse over afdelingen.</div></div>
     <span class="tag">atlas §9</span>
   </a>
 
-  <h2>Deel 2 · Praktische demonstratie</h2>
+  <h2><span>3 · Wat · Werkend prototype</span><span class="tijd">35 min</span></h2>
   <a class="item demo" href="demo.html" target="_blank" rel="noopener">
+    <span class="nr">3a</span>
     <div><div class="t">Live demo: VIM-triage bij St. Machteld</div>
-    <div class="d">Data lake → ontologie → OKF → AI-agent → rapportage. Met doorvragen (0501) en escalatie (0505).</div></div>
-    <span class="tag">live AI</span>
+    <div class="d">Data lake → ontologie → OKF → AI-agent → rapportage. Alle meldingen zijn verzonnen. Met doorvragen (0501) en escalatie (0505).</div></div>
+    <span class="tag ai"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> live AI</span>
   </a>
+  <div class="item tekst">
+    <span class="nr">3b</span>
+    <div><div class="t">Mens tegen agent: melding VIM-2026-0505</div>
+    <div class="d">Kies eerst zelf een SAC-score van 1 tot 4. Kijk daarna wat de agent doet.</div></div>
+  </div>
+  <div class="item tekst">
+    <span class="nr">3b</span>
+    <div><div class="t">Gesprek in kleine groepen</div>
+    <div class="d">Welke van de drie veiligheidsvragen kun je vandaag al beantwoorden voor je eigen ziekenhuis? En bij wie ligt het antwoord op de andere vragen?</div></div>
+  </div>
   <a class="item" href="vim-agent-animatie.html" target="_blank" rel="noopener">
-    <div><div class="t">Back-up: verwerkingsanimatie</div>
-    <div class="d">Gescript, werkt zonder internet. Zelfde casussen, inclusief 0505.</div></div>
+    <span class="nr">3</span>
+    <div><div class="t">Reserve: animatie van de verwerking</div>
+    <div class="d">Vast script, werkt zonder internet. Dezelfde casussen, ook 0505.</div></div>
     <span class="tag">offline</span>
   </a>
 
+  <h2><span>4 · Afsluiting · Je eerste stap</span><span class="tijd">10 min</span></h2>
+  <div class="item tekst">
+    <span class="nr">4</span>
+    <div><div class="t">Morgen</div>
+    <div class="d">Schrijf je top-3 van terugkerende incidenttypen op. Schrijf ook je risicomatrix expliciet op. Dat is je eerste document met rules of engagement.</div></div>
+  </div>
+  <div class="item tekst">
+    <span class="nr">4</span>
+    <div><div class="t">Vraag voor je FG of informatiebeveiliger</div>
+    <div class="d">"In welke goedgekeurde omgeving mogen wij AI op VIM-meldingen gebruiken?"</div></div>
+  </div>
+
   <footer>
-    Starten: <code>npm start</code> in de projectmap. De API-sleutel staat in <code>.env</code> en blijft op deze computer;
-    de browser praat alleen met deze lokale server. Zonder werkende verbinding valt de demo terug op regelgebaseerde triage (label "fallback").
+    Starten: typ <code>npm start</code> in de projectmap. De API-sleutel staat in <code>.env</code> en blijft op deze computer.
+    De browser praat alleen met deze lokale server. Werkt de verbinding niet? Dan gebruikt de demo een triage op basis van vaste regels (label "fallback").
+    <div class="merk">
+      <svg viewBox="0 0 32 32" role="img" aria-label="Logo Business Data Solutions"><g fill="#1a1a1a"><polygon points="9,29 11,10 17,10 19,29"/><polygon points="8,8.5 20,8.5 19,10 9,10"/><rect x="11" y="5" width="6" height="3.5"/><path d="M10.5 5 Q10.5 1.5 14 1.5 Q17.5 1.5 17.5 5 Z"/><rect x="13.5" y="0" width="1" height="1.8"/></g><rect x="13" y="6" width="2" height="2" fill="#d4db3e"/><g stroke="#d4db3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 4 L26 7 L21 10"/><path d="M26 4 L31 7 L26 10"/></g></svg>
+      Business Data Solutions
+    </div>
   </footer>
 </main>
 

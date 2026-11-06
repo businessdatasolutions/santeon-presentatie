@@ -8,6 +8,29 @@ Material for a 90-minute plenary session, "AI en kwaliteitsmanagement in de zorg
 
 It is mostly content, not a software project. The only tooling is a small Vite server for presenting locally (see below). There is no build, linter or test suite. All user-facing content is in **Dutch** and uses Dutch patient-safety terms: VIM (Veilig Incident Melden), SAC-score, PRISMA, IGJ, calamiteit, SIRE, NEN 8009. Keep new content in Dutch.
 
+## House style and language for audience material
+
+Everything the audience sees or receives follows the rules below: the start page, the demo, the animation, slides, handouts and follow-up mail.
+
+**Visual style: the Business Data Solutions stylebook** in `~/Projects/brand-project/stylebook/`. It is local and outside this repo (`shared.css`, `kleuren.html`, `typografie.html`, `voice.html`, `merk.html`). Read it before you design anything new. The decisions for this project are:
+- **Palette:** warm black `#1a1a1a`, cream `#f5f0e6` / `#f0ebe0`, off-white page `#f9f8f4`, and greys `#4b5563` / `#6b7280` / `#e5e7eb`. Chartreuse `#d4db3e` (`accent`) is the only accent colour. Use it as the brand accent: primary buttons, the active menu item, progress and link underlines. Never use it as a text colour on a light background, and never put white text on it, because the contrast is too low. Text on yellow is always `#1a1a1a`.
+- **AI marker:** anything the AI produces or does gets **warm black with chartreuse text or icon plus the Bot icon** (lucide `bot`), like the light of the lighthouse. Use it for the "AI-voorstel" label, follow-up questions, the OKF files the agent read, the judge score, the AI summary, and the AI stage and graph nodes in the animation. In the JSX, use `<Tag ai>` or `<AiMark />` (tokens `agent` / `agentInk`). In the HTML files, use the same Bot SVG. Rule-based fallback results get no AI marker. A yellow fill alone never means AI. Don't use a dashed pattern for AI: the stylebook reserves dashes for warnings.
+- **Exception:** the SAC 1–4 colours (`#B23A2E`, `#D97A28`, `#D0A400`, `#2E8B72`) stay, because they encode severity, not brand.
+- **Type:** the system font stack from the stylebook, with no webfonts. The atlas still loads Google Fonts. It is source material and keeps its own style.
+- **Brand mark:** the lighthouse logo and "Business Data Solutions" written in full (never "BDS"). Keep it small and put it in the footer only, so that the session stays about care, not about the firm.
+- **Form of address:** always **je / jij / jouw**, never "u". This is the stylebook rule, and it was chosen deliberately for this audience too.
+
+**Language:** all Dutch content (outline, speaker notes, slides, UI text) must:
+1. Follow ASD-STE100, applied to Dutch. Use short sentences (instructions at most 20 words, descriptions at most 25), one instruction per sentence, the active voice, one meaning per word and no ambiguity. `ste100-writer` holds the rules. Its dictionary is English, so apply its principles to Dutch.
+2. Pass a language edit before anyone shares it: `redigeer-nederlandse-tekst`, or `taalredactie-publicatie` for a full publication pass with a report.
+3. Contain no AI-speak: use `schrap-ai-taal` and run its `scripts/aitaal.py` on the file.
+
+The stylebook voice rules also apply. Write plain Dutch, and replace an anglicism when a natural Dutch word exists. Use Dutch number notation: €2.500, 3,5, 90%. Domain terms stay as they are (VIM, SAC, PRISMA, Ask / Assist / Automate, OKF, data lake).
+
+**Project skills** in `.claude/skills/` are copies of the user's own skills. Their source versions live elsewhere.
+- `ontwerp-dia` was written for HAN lectures. Here "docent" means the speaker, "student" means a participant, and `college.html` means any slide deck. Its rule "no stage directions on a slide" applies: put directions in the speaker notes.
+- `beoordeel-onderwijsontwerp` checks the session design (PAMS, KISS), for example the interactive segment.
+
 ## Public repo: keep confidential files out
 
 `.gitignore` notes that the repo is public. The quote (`Offerte*.pdf`, `2026-07-04-offerte-santeon.html`), the pitch email, `notes-22-06-2026.md` and `.env` (which holds `ANTHROPIC-API-KEY`) are on disk in `background-material/` but must never be staged or committed. The ignore patterns match basenames, so they apply in any folder. Do not quote their contents into tracked files either.
@@ -42,7 +65,7 @@ npx esbuild src/main.jsx --bundle --outfile=/dev/null --log-level=warning   # sy
 
 ## The two demo artifacts
 
-They share incident IDs and a colour palette: petrol neutrals, SAC 1–4 colours, and a single bold accent `#6D4AFF` that is **reserved for the AI agent**. When you change incident text or outcomes in one file, update the other.
+They share incident IDs and the house-style palette (see above): warm black and cream neutrals, the SAC 1–4 colours, chartreuse `#d4db3e` as the brand accent, and the AI marker (black + chartreuse + Bot icon). When you change incident text, outcomes or colours in one file, update the other.
 
 ### `vim-okf-simulatie.jsx`: the live demo (Deel 2)
 

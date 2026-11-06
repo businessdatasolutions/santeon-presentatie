@@ -15,22 +15,30 @@ import {
    Data Lake  →  Semantische laag / Ontologie  →  OKF  →  Agent
    ============================================================ */
 
+// Huisstijl Business Data Solutions (brand-project/stylebook): warm zwart, cream en
+// chartreuse-geel als enige accent. AI herken je aan warm zwart met geel licht plus het
+// Bot-icoon (Tag met `ai`, AiMark) — als het licht van de vuurtoren. Geel als vlak is het merkaccent.
 const C = {
-  paper: "#E9EDEB",
+  paper: "#f9f8f4",
   card: "#FFFFFF",
-  ink: "#0B2A28",
-  petrol: "#0E3B39",
-  petrolSoft: "#16524E",
-  line: "#D2DAD7",
-  muted: "#5C6B67",
-  mutedSoft: "#8A9793",
-  agent: "#6D4AFF",     // enige bold accent: de AI-agent
-  agentSoft: "#EFEBFF",
+  ink: "#1a1a1a",
+  dark: "#1a1a1a",
+  darkSoft: "#4b5563",
+  line: "#e5e7eb",
+  muted: "#4b5563",
+  mutedSoft: "#6b7280",
+  cream: "#f5f0e6",
+  cream2: "#f0ebe0",
+  accent: "#d4db3e",     // merkaccent: knoppen, actief menu, voortgang. Nooit als tekstkleur op licht, nooit onder witte tekst.
+  accentSoft: "#fafbf0",
+  agent: "#1a1a1a",      // AI-vlak (altijd met agentInk en het Bot-icoon)
+  agentInk: "#d4db3e",   // tekst en icoon op het AI-vlak
   sac1: "#B23A2E",
   sac2: "#D97A28",
   sac3: "#D0A400",
   sac4: "#2E8B72",
 };
+
 
 const SAC = {
   1: { label: "SAC 1 · Calamiteit", color: C.sac1, note: "Overlijden of ernstige blijvende schade" },
@@ -505,14 +513,45 @@ function normalizeTriage(r, fallback, meta = {}) {
 
 /* ================= UI-bouwstenen ================= */
 
-function Tag({ children, color = C.petrol, bg = "#EEF3F1", mono }) {
+// AI-markering: warm zwart blokje met geel Bot-icoon. Herkenbaar zonder op kleur te leunen.
+function AiMark({ size = 18 }) {
+  return (
+    <span title="AI" aria-label="AI" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center",
+      width: size, height: size, borderRadius: 5, background: C.agent, flexShrink: 0 }}>
+      <Bot size={Math.round(size * 0.67)} color={C.agentInk} />
+    </span>
+  );
+}
+
+function Tag({ children, color = C.dark, bg = C.cream, mono, ai }) {
   return (
     <span style={{
-      color, background: bg, border: `1px solid ${color}22`,
+      display: "inline-flex", alignItems: "center", gap: 4,
+      color: ai ? C.agentInk : color, background: ai ? C.agent : bg, border: `1px solid ${ai ? C.agent : color + "22"}`,
       padding: "2px 8px", borderRadius: 999, fontSize: 11.5,
       fontFamily: mono ? "ui-monospace, SFMono-Regular, Menlo, monospace" : "inherit",
       fontWeight: 600, whiteSpace: "nowrap",
-    }}>{children}</span>
+    }}>{ai && <Bot size={11} />}{children}</span>
+  );
+}
+
+// Vuurtoren-logo van Business Data Solutions (brand-project/stylebook/logo.svg).
+function BrandMark({ size = 24 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" role="img" aria-label="Logo Business Data Solutions">
+      <g fill={C.ink}>
+        <polygon points="9,29 11,10 17,10 19,29" />
+        <polygon points="8,8.5 20,8.5 19,10 9,10" />
+        <rect x="11" y="5" width="6" height="3.5" />
+        <path d="M10.5 5 Q10.5 1.5 14 1.5 Q17.5 1.5 17.5 5 Z" />
+        <rect x="13.5" y="0" width="1" height="1.8" />
+      </g>
+      <rect x="13" y="6" width="2" height="2" fill={C.accent} />
+      <g stroke={C.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M21 4 L26 7 L21 10" />
+        <path d="M26 4 L31 7 L26 10" />
+      </g>
+    </svg>
   );
 }
 
@@ -551,16 +590,17 @@ function MD({ text, onLink }) {
         const target = m[2];
         parts.push(
           <button key={key + "-" + i++} onClick={() => onLink && onLink(target)}
-            style={{ color: C.agent, background: "none", border: "none", padding: 0,
+            style={{ color: C.ink, background: "none", border: "none", padding: 0,
               cursor: "pointer", fontWeight: 600, textDecoration: "underline",
-              textUnderlineOffset: 2, font: "inherit" }}>{m[1]}</button>
+              textDecorationColor: C.accent, textDecorationThickness: 2,
+              textUnderlineOffset: 3, font: "inherit" }}>{m[1]}</button>
         );
       } else if (m[3]) {
         parts.push(<strong key={key + "-" + i++} style={{ color: C.ink }}>{m[3]}</strong>);
       } else if (m[4]) {
         parts.push(<code key={key + "-" + i++} style={{
           fontFamily: "ui-monospace, Menlo, monospace", fontSize: 12.5,
-          background: "#F0F3F1", padding: "1px 5px", borderRadius: 5 }}>{m[4]}</code>);
+          background: C.cream2, padding: "1px 5px", borderRadius: 5 }}>{m[4]}</code>);
       }
       last = re.lastIndex;
     }
@@ -596,11 +636,11 @@ const LAYERS = [
 
 function ArchPanel({ go }) {
   const rows = [
-    { n: "05", t: "Rapportagelaag", d: "Bestuursdashboard, KPI's, calamiteitenratio, IGJ-signaal.", to: "report", icon: FileBarChart, accent: C.petrol },
-    { n: "04", t: "AI-agent (triage)", d: "Leest de OKF-bundel, classificeert elke melding en bepaalt de vervolgroute. MCP levert de runtime-verbinding; OKF levert de kennis.", to: "agent", icon: Bot, accent: C.agent },
-    { n: "03", t: "OKF-kennislaag", d: "Google Open Knowledge Format (v0.1): curated Markdown-concepten — metrics, tabellen, taxonomieën, runbooks — die de agent 'beloopt' als graaf.", to: "okf", icon: BookOpen, accent: C.agent },
-    { n: "02", t: "Semantische laag / ontologie", d: "Klassen en relaties (Incident, Categorie, SAC, PRISMA-basisoorzaak) geven de ruwe data betekenis.", to: "onto", icon: Network, accent: C.petrolSoft },
-    { n: "01", t: "Data Lake", d: "Onbewerkte, vrije-tekst VIM-meldingen in de landingszone.", to: "lake", icon: Database, accent: C.petrolSoft },
+    { n: "05", t: "Rapportagelaag", d: "Bestuursdashboard, KPI's, calamiteitenratio, IGJ-signaal.", to: "report", icon: FileBarChart, accent: C.dark },
+    { n: "04", t: "AI-agent (triage)", d: "Leest de OKF-bundel, classificeert elke melding en bepaalt de vervolgroute. MCP levert de runtime-verbinding; OKF levert de kennis.", to: "agent", icon: Bot, accent: C.dark, ai: true },
+    { n: "03", t: "OKF-kennislaag", d: "Google Open Knowledge Format (v0.1): curated Markdown-concepten — metrics, tabellen, taxonomieën, runbooks — die de agent 'beloopt' als graaf.", to: "okf", icon: BookOpen, accent: C.darkSoft },
+    { n: "02", t: "Semantische laag / ontologie", d: "Klassen en relaties (Incident, Categorie, SAC, PRISMA-basisoorzaak) geven de ruwe data betekenis.", to: "onto", icon: Network, accent: C.darkSoft },
+    { n: "01", t: "Data Lake", d: "Onbewerkte, vrije-tekst VIM-meldingen in de landingszone.", to: "lake", icon: Database, accent: C.darkSoft },
   ];
   return (
     <div>
@@ -624,6 +664,7 @@ function ArchPanel({ go }) {
               <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <r.icon size={16} color={r.accent} />
                 <span style={{ fontWeight: 700, color: C.ink, fontSize: 15 }}>{r.t}</span>
+                {r.ai && <Tag ai>AI</Tag>}
               </span>
               <span style={{ color: C.muted, fontSize: 13, lineHeight: 1.5, display: "block", marginTop: 3 }}>{r.d}</span>
             </span>
@@ -631,9 +672,9 @@ function ArchPanel({ go }) {
           </button>
         ))}
       </div>
-      <Card style={{ marginTop: 16, background: C.agentSoft, borderColor: `${C.agent}33` }}>
+      <Card style={{ marginTop: 16, background: C.accentSoft, borderColor: C.accent, borderLeft: `4px solid ${C.accent}` }}>
         <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-          <Cpu size={18} color={C.agent} style={{ marginTop: 2, flexShrink: 0 }} />
+          <Cpu size={18} color={C.ink} style={{ marginTop: 2, flexShrink: 0 }} />
           <div style={{ fontSize: 13, color: C.ink, lineHeight: 1.6 }}>
             <strong>OKF vs. MCP.</strong> MCP is de <em>socket</em> — hoe de agent tijdens runtime
             verbindt met tools en live data. OKF is de <em>kennis die door die socket stroomt</em> —
@@ -659,7 +700,7 @@ function LakePanel() {
           <Card key={i.id} style={{ padding: 14 }}>
             <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6, flexWrap: "wrap" }}>
               <Tag mono>{i.id}</Tag>
-              <Tag color={C.petrolSoft} bg="#EAF1EF">{i.afdeling}</Tag>
+              <Tag color={C.darkSoft} bg={C.cream}>{i.afdeling}</Tag>
               <span style={{ fontSize: 12, color: C.mutedSoft }}>{i.melder} · {i.datum}</span>
             </div>
             <div style={{ fontSize: 13.5, color: C.ink, lineHeight: 1.55 }}>{i.tekst}</div>
@@ -687,11 +728,11 @@ function OntoPanel() {
         Klassen, taxonomieën en relaties die betekenis geven aan een ruwe melding.
       </p>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10, marginTop: 14 }}>
-        {block("Categorie", Object.values(CAT), C.petrol)}
-        {block("Uitkomst", ["Bijna-incident", "Geen schade", "Tijdelijke schade", "Blijvende schade", "Overlijden"], C.petrolSoft)}
+        {block("Categorie", Object.values(CAT), C.dark)}
+        {block("Uitkomst", ["Bijna-incident", "Geen schade", "Tijdelijke schade", "Blijvende schade", "Overlijden"], C.darkSoft)}
         {block("Ernstniveau (SAC)", Object.values(SAC).map((s) => s.label), C.sac2)}
-        {block("Basisoorzaak (PRISMA)", Object.values(PRISMA), C.agent)}
-        {block("Vervolgactie", ["Registreren", "Bespreken VIM-commissie", "PRISMA-analyse", "SIRE", "Melden IGJ"], C.petrol)}
+        {block("Basisoorzaak (PRISMA)", Object.values(PRISMA), C.darkSoft)}
+        {block("Vervolgactie", ["Registreren", "Bespreken VIM-commissie", "PRISMA-analyse", "SIRE", "Melden IGJ"], C.dark)}
       </div>
       <Card style={{ marginTop: 12 }}>
         <div style={{ fontWeight: 700, color: C.ink, fontSize: 13.5, marginBottom: 10 }}>Relaties</div>
@@ -704,10 +745,10 @@ function OntoPanel() {
             ["Incident", "vereistVervolgactie", "Vervolgactie"],
           ].map(([a, r, b], i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13 }}>
-              <Tag color={C.ink} bg="#EEF3F1">{a}</Tag>
-              <span style={{ fontFamily: "ui-monospace, Menlo, monospace", fontSize: 12, color: C.agent }}>{r}</span>
+              <Tag color={C.ink} bg={C.cream}>{a}</Tag>
+              <span style={{ fontFamily: "ui-monospace, Menlo, monospace", fontSize: 12, color: C.ink, fontWeight: 600 }}>{r}</span>
               <ArrowRight size={13} color={C.mutedSoft} />
-              <Tag color={C.petrol} bg="#EAF1EF">{b}</Tag>
+              <Tag color={C.dark} bg={C.cream}>{b}</Tag>
             </div>
           ))}
         </div>
@@ -719,7 +760,7 @@ function OntoPanel() {
 function OkfPanel() {
   const [active, setActive] = useState("runbook-triage-vim.md");
   const file = OKF[active];
-  const typeColor = { Runbook: C.agent, Metric: C.sac2, Taxonomy: C.petrol, Table: C.petrolSoft, Dataset: C.petrolSoft, Ontology: C.agent };
+  const typeColor = { Runbook: C.dark, Metric: C.sac2, Taxonomy: C.dark, Table: C.darkSoft, Dataset: C.darkSoft, Ontology: C.dark };
   return (
     <div>
       <Eyebrow>Laag 03 · Google Open Knowledge Format</Eyebrow>
@@ -731,8 +772,8 @@ function OkfPanel() {
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {Object.entries(OKF).map(([k, v]) => (
             <button key={k} onClick={() => setActive(k)} style={{
-              textAlign: "left", background: active === k ? C.agentSoft : C.card,
-              border: `1px solid ${active === k ? C.agent + "55" : C.line}`, borderRadius: 10,
+              textAlign: "left", background: active === k ? C.accentSoft : C.card,
+              border: `1px solid ${active === k ? C.accent : C.line}`, borderRadius: 10,
               padding: "9px 11px", cursor: "pointer",
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
@@ -746,14 +787,14 @@ function OkfPanel() {
         </div>
         <Card>
           <div style={{ fontFamily: "ui-monospace, Menlo, monospace", fontSize: 11.5,
-            background: "#0E3B39", color: "#CDEDE7", borderRadius: 8, padding: "10px 12px", marginBottom: 12, lineHeight: 1.7 }}>
+            background: C.dark, color: C.cream, borderRadius: 8, padding: "10px 12px", marginBottom: 12, lineHeight: 1.7 }}>
             <div style={{ opacity: 0.6 }}>---</div>
-            <div><span style={{ color: "#84D6C6" }}>type:</span> {file.type}</div>
-            <div><span style={{ color: "#84D6C6" }}>title:</span> {file.title}</div>
-            <div><span style={{ color: "#84D6C6" }}>description:</span> {file.description}</div>
-            <div><span style={{ color: "#84D6C6" }}>resource:</span> {file.resource}</div>
-            <div><span style={{ color: "#84D6C6" }}>tags:</span> [{file.tags.join(", ")}]</div>
-            <div><span style={{ color: "#84D6C6" }}>timestamp:</span> {file.timestamp}</div>
+            <div><span style={{ color: C.agentInk }}>type:</span> {file.type}</div>
+            <div><span style={{ color: C.agentInk }}>title:</span> {file.title}</div>
+            <div><span style={{ color: C.agentInk }}>description:</span> {file.description}</div>
+            <div><span style={{ color: C.agentInk }}>resource:</span> {file.resource}</div>
+            <div><span style={{ color: C.agentInk }}>tags:</span> [{file.tags.join(", ")}]</div>
+            <div><span style={{ color: C.agentInk }}>timestamp:</span> {file.timestamp}</div>
             <div style={{ opacity: 0.6 }}>---</div>
           </div>
           <MD text={file.body} onLink={(t) => OKF[t] && setActive(t)} />
@@ -790,8 +831,8 @@ function AgentPanel({ results, setResults, running, runAll, runOne }) {
           </p>
         </div>
         <button onClick={runAll} disabled={running} style={{
-          display: "flex", alignItems: "center", gap: 8, background: running ? C.mutedSoft : C.agent,
-          color: "#fff", border: "none", borderRadius: 10, padding: "11px 18px", fontSize: 14,
+          display: "flex", alignItems: "center", gap: 8, background: running ? C.line : C.accent,
+          color: C.ink, border: "none", borderRadius: 10, padding: "11px 18px", fontSize: 14,
           fontWeight: 700, cursor: running ? "default" : "pointer",
         }}>
           {running ? <Loader2 size={16} className="spin" /> : <Play size={16} />}
@@ -808,34 +849,35 @@ function AgentPanel({ results, setResults, running, runAll, runOne }) {
                 <div style={{ flex: 1, minWidth: 260 }}>
                   <div style={{ display: "flex", gap: 6, alignItems: "center", marginBottom: 5, flexWrap: "wrap" }}>
                     <Tag mono>{inc.id}</Tag>
-                    <Tag color={C.petrolSoft} bg="#EAF1EF">{inc.afdeling}</Tag>
+                    <Tag color={C.darkSoft} bg={C.cream}>{inc.afdeling}</Tag>
                   </div>
                   <div style={{ fontSize: 13, color: C.ink, lineHeight: 1.5 }}>{inc.tekst}</div>
                 </div>
                 {!r && !running && (
                   <button onClick={() => runOne(inc)} style={{
-                    alignSelf: "flex-start", background: "#fff", color: C.agent, border: `1px solid ${C.agent}55`,
+                    alignSelf: "flex-start", background: "#fff", color: C.ink, border: `1px solid ${C.accent}`,
                     borderRadius: 8, padding: "6px 12px", fontSize: 12.5, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}>
                     Triageer
                   </button>
                 )}
-                {r?._loading && <Loader2 size={18} className="spin" color={C.agent} style={{ alignSelf: "center" }} />}
+                {r?._loading && <Loader2 size={18} className="spin" color={C.ink} style={{ alignSelf: "center" }} />}
               </div>
 
               {r && !r._loading && (
                 <div style={{ marginTop: 12, borderTop: `1px solid ${C.line}`, paddingTop: 12 }}>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 8 }}>
+                    {!r._fallback && <Tag ai>AI-voorstel</Tag>}
                     <SacBadge sac={r.sac} />
-                    <Tag color={C.petrol} bg="#EAF1EF">{CAT[r.categorie] || r.categorie}</Tag>
-                    <Tag color={C.petrolSoft} bg="#EEF3F1">{r.uitkomst}</Tag>
-                    <Tag color={C.agent} bg={C.agentSoft}>{PRISMA[r.basisoorzaak] || r.basisoorzaak}</Tag>
-                    <Tag color={C.muted} bg="#F0F3F1" mono>gevolg {r.gevolg} · kans {r.kans}</Tag>
+                    <Tag color={C.dark} bg={C.cream}>{CAT[r.categorie] || r.categorie}</Tag>
+                    <Tag color={C.darkSoft} bg={C.cream}>{r.uitkomst}</Tag>
+                    <Tag color={C.dark} bg={C.cream}>{PRISMA[r.basisoorzaak] || r.basisoorzaak}</Tag>
+                    <Tag color={C.muted} bg={C.cream2} mono>gevolg {r.gevolg} · kans {r.kans}</Tag>
                     {r.igj_melding && <Tag color="#fff" bg={C.sac1}>⚠ Melden IGJ</Tag>}
                     {r.escalatie && <Tag color="#fff" bg={C.sac2}>❓ Escalatie — onzeker</Tag>}
                     {r._verified === true && <Tag color="#fff" bg={SAC[4].color}>✓ Geverifieerd</Tag>}
                     {r._verified === false && <Tag color="#fff" bg={C.sac1}>⚠ Verificatie faalt nog</Tag>}
-                    {r._askCount > 0 && <Tag color={C.agent} bg={C.agentSoft}>{r._askCount}× ASK</Tag>}
-                    {r._fallback && <Tag color={C.muted} bg="#F0F3F1">fallback</Tag>}
+                    {r._askCount > 0 && <Tag ai>{r._askCount}× doorgevraagd</Tag>}
+                    {r._fallback && <Tag color={C.muted} bg={C.cream2}>fallback</Tag>}
                   </div>
 
                   <div style={{ fontSize: 12.5, color: C.muted, fontStyle: "italic", marginBottom: 8 }}>
@@ -890,13 +932,13 @@ function AgentPanel({ results, setResults, running, runAll, runOne }) {
 
                   {r._transcript && r._transcript.length > 0 && (
                     <details style={{ marginBottom: 8 }}>
-                      <summary style={{ cursor: "pointer", fontSize: 12, color: C.agent, fontWeight: 600, display: "flex", alignItems: "center", gap: 5 }}>
+                      <summary style={{ cursor: "pointer", fontSize: 12, color: C.ink, fontWeight: 600, display: "flex", alignItems: "center", gap: 5 }}>
                         <MessageSquare size={12} /> Dialoog met InfoProvider ({r._transcript.length})
                       </summary>
                       <div style={{ marginTop: 6, display: "flex", flexDirection: "column", gap: 6 }}>
                         {r._transcript.map((t, i) => (
-                          <div key={i} style={{ fontSize: 12, background: C.agentSoft, borderRadius: 8, padding: "7px 10px" }}>
-                            <div style={{ color: C.agent, fontWeight: 600 }}>Agent vraagt: {t.vraag}</div>
+                          <div key={i} style={{ fontSize: 12, background: C.cream, borderLeft: `3px solid ${C.agent}`, borderRadius: 8, padding: "7px 10px" }}>
+                            <div style={{ color: C.ink, fontWeight: 600, display: "flex", gap: 6, alignItems: "flex-start" }}><AiMark size={16} /><span>Agent vraagt: {t.vraag}</span></div>
                             <div style={{ color: C.ink, marginTop: 2 }}>InfoProvider: {t.antwoord}</div>
                           </div>
                         ))}
@@ -908,12 +950,12 @@ function AgentPanel({ results, setResults, running, runAll, runOne }) {
                     <span style={{ fontSize: 11, color: C.mutedSoft, fontFamily: "ui-monospace, Menlo, monospace" }}>OKF-walk:</span>
                     {(r.okf_geraadpleegd || []).map((f) => (
                       <span key={f} style={{ fontSize: 10.5, fontFamily: "ui-monospace, Menlo, monospace",
-                        color: C.agent, background: C.agentSoft, padding: "2px 6px", borderRadius: 5 }}>{f}</span>
+                        color: C.agentInk, background: C.agent, padding: "2px 6px", borderRadius: 5 }}>{f}</span>
                     ))}
                   </div>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
                     {(r.vervolgacties || []).map((a) => (
-                      <Tag key={a} color={C.ink} bg="#EEF3F1">→ {a}</Tag>
+                      <Tag key={a} color={C.ink} bg={C.cream}>→ {a}</Tag>
                     ))}
                   </div>
 
@@ -921,7 +963,7 @@ function AgentPanel({ results, setResults, running, runAll, runOne }) {
                     {!r._judge && (
                       <button onClick={() => judgeOne(inc)} disabled={r._judging} style={{
                         display: "flex", alignItems: "center", gap: 6, background: "#fff",
-                        color: C.petrol, border: `1px solid ${C.petrol}44`, borderRadius: 8,
+                        color: C.dark, border: `1px solid ${C.dark}44`, borderRadius: 8,
                         padding: "5px 11px", fontSize: 12, fontWeight: 700, cursor: r._judging ? "default" : "pointer" }}>
                         {r._judging ? <Loader2 size={12} className="spin" /> : <Scale size={12} />}
                         {r._judging ? "Judge beoordeelt…" : "Beoordeel rationale (judge)"}
@@ -930,7 +972,7 @@ function AgentPanel({ results, setResults, running, runAll, runOne }) {
                     {r._judge && !r._judge.error && (
                       <div style={{ fontSize: 12, color: C.ink }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
-                          <Scale size={13} color={C.petrol} />
+                          <AiMark size={16} />
                           <strong>Judge-score: {r._judge.score}/100</strong>
                         </div>
                         {(r._judge.per_conditie || []).map((p, i) => (
@@ -1019,7 +1061,7 @@ function ReportPanel({ results, go }) {
             Draai eerst de triage-agent; het dashboard vult zich met de resultaten.
           </div>
           <button onClick={() => go("agent")} style={{
-            background: C.agent, color: "#fff", border: "none", borderRadius: 10,
+            background: C.accent, color: C.ink, border: "none", borderRadius: 10,
             padding: "10px 18px", fontWeight: 700, cursor: "pointer" }}>
             Naar de agent
           </button>
@@ -1044,12 +1086,12 @@ function ReportPanel({ results, go }) {
       {/* KPI-rij */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10, marginTop: 14 }}>
         {[
-          { l: "Meldingen", v: stats.total, c: C.petrol },
+          { l: "Meldingen", v: stats.total, c: C.dark },
           { l: "Calamiteiten (SAC 1)", v: stats.bySac[1], c: C.sac1 },
           { l: "IGJ-plichtig", v: stats.igj, c: C.sac1 },
           { l: "Calamiteitenratio", v: ratio + "%", c: C.sac2 },
           { l: "Escalaties (onzeker)", v: stats.escalaties, c: C.sac2 },
-          { l: "Gem. judge-score", v: stats.avgJudgeScore === null ? "—" : `${stats.avgJudgeScore}/100`, c: C.petrol },
+          { l: "Gem. judge-score", v: stats.avgJudgeScore === null ? "—" : `${stats.avgJudgeScore}/100`, c: C.dark },
         ].map((k) => (
           <Card key={k.l} style={{ padding: 14 }}>
             <div style={{ fontSize: 12, color: C.muted, marginBottom: 4 }}>{k.l}</div>
@@ -1098,7 +1140,7 @@ function ReportPanel({ results, go }) {
           <ResponsiveContainer width="100%" height={180}>
             <PieChart>
               <Pie data={oorzaakData} dataKey="value" nameKey="name" outerRadius={65} label={(e) => e.name}>
-                {oorzaakData.map((d, i) => <Cell key={i} fill={[C.petrol, C.petrolSoft, C.agent, C.sac2, C.mutedSoft][i % 5]} />)}
+                {oorzaakData.map((d, i) => <Cell key={i} fill={[C.dark, C.darkSoft, C.accent, C.sac2, C.mutedSoft][i % 5]} />)}
               </Pie>
               <Tooltip formatter={(v, n, p) => [v, p.payload.full]} />
             </PieChart>
@@ -1113,17 +1155,17 @@ function ReportPanel({ results, go }) {
             <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11, fill: C.muted }} />
             <YAxis type="category" dataKey="name" width={120} tick={{ fontSize: 11, fill: C.ink }} />
             <Tooltip />
-            <Bar dataKey="value" fill={C.petrol} radius={[0, 4, 4, 0]} barSize={16} />
+            <Bar dataKey="value" fill={C.dark} radius={[0, 4, 4, 0]} barSize={16} />
           </BarChart>
         </ResponsiveContainer>
       </Card>
 
       <Card style={{ marginTop: 10 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
-          <div style={{ fontWeight: 700, color: C.ink, fontSize: 13.5 }}>Bestuurssamenvatting</div>
+          <div style={{ fontWeight: 700, color: C.ink, fontSize: 13.5, display: "flex", alignItems: "center", gap: 8 }}>Bestuurssamenvatting{summary && <Tag ai>door AI geschreven</Tag>}</div>
           <button onClick={genSummary} disabled={genning} style={{
-            display: "flex", alignItems: "center", gap: 6, background: genning ? C.mutedSoft : C.petrol,
-            color: "#fff", border: "none", borderRadius: 8, padding: "7px 13px", fontSize: 12.5, fontWeight: 700,
+            display: "flex", alignItems: "center", gap: 6, background: genning ? C.mutedSoft : C.agent,
+            color: C.agentInk, border: "none", borderRadius: 8, padding: "7px 13px", fontSize: 12.5, fontWeight: 700,
             cursor: genning ? "default" : "pointer" }}>
             {genning ? <Loader2 size={13} className="spin" /> : <Bot size={13} />}
             {genning ? "Genereren…" : "Genereer met agent"}
@@ -1182,15 +1224,16 @@ export default function App() {
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: C.paper, color: C.ink,
-      fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif" }}>
+      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, 'Helvetica Neue', Arial, sans-serif",
+      WebkitFontSmoothing: "antialiased" }}>
       <style>{`.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
-        *{box-sizing:border-box}button:focus-visible{outline:2px solid ${C.agent};outline-offset:2px}`}</style>
+        *{box-sizing:border-box}button:focus-visible{outline:2px solid ${C.ink};outline-offset:2px}`}</style>
 
       {/* Zijbalk: de stack */}
       <aside style={{ width: 268, flexShrink: 0, borderRight: `1px solid ${C.line}`,
         background: C.card, padding: 18, position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 3 }}>
-          <div style={{ width: 30, height: 30, borderRadius: 8, background: C.petrol,
+          <div style={{ width: 30, height: 30, borderRadius: 8, background: C.dark,
             display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Hospital size={17} color="#fff" />
           </div>
@@ -1207,10 +1250,10 @@ export default function App() {
             return (
               <button key={l.id} onClick={() => setLayer(l.id)} style={{
                 display: "flex", alignItems: "center", gap: 10, textAlign: "left",
-                background: on ? C.agentSoft : "transparent",
-                border: `1px solid ${on ? C.agent + "44" : "transparent"}`,
+                background: on ? C.accent : "transparent",
+                border: `1px solid ${on ? C.accent : "transparent"}`,
                 borderRadius: 9, padding: "9px 10px", cursor: "pointer" }}>
-                <l.icon size={16} color={on ? C.agent : C.muted} />
+                <l.icon size={16} color={on ? C.ink : C.muted} />
                 <span>
                   <span style={{ display: "block", fontSize: 13, fontWeight: on ? 700 : 600,
                     color: on ? C.ink : C.muted, lineHeight: 1.2 }}>{l.label}</span>
@@ -1228,7 +1271,7 @@ export default function App() {
           </div>
           <div style={{ height: 6, background: C.line, borderRadius: 99, overflow: "hidden" }}>
             <div style={{ height: "100%", width: `${(triagedCount / INCIDENTS.length) * 100}%`,
-              background: C.agent, transition: "width .3s" }} />
+              background: C.accent, transition: "width .3s" }} />
           </div>
           {triagedCount > 0 && (
             <button onClick={() => setResults({})} style={{
@@ -1246,6 +1289,9 @@ export default function App() {
         <div style={{ marginTop: 28, paddingTop: 14, borderTop: `1px solid ${C.line}`,
           fontSize: 11.5, color: C.mutedSoft }}>
           Fictieve simulatie voor onderwijs. Data lake → semantische laag (ontologie) → Google OKF → AI-agent → rapportage.
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 10, color: C.ink, fontWeight: 700, fontSize: 13 }}>
+            <BrandMark size={24} /> Business Data Solutions
+          </div>
         </div>
       </main>
     </div>
