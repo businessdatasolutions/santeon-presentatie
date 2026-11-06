@@ -133,3 +133,6 @@ nav.bediening a{color:var(--muted);text-decoration:none;border-bottom:2px solid 
 .zeker line.drempel{stroke:var(--accent);stroke-width:2}
 .zeker text.drempel-tekst{fill:var(--accent);font-weight:700}
 .zeker-conclusie{font-size:1rem;line-height:1.4;min-height:2.8em}
+
+/* ---------- Groeipad: patroon (geheugen van bewijs) ---------- */
+.lbl.patroon{transform:translate(-50%,-100%);font-size:.95rem}

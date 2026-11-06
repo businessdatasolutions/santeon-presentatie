@@ -56,6 +56,8 @@ const VERSIES = {
         zeker: { titel: "Dezelfde soort melding, na leren", reeks: [[5, 10, 15, 70], [2, 5, 9, 84], [1, 2, 4, 93]], drempel: 90, conclusie: "SAC 4, met 93%. Boven de drempel: direct naar het overzicht." } },
       { deel: 0, scene: "automate", laag: "Stap 4 · niveau Automate", titel: "Alleen calamiteiten naar een mens", tekst: ["Alle andere meldingen gaan direct naar het overzicht.", "Een calamiteit gaat altijd naar een mens, hoe zeker de AI ook is."],
         zeker: { titel: "Voorbeeld: een calamiteit", reeks: [[88, 8, 3, 1]], drempel: null, conclusie: "SAC 1, met 88%. Calamiteit: altijd naar een mens." } },
+      { deel: 0, scene: "patroon", laag: "Stap 5 · het systeem onthoudt", titel: "Drie keer hetzelfde is een patroon", tekst: ["Het systeem onthoudt wat het zag, over afdelingen heen.", "Normaal: één val door bedhoogte per maand. Nu: drie in twee weken, op drie afdelingen.", "De kans stijgt, dus het risico ook. Het patroon gaat als signaal naar een mens."],
+        normaal: { titel: "Hoe vaak is normaal? · in twee weken", perTweeWeken: 0.5, gezien: 3, conclusie: "Bij normaal is de kans op drie of meer 1,4%. Dit past niet bij normaal: een signaal met minimaal SAC 2. Elke melding houdt zelf SAC 4." } },
     ],
   },
 };
@@ -84,6 +86,9 @@ function maakStapel(doek, labelLaag) {
   //   leert      — het model leert van fout-positieven en fout-negatieven: dezelfde meldingen,
   //                scherpere kansen (z1), dus minder twijfel en minder meldingen langs de mens.
   //   automate   — alleen calamiteiten gaan naar een mens; de rest gaat direct naar het overzicht.
+  //   patroon    — geheugen van bewijs (#10): drie SAC 4-meldingen met dezelfde oorzaak op drie
+  //                afdelingen. Samen past dat niet bij de normale frequentie, dus de kans en het risico
+  //                stijgen. Het patroon gaat als signaal naar een mens; elke melding houdt haar SAC 4.
   // zekerheid = welke kans de puntjes tonen (licht bolletje = onder de drempel).
   // u.sac is een index: 0 = SAC 1 … 3 = SAC 4.
   const DREMPEL = 0.9;
@@ -102,7 +107,15 @@ function maakStapel(doek, labelLaag) {
       mens: (u) => u.sac === 0 || u.z1 < DREMPEL || u.steekproef },
     automate: { cam: GROEI_CAM, route: "keten", zekerheid: "z2", feedback: 0.15,
       mens: (u) => u.sac === 0 },
+    patroon: { cam: { x: 10.5, y: 6.2, z: 11.5, ty: 2.5 }, actief: 1, route: "keten", zekerheid: "z2", feedback: 0.15,
+      patroon: true, mens: (u) => u.sac === 0 || u.cluster },
   };
+  // drie meldingen uit hetzelfde patroon: zelfde oorzaak, drie afdelingen (banen 0, 2 en 4 op de ontologie)
+  const CLUSTER = [
+    { i: 25, afdeling: "Geriatrie", x: -2.4, z: -0.5 },
+    { i: 22, afdeling: "Interne", x: 0, z: 0.6 },
+    { i: 24, afdeling: "Cardiologie", x: 2.4, z: -0.2 },
+  ];
   const SACKLEUR = [0xb23a2e, 0xd97a28, 0xd0a400, 0x2e8b72];
   const GRIJS = 0x9ca3af, INKT = 0x1a1a1a, GEEL = 0xd4db3e;
 
@@ -176,6 +189,24 @@ function maakStapel(doek, labelLaag) {
   });
   const fbLabel = label("Feedback van de mens", "feedback");
 
+  // Patroon (geheugen van bewijs): drie markeringen op de ontologie, verbonden door lijnen.
+  // De AI herkent het verband; daarom krijgt het label de AI-markering.
+  const clusterPunten = CLUSTER.map((c) => new THREE.Vector3(c.x, Y[1] + 0.2, c.z));
+  const clusterBollen = clusterPunten.map((pt) => {
+    const b = new THREE.Mesh(new THREE.SphereGeometry(0.17, 18, 18), new THREE.MeshBasicMaterial({ color: SACKLEUR[3], transparent: true, opacity: 0 }));
+    b.position.copy(pt);
+    scene.add(b);
+    return b;
+  });
+  const clusterLijn = new THREE.LineLoop(
+    new THREE.BufferGeometry().setFromPoints(clusterPunten),
+    new THREE.LineBasicMaterial({ color: INKT, transparent: true, opacity: 0 }),
+  );
+  scene.add(clusterLijn);
+  const clusterLabels = CLUSTER.map((c) => label(c.afdeling, "bestand"));
+  const clusterMidden = clusterPunten.reduce((s, p) => s.add(p), new THREE.Vector3()).divideScalar(clusterPunten.length);
+  const patroonLabel = label(BOT + "AI-signaal: 3× val door bedhoogte", "ai patroon");
+
   const tegels = BESTANDEN.map((b, i) => {
     const x = -2 + (i % 3) * 2, z = i < 3 ? -1.1 : 1.1;
     const m = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.16, 0.85), new THREE.MeshBasicMaterial({ color: 0xffffff }));
@@ -209,6 +240,7 @@ function maakStapel(doek, labelLaag) {
     p.userData = {
       x: (rnd() - 0.5) * 5.2, z: (rnd() - 0.5) * 3.4, off: i / N, baan: i % 5, sac: sacVan(i),
       z0, z1: 1 - (1 - z0) * 0.4, z2: 1 - (1 - z0) * 0.12, steekproef: i % 9 === 4,
+      cluster: CLUSTER.some((c) => c.i === i),
     };
     scene.add(p);
     return p;
@@ -274,7 +306,15 @@ function maakStapel(doek, labelLaag) {
       // licht bolletje = de AI twijfelt (hoogste kans onder de drempel)
       const twijfelt = fase === "ai" && sc.zekerheid && p.userData[sc.zekerheid] < DREMPEL;
       p.material.opacity = twijfelt ? 0.35 : 1;
+      p.scale.setScalar(sc.patroon && p.userData.cluster ? 1.8 : 1);
     });
+
+    const patroon = Boolean(sc.patroon);
+    const patroonDoel = patroon ? 1 : 0;
+    clusterBollen.forEach((b) => { b.material.opacity += (patroonDoel - b.material.opacity) * (reduce ? 1 : 0.08); });
+    clusterLijn.material.opacity += (patroonDoel - clusterLijn.material.opacity) * (reduce ? 1 : 0.08);
+    clusterLabels.forEach((l) => { l.style.opacity = patroonDoel; });
+    patroonLabel.style.opacity = patroonDoel;
 
     platen.forEach((p, i) => {
       const aan = i === sc.actief;
@@ -326,6 +366,8 @@ function maakStapel(doek, labelLaag) {
     zet(padLabel, PAD.x, PAD.y - 0.1, PAD.z, w, h);
     const midden = terug[1].curve.getPoint(0.45);
     zet(fbLabel, midden.x + 0.5, midden.y, midden.z, w, h);
+    clusterLabels.forEach((l, i) => zet(l, clusterPunten[i].x, clusterPunten[i].y - 0.55, clusterPunten[i].z + 0.3, w, h));
+    zet(patroonLabel, clusterMidden.x + 1.1, clusterMidden.y - 0.75, clusterMidden.z + 2.2, w, h);
 
     renderer.render(scene, camera);
     requestAnimationFrame(teken);
@@ -490,13 +532,54 @@ let zekerTimer = null;
 function uitlegTekenen(s) {
   const el = $("uitleg");
   clearTimeout(zekerTimer);
-  el.classList.toggle("met-grafiek", Boolean(s.zeker));
+  el.classList.toggle("met-grafiek", Boolean(s.zeker || s.normaal));
   el.innerHTML = `<div class="laag">${s.laag}</div>
     <h2>${s.titel}${s.ai ? ` <span class="ai-tag">${BOT} AI</span>` : ""}</h2>
     ${s.tekst.map((t) => `<p>${t}</p>`).join("")}
     ${s.legenda ? '<p class="legenda"><span><span class="bol"></span>de AI is zeker</span><span><span class="bol licht"></span>de AI twijfelt</span></p>' : ""}`;
   if (s.zeker) zekerheidTekenen(el, s.zeker);
+  if (s.normaal) normaalTekenen(el, s.normaal);
   animate([...el.children], { opacity: [0, 1], y: [10, 0] }, { duration: T(0.4), delay: stagger(T(0.08)) });
+}
+
+// "Hoe vaak is normaal?" — geheugen van bewijs (#10). Bij een normale frequentie van λ per twee weken
+// geeft de Poisson-verdeling de kans op 0, 1, 2 en 3+ meldingen. De staaf van wat het systeem nu
+// zag licht op. Dit is een berekening van het systeem: AI-markering (zwart vlak, geel, Bot-icoon).
+function normaalTekenen(el, n) {
+  const fac = (k) => (k <= 1 ? 1 : k * fac(k - 1));
+  const p = (k) => (Math.exp(-n.perTweeWeken) * n.perTweeWeken ** k) / fac(k);
+  const data = [0, 1, 2].map((k) => ({ label: `${k}×`, kans: p(k) * 100 }));
+  data.push({ label: `${n.gezien}× of meer`, kans: (1 - p(0) - p(1) - p(2)) * 100, gezien: true });
+  const pct = (v) => (v < 10 ? v.toFixed(1).replace(".", ",") : Math.round(v)) + "%";
+
+  const box = document.createElement("div");
+  box.className = "zeker";
+  box.innerHTML = `<div class="zeker-kop">${BOT} ${n.titel}</div>
+    <svg class="grafiek" viewBox="0 0 400 190" role="img" aria-label="Kans op 0, 1, 2 of 3 en meer meldingen bij een normale frequentie"></svg>
+    <div class="zeker-conclusie" aria-live="polite"></div>`;
+  el.appendChild(box);
+  const svg = d3.select(box).select("svg.grafiek");
+  const x = d3.scaleBand().domain(data.map((d) => d.label)).range([20, 380]).padding(0.3);
+  const y = d3.scaleLinear().domain([0, 70]).range([150, 22]);
+  svg.selectAll("text.as").data(data).join("text").attr("class", "as")
+    .attr("x", (d) => x(d.label) + x.bandwidth() / 2).attr("y", 174).attr("text-anchor", "middle").text((d) => d.label);
+  const staaf = svg.selectAll("rect.balk").data(data).join("rect").attr("class", "balk").attr("rx", 3)
+    .attr("x", (d) => x(d.label)).attr("width", x.bandwidth())
+    .attr("fill", (d) => (d.gezien ? "#d4db3e" : "#6b7280")).attr("y", 150).attr("height", 0);
+  svg.selectAll("text.pct").data(data).join("text").attr("class", "pct").attr("text-anchor", "middle")
+    .attr("x", (d) => x(d.label) + x.bandwidth() / 2).attr("y", (d) => Math.min(y(d.kans), 150) - 6).text((d) => pct(d.kans))
+    .attr("opacity", 0).transition().delay(T(0.9) * 1000).duration(T(0.3) * 1000).attr("opacity", 1);
+  svg.append("text").attr("class", "drempel-tekst").attr("text-anchor", "middle")
+    .attr("x", x(data[3].label) + x.bandwidth() / 2).attr("y", 104).text("nu")
+    .attr("opacity", 0).transition().delay(T(1.3) * 1000).duration(T(0.3) * 1000).attr("opacity", 1);
+  staaf.transition().delay((_, i) => T(0.3 + i * 0.12) * 1000).duration(T(0.6) * 1000).ease(d3.easeCubicOut)
+    .attr("y", (d) => y(d.kans)).attr("height", (d) => 150 - y(d.kans));
+
+  const conclusie = box.querySelector(".zeker-conclusie");
+  zekerTimer = setTimeout(() => {
+    conclusie.textContent = n.conclusie;
+    animate(conclusie, { opacity: [0, 1] }, { duration: T(0.4) });
+  }, T(1.6) * 1000);
 }
 
 // Kans per SAC-niveau voor één voorbeeldmelding. Dit is AI-uitvoer: zwart vlak, geel, Bot-icoon.

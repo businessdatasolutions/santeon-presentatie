@@ -282,20 +282,24 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 **AUTOMATE — "AI handelt zelf af, met een harde grens"**
 
 - **De AI:** bij de duidelijkste gevallen met het laagste risico sluit de AI de cyclus zelf. De AI signaleert, classificeert, archiveert (eindpunt A) en informeert de afdelingen.
-- **De harde grens:** is de score onduidelijk, is het patroon nieuw, of is het een calamiteit (route 4)? Dan gaat de melding altijd naar een mens.
+- **De harde grens, in drie regels:**
+  1. Per melding: een calamiteit (route 4) gaat altijd naar een mens.
+  2. Twijfel komt bij de mens, als het model goed gekalibreerd is. Dat meet je met de feedback: als de AI "90% zeker" zegt, klopt het dan ook in ongeveer 90% van de gevallen? Een goed gekalibreerd model twijfelt ook bij een nieuw patroon. Zo komt dat vanzelf bij de mens.
+  3. Per patroon: de AI schat de kans uit de data, over afdelingen heen. Een stijgend risico gaat als signaal naar een mens.
 - **Leg ook vast wíe een escalatie oppakt.** Voorbeeld: in een experiment werd een bedrijf volledig door AI-agenten geleid. Op dag 19 waarschuwde de AI dat het bedrijf de verkeerde kant op ging. Niemand deed iets met die waarschuwing.
 - **Nieuw — kanttekening bij "de afdelingen informeren".** Onderzoek naar *delegation regret* (spijt over een uitbestede beslissing) laat dit zien. Mensen willen vooral een controle bij handelingen die **onomkeerbaar én zichtbaar voor anderen** zijn. Dat zijn niet altijd de "grote" beslissingen. Een bericht aan afdelingen is zo'n handeling. Laat dat bericht daarom ook op het niveau Automate eerst als voorbeeld langs een mens gaan.
 - **Citaat:** *"Als het afdelingshoofd niet verantwoordelijk gehouden kan worden voor het resultaat, heb je een demo, geen agent"*. Een BCG-onderzoek laat zien waarom dat nodig is. Van 70 bestuurders zegt meer dan de helft: bij een fout krijgt de AI de schuld.
 - **Waarom de grens hard is:** PSEBench toont dat AI-modellen bij twijfelgevallen onbetrouwbaar worden. De modellen zijn dan ook te zeker. Automatiseer daarom alleen de duidelijke gevallen. Automatiseer nooit de grensgevallen.
 
-**Het groeipad in de keten (3 min)**
+**Het groeipad in de keten (4 min)**
 
 - **Starten:** kies op de startpagina "Groeipad in de keten". Dit is dezelfde 3D-stapel als in 3a, nu met een mens erin. Klik verder met de pijltjes of de klikker.
-- **Vier stappen:**
+- **Vijf stappen:**
   1. Niveau Ask: een mens beoordeelt elke melding. De organisatie is nog weinig volwassen in AI. Ze leert zo hoe goed de AI is.
   2. Meekijken bij twijfel: de AI geeft per SAC-niveau een kans, bijvoorbeeld SAC 1 tot en met 4 = 5, 10, 15 en 70%. Het meest waarschijnlijke niveau is dan SAC 4. Is de hoogste kans lager dan 90%? Dan kijkt een mens mee. Een steekproef van de zekere gevallen ziet de mens ook (zie de valkuil "afstempelen"). In de stapel is een licht bolletje een melding waarover de AI twijfelt.
   3. Het model leert: de correcties worden data. Welke voorstellen waren fout-positief of fout-negatief? Het model leert daarvan en onderscheidt scherper. In het voorbeeld gaat de kans op SAC 4 van 70 naar 93%. Er zijn minder lichte bolletjes, dus minder meldingen langs de mens.
   4. Niveau Automate: alleen calamiteiten gaan naar een mens, hoe zeker de AI ook is. Alle andere meldingen gaan direct naar het overzicht.
+  5. Het systeem onthoudt: drie keer een val door bedhoogte, op drie afdelingen, in twee weken. Normaal is één per maand. Stel de vraag: "Past dit nog bij normaal?" Bij normaal is de kans op drie of meer 1,4%. Dus de kans stijgt, en het risico ook (risico = kans × impact). Het patroon gaat als signaal naar een mens, met minimaal SAC 2. Elke melding houdt zelf SAC 4. Laat geen formules zien.
 - **De feedbackstroom:** wijs bij stap 1 op de lijnen van de mens terug naar beneden. Elke correctie verbetert de instructies van de agent, de OKF-kennis en de ontologie. Soms gaat een correctie naar de melder: wat ontbrak er in de melding? In het begin is die stroom groot. Bij elke stap wordt hij kleiner.
 - **Zeg:** "Het systeem leert van jouw oordeel. Daarom begin je met alles zelf beoordelen."
 - **Let op:** de kansen zijn een voorbeeld. De live demo geeft geen kansen per SAC-niveau. Die werkt met grensvoorwaarden en een citaat als bewijs.
