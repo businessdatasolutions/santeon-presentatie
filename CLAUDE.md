@@ -20,7 +20,7 @@ npm start      # Vite on http://localhost:5173, opens the start page
 npx esbuild src/main.jsx --bundle --outfile=/dev/null --log-level=warning   # syntax + import check of the demo
 ```
 
-- `index.html` is the start page. It links every part in session order and shows an AI-connection check. The check calls `/api/status`, which fetches the model through `/v1/models`, so it costs no tokens.
+- `index.html` is the start page. It links every part in session order and shows an AI-connection check. The check calls `/api/status`, which fetches `/v1/models/{DEMO_MODEL}`, so it costs no tokens.
 - `demo.html` and `src/main.jsx` mount the demo. `main.jsx` rewrites `fetch` calls to `https://api.anthropic.com/` into `/api/anthropic/`. `vite.config.js` proxies those calls and adds `x-api-key` (from `.env`, as `ANTHROPIC-API-KEY` or `ANTHROPIC_API_KEY`) and `anthropic-version` on the server side.
 - Keep local-only code out of `vim-okf-simulatie.jsx`, so it still runs unchanged as a claude.ai artifact. `DEMO_MODEL` in `vite.config.js` must match the model in the JSX.
 - Never put the key in a `VITE_`-prefixed variable or the browser. Never start the server with `--host`: that would open the proxy, and thus the key, to everyone on the venue network.
@@ -29,14 +29,14 @@ npx esbuild src/main.jsx --bundle --outfile=/dev/null --log-level=warning   # sy
 
 ## Source of truth
 
-`2026-07-04-sessie-outline.md` is the authoritative session plan: timed blocks with speaker notes. Scope decisions recorded there that other work must respect:
-- Structure: Opening → Deel 1 (AI-kansen) → Brug (Ask → Assist → Automate, applied to the VIM workflow, Route 3 cross-unit trend analysis) → Deel 2 (live demo + interactive segment) → Afsluiting.
+`2026-07-04-sessie-outline.md` is the authoritative session plan: timed blocks with speaker notes. An identical copy is in `background-material/`. Commits change both copies together, so edit both and keep them byte-identical. The outline is written in STE100-style Dutch (short sentences, one instruction per sentence). Keep that style when you edit it. Scope decisions recorded there that other work must respect:
+- Structure (Golden Circle): Opening (5) → **Waarom** (10) → **Hoe** (30: expliciete regels, drie veiligheidsvragen, Ask → Assist → Automate) → **Wat** (35: live demo + interactive segment) → Afsluiting (10). This maps onto the project's fixed structure as follows: Waarom + Hoe 2a–2b = Deel 1, Hoe 2c = Brug (Ask → Assist → Automate applied to the VIM workflow, Route 3 cross-unit trend analysis), Wat = Deel 2.
 - Use only the "kernspine" frameworks (maturity reality check from section 0 of the atlas, Ask→Assist→Automate from section 9). The other atlas frameworks are deliberately excluded.
 - The live demo must stay at the **Ask** tier: the AI signals, and a human decides. Calamities and borderline cases always go to a human.
 - The network's question "is AI veilig — ja of nee?" is answered as three questions (veilig voor de gegevens / de patiënt / de melder), each tied to the audience's own rules: Wkkgz art. 9 and 11 and KNMG "veilig melden". Participants never enter real incident reports into the demo.
 - The deliverable is a session flow with speaker notes, not a slide list. The fee proposal is out of scope.
 
-`2026-07-01-hospital-quality-ai-presentation-query-trace.md` records where the cited sources come from. They were retrieved from an external wiki whose tooling (`scripts/wiki-retrieve.mjs`) is not in this repo.
+`background-material/2026-07-01-hospital-quality-ai-presentation-query-trace.md` records where the cited sources come from (the outline's "Bronnen" table cites this file). The copy with the same name in the repo root is a stale snapshot from the first commit. Don't update or cite it. `background-material/2026-11-06-kritiek-op-ai-inzet-query-trace.md` is a separate trace of the common criticisms of AI (input / gebruik / output / tertiaire effecten), with evidence for and against. Use it when preparing answers to sceptical questions. Both were retrieved from an external wiki whose tooling (`scripts/wiki-retrieve.mjs`) is not in this repo.
 
 `background-material/` holds the sources: VIM guides (NVZ, NIVEL, VMS), KNMG "veilig melden", the Wkkgz, NEN 8009 notes, PSEBench, the VIM workflow diagram (`vim-workflow.excalidraw` / `.svg`, which defines the Routes and Eindpunten the outline refers to), and `2026-07-01-ai-maturity-frameworks-visuals.html` (the "atlas"). `psebench-features.md` holds the design notes behind the demo agent's ASK loop, verification and escalation features.
 
