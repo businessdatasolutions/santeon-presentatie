@@ -251,7 +251,7 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 
 Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga daarna de diepte in.
 
-1. Toon het VIM-diagram.
+1. Toon het VIM-diagram als swimlane (`vim-swimlane.html`). Het diagram toont wie wat doet, route voor route.
 2. Wijs vijf punten aan waar AI kan helpen:
    1. **Melden:** de AI vraagt door bij een onvolledige melding (demo: VIM-2026-0501).
    2. **Triage:** de AI stelt een categorie en een SAC-score voor, met een citaat uit de melding (demo).

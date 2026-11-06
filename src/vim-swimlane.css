@@ -1,0 +1,94 @@
+/* vim-swimlane.html — bouwt voort op architectuur.css (kop, voortgang, bediening, tokens).
+   Het proces van vandaag, door mensen: geen AI-markering. Geel = beslispunt en markering. */
+
+/* Compacte kop: het bijschrift draagt de titel van elke stap. Zo krijgt het bord de ruimte. */
+body.compact header.top{padding:.7rem 2.2rem .5rem}
+body.compact h1{font-size:1.3rem;margin-top:.1rem}
+
+main.swimlane{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:.5rem;padding:.5rem 2.2rem .8rem}
+
+/* Het bord houdt de verhouding van de viewBox (1900 × 800) en past altijd in het podium. */
+.podium{container-type:size;min-height:0;display:grid;place-items:center}
+.bord{position:relative;aspect-ratio:1900/800;width:min(100cqw,calc(100cqh * 1900 / 800))}
+.bord svg{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible}
+
+/* ---------- Schema (SVG, getekend met d3) ---------- */
+#schema{font-family:var(--sans)}
+.fase{font-size:17px;font-weight:600;letter-spacing:.12em;fill:var(--mutedSoft)}
+.fase-lijn{stroke:var(--line);stroke-width:1}
+
+.baan-vlak{fill:var(--cream2);transition:fill .5s}
+.baan:nth-child(even) .baan-vlak{fill:#f4f1e9}
+.baan.focus .baan-vlak{fill:var(--cream)}
+.baan-kop{fill:var(--ink)}
+.baan-naam{fill:var(--cream);font-weight:700}
+.baan-route{fill:#c9c3b6;font-size:16px}
+
+.vak-rand{fill:#fff;stroke:var(--ink);stroke-width:1.4;transition:fill .5s,stroke .5s,stroke-width .5s}
+.vak.beslis .vak-rand{fill:var(--accent);stroke-width:1.6}
+.vak.eind .vak-rand{fill:var(--cream)}
+.vak.mini .vak-rand{fill:#fff;stroke:#a8a29a;stroke-width:1}
+.vak.mini.beslis .vak-rand{fill:var(--accent);stroke:#a8a29a}
+.vak-halo{fill:none;stroke:var(--accent);stroke-width:9;opacity:0;transition:opacity .35s}
+.vak.aan .vak-halo{opacity:1}
+.vak-binnen{transition:opacity .5s}
+.vak-binnen.stil{opacity:.28}
+.vak text{fill:var(--ink)}
+.vak .kort{text-anchor:middle;dominant-baseline:central}
+.vak.beslis .kort,.vak .titel{font-weight:700}
+.vak .titel{font-size:21px}
+.vak .lang{font-size:19px;fill:var(--muted)}
+.vak.beslis .lang{fill:var(--ink)}
+
+.pijl{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.pijl.grijs{stroke:var(--mutedSoft);stroke-width:1.4;stroke-dasharray:5 6}
+.pijl-g path{transition:opacity .5s}
+.pijl-g.stil path{opacity:.2}
+.verbinder{stroke:var(--ink);stroke-width:1.3;transition:stroke-opacity .5s}
+.verbinder.stil{stroke-opacity:.2}
+#punt path{fill:var(--ink)}
+#punt-grijs path{fill:var(--mutedSoft)}
+.pijl-label{font-size:16px;font-weight:600;fill:var(--muted);paint-order:stroke;stroke:var(--paper);stroke-width:5px;stroke-linejoin:round}
+.pijl-label.grijs{fill:var(--mutedSoft);font-weight:500}
+
+.melding{fill:var(--ink);stroke:#fff;stroke-width:3}
+
+/* ---------- Bronnen: grote kaarten over het gedimde bord ---------- */
+#schema{transition:opacity .5s}
+#schema.achter{opacity:.04}
+.bronnen{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:1rem;padding:0 1rem;
+  pointer-events:none;opacity:0;transition:opacity .4s}
+.bronnen.aan{opacity:1}
+.bronnen .kop{font-size:.9rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mutedSoft);font-weight:600}
+.bronnen .rij{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1rem}
+.bron{background:#fff;border:1.5px solid var(--ink);border-radius:.9rem;padding:1rem 1.1rem}
+.bron b{display:block;font-size:1.35rem;line-height:1.2}
+.bron .meta{display:block;color:var(--mutedSoft);font-size:.95rem;margin:.3rem 0 .6rem}
+.bron p{margin:0;font-size:1.15rem;line-height:1.4;color:var(--muted)}
+
+/* ---------- Bijschrift ---------- */
+.bijschrift{height:7.2rem;display:grid;grid-template-columns:minmax(0,1fr);gap:1.6rem;align-items:start;overflow:hidden}
+.bijschrift.eind{display:flex;flex-direction:column;gap:.4rem}
+.station .wat{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mutedSoft);font-weight:600}
+.station h2{font-size:1.6rem;margin:.15rem 0 .35rem;line-height:1.15;letter-spacing:-.02em}
+.station p{font-size:1.15rem;line-height:1.45;color:var(--muted);margin:0 0 .2rem;max-width:70rem}
+.station p.klein{font-size:1rem;color:var(--mutedSoft)}
+
+.kaarten{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.7rem}
+.kaartje{background:#fff;border:1px solid var(--line);border-radius:.7rem;padding:.45rem .8rem;font-size:1rem;line-height:1.35;color:var(--muted)}
+.kaartje b{display:block;color:var(--ink);font-size:1.1rem;margin-bottom:.15rem}
+.kaartje .meta{display:block;color:var(--mutedSoft);font-size:.78rem;margin-bottom:.3rem}
+.kaartje .letter{display:inline-block;font-weight:700;background:var(--cream);border:1px solid var(--ink);border-radius:.3rem;
+  padding:0 .4rem;margin-right:.35rem;color:var(--ink)}
+
+@media (max-width:760px){
+  /* Compacte kop: het bijschrift draagt de titel van elke stap. Zo krijgt het bord de ruimte. */
+body.compact header.top{padding:.7rem 2.2rem .5rem}
+body.compact h1{font-size:1.3rem;margin-top:.1rem}
+
+main.swimlane{padding:.4rem 1rem .8rem}
+  .bijschrift,.bijschrift.eind{grid-template-columns:1fr;height:auto;max-height:45vh;overflow:auto}
+  .kaarten{grid-template-columns:1fr 1fr}
+  .station h2{font-size:1.5rem}
+  .station p{font-size:1.05rem}
+}
