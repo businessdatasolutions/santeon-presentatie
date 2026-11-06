@@ -1,0 +1,88 @@
+/* Groeimodel Ask → Assist → Automate (2c). Bovenop architectuur.css.
+   AI = warm zwart met geel licht plus het Bot-icoon. Geel alleen als merkaccent, nooit als tekst op licht.
+   De werkverdelingsbalk is een beeld van wie het werk doet, geen meting. */
+
+/* Iconen als masker: kleur volgt currentColor. lucide "bot" en "user-round". */
+.bot-i,.mens-i{display:inline-block;width:1em;height:1em;flex-shrink:0;background:currentColor;vertical-align:-.12em;
+  -webkit-mask:var(--icoon) center/contain no-repeat;mask:var(--icoon) center/contain no-repeat}
+.bot-i{--icoon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 8V4H8'/%3E%3Crect width='16' height='12' x='4' y='8' rx='2'/%3E%3Cpath d='M2 14h2'/%3E%3Cpath d='M20 14h2'/%3E%3Cpath d='M15 13v2'/%3E%3Cpath d='M9 13v2'/%3E%3C/svg%3E")}
+.mens-i{--icoon:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='5'/%3E%3Cpath d='M20 21a8 8 0 0 0-16 0'/%3E%3C/svg%3E")}
+
+.trap{position:absolute;inset:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;
+  padding:.6rem 2.2rem 1rem;gap:.6rem}
+.vraag{margin:0;font-size:1.5rem;font-weight:600;color:var(--muted);transition:opacity .5s}
+body[data-stap="0"] .vraag{color:var(--ink)}
+
+/* ---------- De trap ---------- */
+.treden{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem;min-height:0}
+.trede{display:flex;flex-direction:column;justify-content:flex-end;min-height:0;transition:opacity .5s ease}
+.blok{flex:0 0 var(--hoog);background:var(--cream2);border-top:4px solid var(--ink);border-radius:.2rem .2rem 0 0;
+  transition:border-color .4s,background .4s;display:flex;align-items:flex-start;padding:.5rem .9rem}
+.trede.actief .blok{border-top-color:var(--accent);background:var(--cream)}
+
+.kaart{background:var(--card);border:1.5px solid var(--line);border-radius:.9rem;padding:.9rem 1.2rem 1rem;
+  margin-bottom:.9rem;transition:border-color .4s,box-shadow .4s,transform .5s ease}
+.trede.actief .kaart{border-color:var(--ink);box-shadow:0 .6rem 1.6rem rgba(26,26,26,.08);transform:translateY(-.3rem)}
+.trede.dim{opacity:.32}
+
+.naam{display:flex;align-items:center;gap:.6rem;font-size:2.3rem;font-weight:700;letter-spacing:-.02em;line-height:1.1;flex-wrap:wrap}
+.nr{font-family:var(--mono);font-size:.9rem;font-weight:600;color:var(--mutedSoft);border:1.5px solid var(--line);
+  border-radius:99px;width:1.8rem;height:1.8rem;display:inline-grid;place-items:center;letter-spacing:0}
+.trede.actief .nr{background:var(--accent);border-color:var(--accent);color:var(--ink)}
+.vandaag{font-size:.8rem;font-weight:700;letter-spacing:0;background:var(--accent);color:var(--ink);
+  border-radius:99px;padding:.15rem .7rem;opacity:0;transform:translateY(.3rem);transition:opacity .4s,transform .4s}
+.kort{margin:.35rem 0 0;font-size:1.1rem;color:var(--muted);line-height:1.35}
+
+/* Openklappen zonder hoogte te meten: rij van 0fr naar 1fr */
+.open{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .55s ease,opacity .45s ease}
+.open>div{overflow:hidden;min-height:0}
+.trede.vol .samen-deel,.trede.samen .samen-deel,.trede.vol .vol-deel{grid-template-rows:1fr;opacity:1}
+
+.motto{margin:.6rem 0 .5rem;font-size:1.45rem;font-weight:700;line-height:1.2}
+
+/* Werkverdeling: wie doet het werk? AI-deel groeit, mensdeel blijft altijd bestaan. */
+.verdeling{display:flex;height:2.1rem;border-radius:.45rem;overflow:hidden;border:1.5px solid var(--ink);font-size:.9rem;font-weight:700}
+.verdeling i{font-style:normal;display:flex;align-items:center;gap:.35rem;padding:0 .6rem;white-space:nowrap;overflow:hidden}
+.ai-deel{background:var(--ink);color:var(--accent);flex:0 0 0%;transition:flex-basis .9s cubic-bezier(.2,.7,.2,1) .15s}
+.mens-deel{background:var(--cream);color:var(--ink);flex:1 1 auto;justify-content:flex-end}
+.trede.vol .ai-deel,.trede.samen .ai-deel{flex-basis:var(--ai)}
+
+.rol{display:grid;grid-template-columns:4.8rem 1fr;gap:.6rem;align-items:baseline;margin:.6rem 0 0;font-size:1.05rem;line-height:1.35}
+.wie{display:inline-flex;align-items:center;gap:.35rem;justify-self:start;font-size:.85rem;font-weight:700;
+  border:1.5px solid var(--ink);border-radius:99px;padding:.05rem .6rem}
+.wie.ai{background:var(--ink);color:var(--accent)}
+.voorbeeld{margin-top:.7rem;background:var(--ink);color:#fff;border-radius:.7rem;padding:.7rem .9rem;font-size:1.05rem;line-height:1.4}
+.voorbeeld .label{display:flex;align-items:center;gap:.4rem;color:var(--accent);font-weight:700;font-size:.8rem;
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:.25rem}
+.grenzen{display:flex;flex-wrap:wrap;gap:.45rem;margin:.45rem 0 0 5.4rem}
+.grens-chip{border:1.5px solid var(--ink);border-radius:.45rem;padding:.15rem .65rem;font-size:1rem;font-weight:600;background:#fff}
+.grens-chip.calamiteit{border-color:var(--sac1);background:var(--sac1);color:#fff}
+
+/* Markering "vandaag" op Ask */
+body[data-stap="1"] .trede[data-niveau="ask"] .vandaag,
+body[data-stap="4"] .trede[data-niveau="ask"] .vandaag{opacity:1;transform:none}
+
+/* ---------- As en onderkant ---------- */
+.as{display:flex;align-items:center;gap:.8rem;color:var(--mutedSoft);font-size:.85rem;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase}
+.as i{flex:1;height:2px;background:var(--mutedSoft);position:relative}
+.as i::after{content:"";position:absolute;right:-2px;top:50%;width:.6rem;height:.6rem;border-top:2px solid var(--mutedSoft);
+  border-right:2px solid var(--mutedSoft);transform:translateY(-50%) rotate(45deg)}
+.onder{display:flex;align-items:center;gap:1.4rem;min-height:2.6rem}
+.grens{margin:0;display:flex;align-items:center;gap:.6rem;font-size:1.15rem;font-weight:700;border-left:5px solid var(--sac1);
+  background:#fff;padding:.45rem 1rem;border-radius:0 .5rem .5rem 0;opacity:0;transform:translateY(.4rem);transition:opacity .5s,transform .5s}
+body[data-stap="4"] .grens{opacity:1;transform:none}
+.bron{margin:0 0 0 auto;font-size:.8rem;color:var(--mutedSoft);text-align:right;white-space:nowrap}
+
+@media (prefers-reduced-motion: reduce){
+  .trap *{transition:none !important}
+}
+@media (max-width:760px){
+  body{overflow:auto;height:auto;min-height:100vh}
+  .trap{position:static;padding:.6rem 1rem 1rem}
+  .treden{grid-template-columns:1fr}
+  .blok{display:none}
+  .trede.dim{opacity:.5}
+  .onder{flex-direction:column;align-items:flex-start}
+  .bron{margin:0;text-align:left}
+}

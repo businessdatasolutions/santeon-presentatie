@@ -258,7 +258,8 @@ function ruleBasedTriage(inc) {
   if (/verkeerde patiënt|id-mismatch|sticker|label|verwissel/.test(t)) categorie = "IdentificatieVerwisseling";
   if (/overdracht|allergie niet meegenomen|mondeling|rapportage.*noteert|tegenstrijdig/.test(t)) categorie = "OverdrachtCommunicatie";
   if (/infectie|wondinfectie|kweek/.test(t)) categorie = "Infectie";
-  if (/röntgen|contrast|onderzoek|zijde/.test(t)) categorie = "Diagnostiek";
+  // Een val blijft een val, ook als de melding een röntgenfoto noemt (0418: "röntgen bevestigt heupfractuur").
+  if (/röntgen|contrast|onderzoek|zijde/.test(t) && categorie !== "Val") categorie = "Diagnostiek";
   if (/niet geregistreerd|epd|dossier/.test(t) && categorie === "Overig") categorie = "Documentatie";
 
   const overleden = /overleden/.test(t);
@@ -730,6 +731,7 @@ function OntoPanel() {
             ["Incident", "heeftCategorie", "Categorie"],
             ["Incident", "heeftErnst", "Ernstniveau (SAC)"],
             ["Incident", "vondPlaatsOp", "Afdeling"],
+            ["Incident", "heeftUitkomst", "Uitkomst"],
             ["Incident", "heeftBasisoorzaak", "Basisoorzaak"],
             ["Incident", "vereistVervolgactie", "Vervolgactie"],
           ].map(([a, r, b], i) => (

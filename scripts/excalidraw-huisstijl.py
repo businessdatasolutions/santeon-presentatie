@@ -13,6 +13,7 @@ Gebruik:
 De .excalidraw blijft de bron. Bewerk die en draai het script opnieuw.
 """
 import json
+import math
 import sys
 from html import escape
 
@@ -37,6 +38,7 @@ DECISION_FILLS = {"#ffd43b", "#ffec99", "#fab005"}
 ACCENT_TEXT = {"#1971c2", "#2f9e44", "#e8590c", "#c92a2a", "#868e96", "#55565f"}
 
 PAD = 40                 # marge rond het schema
+ALPHA = 0.5              # Catmull-Rom: 0 uniform, 0,5 centripetaal
 FOOTER_H = 56
 
 
@@ -47,17 +49,77 @@ def inside(a, b):
             and a["y"] + a["height"] <= b["y"] + b["height"] + 1)
 
 
-def curve_path(pts, curved):
-    """Pad door alle punten. Gebogen pijlen krijgen een Catmull-Rom-curve."""
+def _dist(a, b):
+    return math.hypot(b[0] - a[0], b[1] - a[1])
+
+
+def _unit(a, b):
+    """Eenheidsvector van a naar b."""
+    l = _dist(a, b) or 1
+    return ((b[0] - a[0]) / l, (b[1] - a[1]) / l)
+
+
+def edge_dir(shape, p, inward):
+    """Richting loodrecht op de rand van een vorm, bij punt p.
+    inward=True: de vorm in (eind van een pijl); anders eruit (begin)."""
+    x, y, w, h = shape["x"], shape["y"], shape["width"], shape["height"]
+    dx, dy = p[0] - (x + w / 2), p[1] - (y + h / 2)
+    if shape["type"] == "ellipse":
+        n = (dx / (w / 2) ** 2, dy / (h / 2) ** 2)
+    elif shape["type"] == "diamond":
+        ux, uy = abs(dx) / (w / 2), abs(dy) / (h / 2)
+        if ux > 0.8:                         # bij de linker- of rechterpunt
+            n = (dx, 0)
+        elif uy > 0.8:                       # bij de boven- of onderpunt
+            n = (0, dy)
+        else:                                # op een schuine zijde
+            n = (math.copysign(1 / w, dx), math.copysign(1 / h, dy))
+    else:                                    # rechthoek: dichtstbijzijnde zijde
+        gaps = {(-1, 0): abs(p[0] - x), (1, 0): abs(p[0] - x - w),
+                (0, -1): abs(p[1] - y), (0, 1): abs(p[1] - y - h)}
+        n = min(gaps, key=gaps.get)
+    s = -1 if inward else 1
+    l = math.hypot(*n) or 1
+    return (s * n[0] / l, s * n[1] / l)
+
+
+def curve_path(pts, curved, start_dir=None, end_dir=None):
+    """Pad door alle punten. Gebogen pijlen krijgen een centripetale
+    Catmull-Rom-curve (alfa 0,5). Die schiet niet door en maakt geen
+    lusjes, ook niet als de stukken heel verschillend lang zijn.
+    start_dir en end_dir zijn de looprichting aan begin en eind. Zo
+    vertrekt en landt een pijl loodrecht op de rand van zijn vorm."""
     d = f"M{pts[0][0]:.1f},{pts[0][1]:.1f}"
     if not curved or len(pts) < 3:
         return d + "".join(f" L{x:.1f},{y:.1f}" for x, y in pts[1:])
-    for i in range(len(pts) - 1):
-        p0 = pts[i - 1] if i > 0 else pts[i]
+
+    def handle(p_from, p_to, p_next):
+        """Bézierhandvat bij p_to op het stuk p_from → p_to, met p_next
+        als buurpunt (Yuksel, Schaefer & Keyser 2011)."""
+        a = ALPHA
+        d1, d2 = _dist(p_next, p_to) ** a, _dist(p_from, p_to) ** a
+        if d1 == 0 or d2 == 0:
+            u, l = _unit(p_to, p_from), _dist(p_from, p_to) / 3
+            return (p_to[0] + u[0] * l, p_to[1] + u[1] * l)
+        k = 2 * d1 * d1 + 3 * d1 * d2 + d2 * d2
+        den = 3 * d1 * (d1 + d2)
+        return tuple((d1 * d1 * p_from[j] - d2 * d2 * p_next[j]
+                      + k * p_to[j]) / den for j in (0, 1))
+
+    last = len(pts) - 2
+    for i in range(last + 1):
         p1, p2 = pts[i], pts[i + 1]
-        p3 = pts[i + 2] if i + 2 < len(pts) else p2
-        c1 = (p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6)
-        c2 = (p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6)
+        third = _dist(p1, p2) / 3
+        if i == 0:
+            u = start_dir or _unit(p1, p2)
+            c1 = (p1[0] + u[0] * third, p1[1] + u[1] * third)
+        else:
+            c1 = handle(p2, p1, pts[i - 1])
+        if i == last:
+            u = end_dir or _unit(p1, p2)
+            c2 = (p2[0] - u[0] * third, p2[1] - u[1] * third)
+        else:
+            c2 = handle(p1, p2, pts[i + 2])
         d += (f" C{c1[0]:.1f},{c1[1]:.1f} {c2[0]:.1f},{c2[1]:.1f} "
               f"{p2[0]:.1f},{p2[1]:.1f}")
     return d
@@ -236,8 +298,16 @@ def convert(src, dst):
                              else (INK, "pijl", 1.75))
         m_end = f' marker-end="url(#{marker})"' if e.get("endArrowhead") else ""
         m_start = f' marker-start="url(#{marker})"' if e.get("startArrowhead") else ""
+        def bound_dir(key, p, inward):
+            target = by_id.get((e.get(key) or {}).get("elementId") or "")
+            if target and target["type"] in ("rectangle", "ellipse", "diamond"):
+                return edge_dir(target, p, inward)
+            return None
+
         d = (elbow_path(pts) if is_elbow(pts)
-             else curve_path(pts, bool(e.get("roundness"))))
+             else curve_path(pts, bool(e.get("roundness")),
+                             bound_dir("startBinding", pts[0], False),
+                             bound_dir("endBinding", pts[-1], True)))
         out.append(f'<path d="{d}" '
                    f'fill="none" stroke="{color}" stroke-width="{sw}" '
                    f'stroke-linecap="round"{m_start}{m_end}/>')

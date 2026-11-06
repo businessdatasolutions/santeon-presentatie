@@ -1,0 +1,82 @@
+/* Ontologie uitgelegd (2a). Bovenop architectuur.css en groeimodel.css (iconen, .voorbeeld, .rol, .wie).
+   De ontologie zelf is mensenwerk: geen AI-markering. De ingevulde waarden en het signaal maakt in de demo
+   de agent: die krijgen de AI-markering (zwart, geel licht, Bot-icoon). Geel alleen als merkaccent. */
+
+.onto{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:1.1rem;padding:.8rem 2.2rem 1rem}
+
+/* ---------- De twee meldingen ---------- */
+.meldingen{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem}
+.mld{background:var(--card);border:1px solid var(--line);border-radius:.9rem;padding:1rem 1.4rem 1.1rem}
+.mld-kop{display:flex;gap:.8rem;align-items:baseline;margin-bottom:.5rem}
+.mld-kop .id{font-family:var(--mono);font-weight:700;background:var(--ink);color:#fff;border-radius:.35rem;padding:.1rem .55rem;font-size:1rem}
+.mld-kop .meta{color:var(--mutedSoft);font-size:1rem}
+.tekst{margin:0;font-size:1.45rem;line-height:1.6}
+
+/* Fragmenten: geel markeren (tekst blijft zwart). Het label erachter zegt wat het fragment is. */
+mark.frag{position:relative;color:var(--ink)}
+mark.frag:not(.aan){padding:0}
+mark.frag:not(.aan)::after{display:none}
+mark.frag::after{content:attr(data-soort);display:inline-block;margin-left:.3rem;font-size:.7rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;vertical-align:.25em;line-height:1.5;padding:0 .4rem;border-radius:99px;
+  border:1.5px solid var(--ink);background:#fff;color:var(--ink);animation:in .4s ease both}
+/* Vanaf stap 4: het fragment krijgt de waarde uit de ontologie, als AI-voorstel */
+body.met-waarden mark.frag[data-waarde].aan::after{content:attr(data-waarde);text-transform:none;letter-spacing:0;font-size:.8rem;
+  background:var(--ink);color:var(--accent);border-color:var(--ink)}
+
+/* ---------- Het wisselpaneel ---------- */
+.paneel{display:flex;gap:1.4rem;min-height:0;align-items:flex-start}
+.vak{flex:1 1 0;min-width:0;animation:in .5s ease both}
+@keyframes in{from{opacity:0;transform:translateY(.6rem)}}
+.zij{font-size:1.3rem;line-height:1.45;color:var(--muted);margin:.9rem 0 0;max-width:46rem}
+
+.zoek{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);
+  border-radius:.9rem;padding:.9rem 1.2rem}
+.zoek-label{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mutedSoft);font-weight:600}
+.zoek-veld{font-family:var(--mono);font-size:1.25rem;border:1.5px solid var(--ink);border-radius:.45rem;padding:.2rem .8rem;background:#fff}
+.zoek-uit{font-weight:700;font-size:1.25rem;border-left:5px solid var(--sac4);padding-left:.7rem}
+.zoek-uit.nul{border-left-color:var(--sac1)}
+
+.ontologie{background:var(--cream);border-radius:.9rem;padding:.9rem 1.2rem}
+.onto-kop{display:flex;gap:.5rem;align-items:center;font-weight:700;font-size:1rem;margin-bottom:.6rem}
+.relaties{display:flex;flex-direction:column;gap:.45rem}
+.rel{display:grid;grid-template-columns:auto auto auto 1fr;gap:.6rem;align-items:baseline;font-size:1.05rem;transition:opacity .4s}
+.ding,.begrip{font-weight:700;border:1.5px solid var(--ink);border-radius:.4rem;padding:.05rem .55rem;background:#fff}
+.pijl{font-family:var(--mono);font-size:.95rem;font-weight:600}
+.waarden{color:var(--muted);font-size:.95rem}
+.waarden b{color:var(--ink);background:var(--accent);border-radius:.2rem;padding:0 .25rem}
+.rel.later{opacity:.4}
+body.met-waarden .rel[data-rel="uit"]{opacity:.55}
+
+.regels{background:var(--ink);color:#fff;border-radius:.9rem;padding:.9rem 1.2rem}
+.regels-kop{display:flex;gap:.6rem;align-items:center;font-weight:700;margin-bottom:.6rem;flex-wrap:wrap}
+.regels-kop .ai-tag{border:1.5px solid var(--accent)}
+.regels table{width:100%;border-collapse:collapse;font-size:1.05rem}
+.regels th{text-align:left;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:#bfc3c9;font-weight:600;padding:.2rem .5rem .4rem 0}
+.regels td{padding:.45rem .5rem .45rem 0;border-top:1px solid #3a3a3a;vertical-align:top}
+.regels .mono{font-family:var(--mono);font-weight:700}
+.regels .w{color:var(--accent);font-weight:700;margin-right:.5rem}
+.regels q{color:#d1d5db;font-size:.9rem}
+.regels .anders q{color:#fff}
+
+.patroon{display:flex;flex-direction:column;gap:.8rem}
+.signaal .voorbeeld{font-size:1.25rem}
+.signaal .rol{font-size:1.15rem}
+
+.oplost{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem}
+.tegel{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:.6rem;padding:.9rem 1.1rem;
+  display:flex;flex-direction:column;gap:.35rem}
+.tegel b{font-size:1.35rem}
+.tegel span{color:var(--muted);font-size:1.15rem;line-height:1.4}
+
+@media (prefers-reduced-motion: reduce){
+  .onto *, .onto *::after{transition:none !important;animation:none !important}
+}
+@media (max-width:760px){
+  body{overflow:auto;height:auto;min-height:100vh}
+  .onto{padding:.6rem 1rem 1rem}
+  .meldingen,.oplost{grid-template-columns:1fr}
+  .paneel{flex-direction:column}
+  .tekst{font-size:1.15rem}
+  .rel{grid-template-columns:auto auto auto;}
+  .rel .waarden{grid-column:1/-1}
+}

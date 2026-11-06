@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wie doet wat in VIM</title>
+<link rel="stylesheet" href="/src/architectuur.css">
+<link rel="stylesheet" href="/src/vim-swimlane.css">
+</head>
+<body class="compact">
+<header class="top">
+  <div>
+    <div class="eyebrow">2c · Het VIM-proces</div>
+    <h1>Wie doet wat, van melding tot verbetering</h1>
+  </div>
+  <div class="teller" id="teller" aria-live="polite"></div>
+</header>
+<div class="voortgang" aria-hidden="true"><i id="balk"></i></div>
+
+<main class="swimlane">
+  <section class="podium" aria-label="Het VIM-proces als swimlane: vijf rollen en vijf fasen">
+    <div class="bord">
+      <svg id="schema" viewBox="0 0 1900 800" role="img" aria-label="Swimlane van het VIM-proces. Banen: zorgverlener en melder, afdeling (PVC), MIP-commissie, raad van bestuur en IGJ, kwaliteitssysteem. Fasen: zorg en melden, triage, analyse, verbeteren, terugkoppelen en leren. Rechts de eindpunten A tot en met E."></svg>
+      <div class="bronnen" id="bronnen" aria-live="polite"></div>
+    </div>
+  </section>
+  <section class="bijschrift" id="bijschrift" aria-live="polite"></section>
+</main>
+
+<nav class="bediening">
+  <button type="button" id="terug" aria-label="Vorige stap">←</button>
+  <button type="button" id="verder" class="volgende" aria-label="Volgende stap">→</button>
+  <span>Pijltjes, spatie of klikker</span>
+  <a href="index.html">Startpagina</a>
+  <span class="merk">
+    <svg viewBox="0 0 32 32" role="img" aria-label="Logo Business Data Solutions"><g fill="#1a1a1a"><polygon points="9,29 11,10 17,10 19,29"/><polygon points="8,8.5 20,8.5 19,10 9,10"/><rect x="11" y="5" width="6" height="3.5"/><path d="M10.5 5 Q10.5 1.5 14 1.5 Q17.5 1.5 17.5 5 Z"/><rect x="13.5" y="0" width="1" height="1.8"/></g><rect x="13" y="6" width="2" height="2" fill="#d4db3e"/><g stroke="#d4db3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 4 L26 7 L21 10"/><path d="M26 4 L31 7 L26 10"/></g></svg>
+    Business Data Solutions
+  </span>
+</nav>
+
+<script type="module" src="/src/vim-swimlane.js"></script>
+</body>
+</html>
