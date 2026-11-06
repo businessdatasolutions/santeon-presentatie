@@ -11,7 +11,7 @@ const VAKKEN = [...document.querySelectorAll(".vak")];
 // aan = welke soorten fragmenten oplichten · waarden = de fragmenten tonen de waarde uit de ontologie
 const STAPPEN = [
   { aan: [], tekst: "In geen van beide meldingen staat het woord “val”. Zoeken op “val” vindt ze dus niet." },
-  { aan: ["wat", "waar", "gevolg", "omstandigheid"], tekst: "Jij ziet twee vallen. De computer ziet twee verschillende zinnen." },
+  { aan: ["wat", "waar", "gevolg", "omstandigheid"], tekst: "Jij ziet twee valincidenten. De computer ziet twee verschillende zinnen." },
   { aan: ["wat", "waar"], tekst: "Een ontologie legt vast welke begrippen er zijn, welke waarden ze mogen hebben en hoe ze samenhangen." },
   { aan: ["wat", "waar", "gevolg"], waarden: true, tekst: "Elke melding wordt één regel. Elke waarde wijst naar een stuk tekst." },
   { aan: ["wat", "waar", "omstandigheid"], waarden: true, tekst: "Nu zie je één patroon: een te hoog bed op Geriatrie. Dat is een signaal op het niveau Ask." },

@@ -160,7 +160,7 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
    - **De oplossing:** de ontologie legt één taal vast. Die taal geldt binnen het ziekenhuis en tussen de Santeon-ziekenhuizen.
    - **De pagina heeft zes stappen:**
      1. Twee meldingen van Geriatrie: VIM-2026-0418 en VIM-2026-0470. Zoek op "val". De zoekactie vindt niets, want het woord "val" staat in geen van beide teksten.
-     2. De fragmenten lichten op: wat er gebeurde, waar, het gevolg en de omstandigheid. Zeg: "Jij leest twee vallen. Een computer ziet alleen woorden."
+     2. De fragmenten lichten op: wat er gebeurde, waar, het gevolg en de omstandigheid. Zeg: "Jij leest twee valincidenten. Een computer ziet alleen woorden."
      3. De ontologie: begrippen, waarden en relaties, zoals `Incident heeftCategorie → Categorie`. Zeg: "Deze lijst stellen jullie vast, niet de AI."
      4. Eén regel per melding. Beide meldingen krijgen de categorie Val en de afdeling Geriatrie. Elke waarde heeft een citaat. In de demo vult de agent deze regel in. Daarom heeft de regel de AI-markering.
      5. Het patroon: zoek op Categorie = Val en Afdeling = Geriatrie. Nu vind je beide meldingen. In beide meldingen stond het bed te hoog. Dat is een signaal op het niveau Ask (2c). De kwaliteitsadviseur beslist.
