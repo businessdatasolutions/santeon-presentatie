@@ -6,7 +6,7 @@ import {
 import {
   Database, Network, BookOpen, Bot, FileBarChart, Layers,
   ChevronRight, Play, AlertTriangle, ShieldAlert, CheckCircle2,
-  Loader2, ArrowRight, FileText, Cpu, Hospital, RotateCcw,
+  Loader2, ArrowRight, FileText, Hospital, RotateCcw,
   HelpCircle, MessageSquare, Scale,
 } from "lucide-react";
 
@@ -637,7 +637,7 @@ const LAYERS = [
 function ArchPanel({ go }) {
   const rows = [
     { n: "05", t: "Rapportagelaag", d: "Bestuursdashboard, KPI's, calamiteitenratio, IGJ-signaal.", to: "report", icon: FileBarChart, accent: C.dark },
-    { n: "04", t: "AI-agent (triage)", d: "Leest de OKF-bundel, classificeert elke melding en bepaalt de vervolgroute. MCP levert de runtime-verbinding; OKF levert de kennis.", to: "agent", icon: Bot, accent: C.dark, ai: true },
+    { n: "04", t: "AI-agent (triage)", d: "Leest de OKF-bundel, classificeert elke melding en bepaalt de vervolgroute.", to: "agent", icon: Bot, accent: C.dark, ai: true },
     { n: "03", t: "OKF-kennislaag", d: "Google Open Knowledge Format (v0.1): curated Markdown-concepten — metrics, tabellen, taxonomieën, runbooks — die de agent 'beloopt' als graaf.", to: "okf", icon: BookOpen, accent: C.darkSoft },
     { n: "02", t: "Semantische laag / ontologie", d: "Klassen en relaties (Incident, Categorie, SAC, PRISMA-basisoorzaak) geven de ruwe data betekenis.", to: "onto", icon: Network, accent: C.darkSoft },
     { n: "01", t: "Data Lake", d: "Onbewerkte, vrije-tekst VIM-meldingen in de landingszone.", to: "lake", icon: Database, accent: C.darkSoft },
@@ -672,17 +672,6 @@ function ArchPanel({ go }) {
           </button>
         ))}
       </div>
-      <Card style={{ marginTop: 16, background: C.accentSoft, borderColor: C.accent, borderLeft: `4px solid ${C.accent}` }}>
-        <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-          <Cpu size={18} color={C.ink} style={{ marginTop: 2, flexShrink: 0 }} />
-          <div style={{ fontSize: 13, color: C.ink, lineHeight: 1.6 }}>
-            <strong>OKF vs. MCP.</strong> MCP is de <em>socket</em> — hoe de agent tijdens runtime
-            verbindt met tools en live data. OKF is de <em>kennis die door die socket stroomt</em> —
-            stabiele, gecureerde concepten die de agent leest vóórdat hij handelt. In deze simulatie
-            leest de agent de OKF-bundel als context bij elke triage.
-          </div>
-        </div>
-      </Card>
     </div>
   );
 }
