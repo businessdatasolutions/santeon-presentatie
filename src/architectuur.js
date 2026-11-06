@@ -56,7 +56,7 @@ const VERSIES = {
         zeker: { titel: "Dezelfde soort melding, na leren", reeks: [[5, 10, 15, 70], [2, 5, 9, 84], [1, 2, 4, 93]], drempel: 90, conclusie: "SAC 4, met 93%. Boven de drempel: direct naar het overzicht." } },
       { deel: 0, scene: "automate", laag: "Stap 4 · niveau Automate", titel: "Alleen calamiteiten naar een mens", tekst: ["Alle andere meldingen gaan direct naar het overzicht.", "Een calamiteit gaat altijd naar een mens, hoe zeker de AI ook is.", "De mens meldt de calamiteit bij de IGJ. Daarna staat die ook in de rapportage."],
         zeker: { titel: "Voorbeeld: een calamiteit", reeks: [[88, 8, 3, 1]], drempel: null, conclusie: "SAC 1, met 88%. Calamiteit: altijd naar een mens. Die meldt binnen 3 werkdagen bij de IGJ." } },
-      { deel: 0, scene: "patroon", laag: "Stap 5 · het systeem onthoudt", titel: "Drie keer hetzelfde is een patroon", tekst: ["Het systeem onthoudt wat het zag, over afdelingen heen.", "Normaal: één val door bedhoogte per maand. Nu: drie in twee weken, op drie afdelingen.", "De kans stijgt, dus het risico ook. Het patroon gaat als signaal naar een mens."],
+      { deel: 0, scene: "patroon", laag: "Stap 5 · het systeem onthoudt", titel: "Drie keer hetzelfde is een patroon", tekst: ["Het systeem onthoudt wat het zag, over afdelingen heen.", "Normaal: één valincident per maand. Nu: drie in twee weken, op drie afdelingen.", "De kans stijgt, dus het risico ook. Het patroon gaat als signaal naar een mens."],
         normaal: { titel: "Hoe vaak is normaal? · in twee weken", perTweeWeken: 0.5, gezien: 3, conclusie: "Bij normaal is de kans op drie of meer 1,4%. Dit past niet bij normaal: een signaal met minimaal SAC 2. Elke melding houdt zelf SAC 4." } },
     ],
   },
@@ -232,7 +232,7 @@ function maakStapel(doek, labelLaag) {
   scene.add(clusterLijn);
   const clusterLabels = CLUSTER.map((c) => label(c.afdeling, "bestand"));
   const clusterMidden = clusterPunten.reduce((s, p) => s.add(p), new THREE.Vector3()).divideScalar(clusterPunten.length);
-  const patroonLabel = label(BOT + "AI-signaal: 3× val door bedhoogte", "ai patroon");
+  const patroonLabel = label(BOT + "AI-signaal: 3× valincident · 3 afdelingen", "ai patroon");
 
   const tegels = BESTANDEN.map((b, i) => {
     const x = -2 + (i % 3) * 2, z = i < 3 ? -1.1 : 1.1;
@@ -375,12 +375,19 @@ function maakStapel(doek, labelLaag) {
     const igjStap = reduce ? 1 : 0.08;
     igjDoos.material.opacity += (igjDoel - igjDoos.material.opacity) * igjStap;
     igjRand.material.opacity += (igjDoel - igjRand.material.opacity) * igjStap;
-    igjLijn.material.opacity += (igjDoel - igjLijn.material.opacity) * igjStap;
+    igjLijn.material.opacity += (igjDoel - igjLijn.material.opacity) * igjStap * 0.5;
+    // Alleen een melding bij de IGJ als er een calamiteit is: de grote rode bol (deeltje 0) volgt
+    // dezelfde cyclus als in plaats(). Verlaat hij de mens (f = 0,8), dan gaat er één melding naar
+    // de IGJ, tegelijk met de calamiteit naar de rapportage. Bij aankomst licht het IGJ-vak kort op.
+    const fCalamiteit = reduce ? deeltjes[0].userData.off : (deeltjes[0].userData.off + t * 0.05) % 1;
+    const onderweg = Boolean(sc.igj) && !reduce && fCalamiteit >= 0.8;
     igjBlokjes.forEach((b, n) => {
-      b.visible = Boolean(sc.igj) && !reduce;
-      b.position.copy(igjCurve.getPoint((t * 0.3 + n / 2) % 1));
+      b.visible = onderweg && n === 0;
+      b.position.copy(igjCurve.getPoint(Math.min(1, (fCalamiteit - 0.8) / 0.17)));
       b.rotation.set(t, t * 0.6, 0);
     });
+    const aangekomen = onderweg && fCalamiteit >= 0.97;
+    igjDoos.material.color.setHex(aangekomen ? 0xf3d6d2 : 0xffffff);
     igjLabel.style.opacity = igjDoel;
     igjLabel.classList.toggle("aan", sc.igj === "aan");
 

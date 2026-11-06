@@ -299,7 +299,7 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
   2. Meekijken bij twijfel: de AI geeft per SAC-niveau een kans, bijvoorbeeld SAC 1 tot en met 4 = 5, 10, 15 en 70%. Het meest waarschijnlijke niveau is dan SAC 4. Is de hoogste kans lager dan 90%? Dan kijkt een mens mee. Een steekproef van de zekere gevallen ziet de mens ook (zie de valkuil "afstempelen"). In de stapel is een licht bolletje een melding waarover de AI twijfelt.
   3. Het model leert: de correcties worden data. Welke voorstellen waren fout-positief of fout-negatief? Het model leert daarvan en onderscheidt scherper. In het voorbeeld gaat de kans op SAC 4 van 70 naar 93%. Er zijn minder lichte bolletjes, dus minder meldingen langs de mens.
   4. Niveau Automate: alleen calamiteiten gaan naar een mens, hoe zeker de AI ook is. Alle andere meldingen gaan direct naar het overzicht. Wijs op de rode lijn: de mens meldt de calamiteit binnen 3 werkdagen bij de IGJ. Daarna staat de calamiteit ook in de rapportage voor het bestuur.
-  5. Het systeem onthoudt: drie keer een val door bedhoogte, op drie afdelingen, in twee weken. Normaal is één per maand. Stel de vraag: "Past dit nog bij normaal?" Bij normaal is de kans op drie of meer 1,4%. Dus de kans stijgt, en het risico ook (risico = kans × impact). Het patroon gaat als signaal naar een mens, met minimaal SAC 2. Elke melding houdt zelf SAC 4. Laat geen formules zien.
+  5. Het systeem onthoudt: drie valincidenten in twee weken, op drie afdelingen. Normaal is één valincident per maand. Stel de vraag: "Past dit nog bij normaal?" Bij normaal is de kans op drie of meer 1,4%. Dus de kans stijgt, en het risico ook (risico = kans × impact). Het patroon gaat als signaal naar een mens, met minimaal SAC 2. Elke melding houdt zelf SAC 4. Laat geen formules zien.
 - **De feedbackstroom:** wijs bij stap 1 op de lijnen van de mens terug naar beneden. Elke correctie verbetert de instructies van de agent, de OKF-kennis en de ontologie. Soms gaat een correctie naar de melder: wat ontbrak er in de melding? In het begin is die stroom groot. Bij elke stap wordt hij kleiner.
 - **Zeg:** "Het systeem leert van jouw oordeel. Daarom begin je met alles zelf beoordelen."
 - **Let op:** de kansen zijn een voorbeeld. De live demo geeft geen kansen per SAC-niveau. Die werkt met grensvoorwaarden en een citaat als bewijs.
@@ -324,7 +324,7 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
   1. Ontologie: in 0470 staat het woord "val" niet. Toch is het een val. Dat is de waarde van één vaste taal (2a).
   2. OKF-kennis: voor 0485 leest de agent één bestand extra, het draaiboek voor de IGJ.
   3. Mens beslist: de AI doet een voorstel. Een mens bevestigt beide meldingen. Zo begin je.
-- **Let op:** deel 2 is een vast script, net als de verwerkingsanimatie. De live demo kan voor 0470 een andere SAC-score geven. Zeg dat als het gebeurt.
+- **Let op:** deel 2 is een vast script. De live demo kan voor 0470 een andere SAC-score geven. Zeg dat als het gebeurt.
 - **Overgang:** "Dit was het script. Nu doet de AI het echt." Open daarna de live demo.
 
 **Het prototype**
@@ -367,7 +367,7 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 4. Toon daarna de agent. De agent kiest géén score. De agent escaleert, met de tegenstrijdigheid als reden.
 5. Zeg de boodschap: "Bij twijfel is escaleren het goede antwoord. Ook voor AI."
 
-**Opmerking:** ook de fallback escaleert deze melding. Zonder internet staat dezelfde casus in `vim-agent-animatie.html`. Lakhani raadt de volgorde "eerst zelf scoren, dan de machine" ook aan. Zo blijf je het vak leren (zie Assist in 2c).
+**Opmerking:** ook de fallback escaleert deze melding. Lakhani raadt de volgorde "eerst zelf scoren, dan de machine" ook aan. Zo blijf je het vak leren (zie Assist in 2c).
 
 **Gesprek in kleine groepen (ongeveer 8 min)**
 
@@ -457,7 +457,7 @@ Voor deze zaal is vooral artikel 4 belangrijk (van kracht sinds februari 2025). 
 
 1. Zet deze sessie-flow om naar dia's. Gebruik de mermaid-figuur en het VIM-diagram als beeld.
 2. ~~Krijg de demo werkend.~~ **Opgelost op 4 november:** de demo draait lokaal (`npm start`). Het is de actuele versie, met live AI via een lokale proxy. Ook de atlas werkt weer: een gewijzigde CDN-versie blokkeerde d3.
-   - Nog te doen: een generale repetitie op de presentatielaptop en op het netwerk van de zaal. Zonder internet gebruikt de demo de fallback. De reserve is `vim-agent-animatie.html`.
+   - Nog te doen: een generale repetitie op de presentatielaptop en op het netwerk van de zaal. Zonder internet gebruikt de demo de fallback.
    - Optioneel: werk de oude versie op witusj.github.io bij, of haal die offline. Dan gebruikt niemand de verkeerde link.
 3. Vraag Carien:
    1. Wat is de opstelling van de zaal: tafels of theater? Dat bepaalt de werkvorm in 3b.
