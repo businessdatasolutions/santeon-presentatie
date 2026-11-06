@@ -54,8 +54,8 @@ const VERSIES = {
       { deel: 0, scene: "leert", laag: "Stap 3 · het model leert", titel: "Scherper door feedback", tekst: ["De correcties worden data: welke voorstellen waren fout-positief of fout-negatief?", "Het model leert daarvan en onderscheidt scherper.", "Minder twijfel, dus minder meldingen langs de mens."],
         legenda: true,
         zeker: { titel: "Dezelfde soort melding, na leren", reeks: [[5, 10, 15, 70], [2, 5, 9, 84], [1, 2, 4, 93]], drempel: 90, conclusie: "SAC 4, met 93%. Boven de drempel: direct naar het overzicht." } },
-      { deel: 0, scene: "automate", laag: "Stap 4 · niveau Automate", titel: "Alleen calamiteiten naar een mens", tekst: ["Alle andere meldingen gaan direct naar het overzicht.", "Een calamiteit gaat altijd naar een mens, hoe zeker de AI ook is."],
-        zeker: { titel: "Voorbeeld: een calamiteit", reeks: [[88, 8, 3, 1]], drempel: null, conclusie: "SAC 1, met 88%. Calamiteit: altijd naar een mens." } },
+      { deel: 0, scene: "automate", laag: "Stap 4 · niveau Automate", titel: "Alleen calamiteiten naar een mens", tekst: ["Alle andere meldingen gaan direct naar het overzicht.", "Een calamiteit gaat altijd naar een mens, hoe zeker de AI ook is.", "De mens meldt de calamiteit bij de IGJ. Daarna staat die ook in de rapportage."],
+        zeker: { titel: "Voorbeeld: een calamiteit", reeks: [[88, 8, 3, 1]], drempel: null, conclusie: "SAC 1, met 88%. Calamiteit: altijd naar een mens. Die meldt binnen 3 werkdagen bij de IGJ." } },
       { deel: 0, scene: "patroon", laag: "Stap 5 · het systeem onthoudt", titel: "Drie keer hetzelfde is een patroon", tekst: ["Het systeem onthoudt wat het zag, over afdelingen heen.", "Normaal: één val door bedhoogte per maand. Nu: drie in twee weken, op drie afdelingen.", "De kans stijgt, dus het risico ook. Het patroon gaat als signaal naar een mens."],
         normaal: { titel: "Hoe vaak is normaal? · in twee weken", perTweeWeken: 0.5, gezien: 3, conclusie: "Bij normaal is de kans op drie of meer 1,4%. Dit past niet bij normaal: een signaal met minimaal SAC 2. Elke melding houdt zelf SAC 4." } },
     ],
@@ -105,10 +105,11 @@ function maakStapel(doek, labelLaag) {
       mens: (u) => u.sac === 0 || u.z0 < DREMPEL || u.steekproef },
     leert: { cam: GROEI_CAM, route: "keten", zekerheid: "z1", feedback: 0.4,
       mens: (u) => u.sac === 0 || u.z1 < DREMPEL || u.steekproef },
-    automate: { cam: GROEI_CAM, route: "keten", zekerheid: "z2", feedback: 0.15,
-      mens: (u) => u.sac === 0 },
+    // igj = de route van de calamiteit: van de mens naar een IGJ-melding ("aan" = uitgelicht)
+    automate: { cam: { x: 10.5, y: 7.4, z: 11.8, ty: 3.4 }, actief: 4, route: "keten", zekerheid: "z2", feedback: 0.15,
+      igj: "aan", mens: (u) => u.sac === 0 },
     patroon: { cam: { x: 10.5, y: 6.2, z: 11.5, ty: 2.5 }, actief: 1, route: "keten", zekerheid: "z2", feedback: 0.15,
-      patroon: true, mens: (u) => u.sac === 0 || u.cluster },
+      igj: "zichtbaar", patroon: true, mens: (u) => u.sac === 0 || u.cluster },
   };
   // drie meldingen uit hetzelfde patroon: zelfde oorzaak, drie afdelingen (banen 0, 2 en 4 op de ontologie)
   const CLUSTER = [
@@ -117,7 +118,7 @@ function maakStapel(doek, labelLaag) {
     { i: 24, afdeling: "Cardiologie", x: 2.4, z: -0.2 },
   ];
   const SACKLEUR = [0xb23a2e, 0xd97a28, 0xd0a400, 0x2e8b72];
-  const GRIJS = 0x9ca3af, INKT = 0x1a1a1a, GEEL = 0xd4db3e;
+  const GRIJS = 0x9ca3af, INKT = 0x1a1a1a, GEEL = 0xd4db3e, SAC_ROOD = SACKLEUR[0];
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(2, devicePixelRatio));
@@ -157,6 +158,32 @@ function maakStapel(doek, labelLaag) {
   scene.add(pad);
   const padRand = rand(pad, INKT);
   const padLabel = label(MENS + "Mens beslist", "mens");
+
+  // Escalatie van een calamiteit: de mens meldt bij de IGJ (buiten de stapel). Daarna gaat de
+  // calamiteit, net als de andere meldingen, door naar de rapportage. Mensenwerk: geen AI-markering.
+  const IGJ_POS = new THREE.Vector3(PAD.x - 0.9, Y[4] + 1.2, -2.8);
+  const igjDoos = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.5, 0.8), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 }));
+  igjDoos.position.copy(IGJ_POS);
+  scene.add(igjDoos);
+  const igjRand = rand(igjDoos, SAC_ROOD);
+  igjRand.material.transparent = true;
+  const igjCurve = new THREE.QuadraticBezierCurve3(
+    new THREE.Vector3(PAD.x, PAD.y + 0.1, PAD.z),
+    new THREE.Vector3(PAD.x + 1.2, (PAD.y + IGJ_POS.y) / 2 + 0.4, (PAD.z + IGJ_POS.z) / 2),
+    new THREE.Vector3(IGJ_POS.x, IGJ_POS.y - 0.25, IGJ_POS.z),
+  );
+  const igjLijn = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(igjCurve.getPoints(40)),
+    new THREE.LineBasicMaterial({ color: SAC_ROOD, transparent: true, opacity: 0 }),
+  );
+  scene.add(igjLijn);
+  const igjBlokjes = [0, 1].map(() => {
+    const b = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.15), new THREE.MeshBasicMaterial({ color: SAC_ROOD }));
+    b.visible = false;
+    scene.add(b);
+    return b;
+  });
+  const igjLabel = label("IGJ-melding · binnen 3 werkdagen", "igj");
 
   // Feedback van de mens terug het systeem in: naar de instructies van de agent, de OKF-kennis,
   // de ontologie en (dunner) naar de melder. Bij de start (Ask) is die stroom groot; hij krimpt
@@ -344,6 +371,19 @@ function maakStapel(doek, labelLaag) {
     padLabel.style.opacity = mens ? 1 : 0;
     padLabel.classList.toggle("aan", mens);
 
+    const igjDoel = sc.igj ? 1 : 0;
+    const igjStap = reduce ? 1 : 0.08;
+    igjDoos.material.opacity += (igjDoel - igjDoos.material.opacity) * igjStap;
+    igjRand.material.opacity += (igjDoel - igjRand.material.opacity) * igjStap;
+    igjLijn.material.opacity += (igjDoel - igjLijn.material.opacity) * igjStap;
+    igjBlokjes.forEach((b, n) => {
+      b.visible = Boolean(sc.igj) && !reduce;
+      b.position.copy(igjCurve.getPoint((t * 0.3 + n / 2) % 1));
+      b.rotation.set(t, t * 0.6, 0);
+    });
+    igjLabel.style.opacity = igjDoel;
+    igjLabel.classList.toggle("aan", sc.igj === "aan");
+
     tegels.forEach((tg, i) => {
       const gelezen = sc.bestanden === "gelezen" && tg.leest;
       tg.m.material.color.setHex(gelezen ? INKT : 0xffffff);
@@ -364,6 +404,7 @@ function maakStapel(doek, labelLaag) {
     platen.forEach((p, i) => zet(p.l, -3.1, Y[i], 2, w, h));
     tegels.forEach((tg, i) => zet(tg.l, tg.x, Y[2] + 0.3 + (i % 2) * 0.4, tg.z, w, h));
     zet(padLabel, PAD.x, PAD.y - 0.1, PAD.z, w, h);
+    zet(igjLabel, IGJ_POS.x, IGJ_POS.y + 0.3, IGJ_POS.z, w, h);
     const midden = terug[1].curve.getPoint(0.45);
     zet(fbLabel, midden.x + 0.5, midden.y, midden.z, w, h);
     clusterLabels.forEach((l, i) => zet(l, clusterPunten[i].x, clusterPunten[i].y - 0.55, clusterPunten[i].z + 0.3, w, h));

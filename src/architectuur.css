@@ -136,3 +136,5 @@ nav.bediening a{color:var(--muted);text-decoration:none;border-bottom:2px solid 
 
 /* ---------- Groeipad: patroon (geheugen van bewijs) ---------- */
 .lbl.patroon{transform:translate(-50%,-100%);font-size:.95rem}
+.lbl.igj{transform:translate(-50%,-100%);background:#fff;border:1.5px solid var(--sac1);font-size:.95rem}
+.lbl.igj.aan{background:var(--sac1);color:#fff}
