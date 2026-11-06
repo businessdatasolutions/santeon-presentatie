@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wat is een ontologie?</title>
+<link rel="stylesheet" href="/src/architectuur.css">
+<link rel="stylesheet" href="/src/groeimodel.css">
+<link rel="stylesheet" href="/src/ontologie.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <div class="eyebrow">2a · Expliciete regels</div>
+    <h1>Wat is een ontologie?</h1>
+  </div>
+  <div class="teller" id="teller" aria-live="polite"></div>
+</header>
+<div class="voortgang" aria-hidden="true"><i id="balk"></i></div>
+
+<main class="onto">
+  <!-- Tekst gelijk aan INCIDENTS in vim-okf-simulatie.jsx. Pas beide aan. -->
+  <section class="meldingen" aria-label="Twee meldingen van Geriatrie">
+    <article class="mld">
+      <div class="mld-kop"><span class="id">VIM-2026-0418</span>
+        <span class="meta"><mark class="frag" data-soort="waar" data-waarde="vondPlaatsOp: Geriatrie">Geriatrie</mark> · 3 juni · verpleegkundige</span></div>
+      <p class="tekst">Mevrouw wilde zelfstandig naar het toilet, bel niet gebruikt.
+        <mark class="frag" data-soort="wat" data-waarde="heeftCategorie: Val">Gevonden op de grond naast het bed.</mark>
+        Klaagt over pijn heup, <mark class="frag" data-soort="gevolg">röntgen bevestigt heupfractuur.</mark>
+        <mark class="frag" data-soort="omstandigheid">Bed stond hoog</mark>, remmen niet gecontroleerd.</p>
+    </article>
+    <article class="mld">
+      <div class="mld-kop"><span class="id">VIM-2026-0470</span>
+        <span class="meta"><mark class="frag" data-soort="waar" data-waarde="vondPlaatsOp: Geriatrie">Geriatrie</mark> · 12 juni · verzorgende</span></div>
+      <p class="tekst"><mark class="frag" data-soort="omstandigheid">Bed in te hoge stand</mark> achtergelaten na verzorging.
+        Patiënt <mark class="frag" data-soort="wat" data-waarde="heeftCategorie: Val">gleed bij opstaan langs de rand naar beneden</mark>, opgevangen door familie.
+        <mark class="frag" data-soort="gevolg">Geen letsel geconstateerd.</mark></p>
+    </article>
+  </section>
+
+  <section class="paneel">
+    <!-- Stap 1: zoeken op een woord -->
+    <div class="vak" data-vanaf="1" data-tot="1">
+      <div class="zoek"><span class="zoek-label">Zoek in de meldingen</span>
+        <span class="zoek-veld">val</span>
+        <span class="zoek-uit nul">0 van 2 meldingen gevonden</span></div>
+      <p class="zij">Melders beschrijven hetzelfde soort incident met andere woorden. Vrije tekst kun je niet tellen en niet vergelijken.</p>
+    </div>
+
+    <!-- Stap 2: wat een mens leest -->
+    <div class="vak" data-vanaf="2" data-tot="2">
+      <p class="zij">Een AI die alleen de ruwe tekst leest, kiest zelf een betekenis. Dan weet je niet waarop de uitkomst rust.</p>
+    </div>
+
+    <!-- Stap 3 en verder: de ontologie zelf (door mensen vastgesteld, dus geen AI-markering) -->
+    <div class="vak ontologie" data-vanaf="3" data-tot="4">
+      <div class="onto-kop"><span class="mens-i"></span>De ontologie: door jullie vastgesteld</div>
+      <div class="relaties">
+        <div class="rel" data-rel="cat"><span class="ding">Incident</span><span class="pijl">heeftCategorie →</span>
+          <span class="begrip">Categorie</span><span class="waarden"><b>Val</b> · Medicatie · Decubitus · Agressie · Infectie · …</span></div>
+        <div class="rel" data-rel="afd"><span class="ding">Incident</span><span class="pijl">vondPlaatsOp →</span>
+          <span class="begrip">Afdeling</span><span class="waarden"><b>Geriatrie</b> · IC · SEH · Chirurgie · …</span></div>
+        <div class="rel" data-rel="uit"><span class="ding">Incident</span><span class="pijl">heeftUitkomst →</span>
+          <span class="begrip">Uitkomst</span><span class="waarden">Bijna-incident · Geen schade · Tijdelijke schade · Blijvende schade · Overlijden</span></div>
+        <div class="rel later"><span class="ding">Incident</span><span class="pijl">heeftErnst →</span>
+          <span class="begrip">SAC</span><span class="waarden">heeftBasisoorzaak → PRISMA · vereistVervolgactie → Vervolgactie</span></div>
+      </div>
+    </div>
+
+    <!-- Stap 4: één regel per melding (in de demo vult de agent die in: AI-voorstel) -->
+    <div class="vak regels" data-vanaf="4" data-tot="5">
+      <div class="regels-kop"><span class="ai-tag"><span class="bot-i"></span>AI-voorstel</span> Eén regel per melding, met een citaat als bewijs</div>
+      <table>
+        <thead><tr><th>Melding</th><th>heeftCategorie</th><th>vondPlaatsOp</th><th>Uitkomst (citaat)</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">0418</td><td><span class="w">Val</span><q>Gevonden op de grond naast het bed</q></td>
+            <td><span class="w">Geriatrie</span></td><td class="anders"><q>röntgen bevestigt heupfractuur</q></td></tr>
+          <tr><td class="mono">0470</td><td><span class="w">Val</span><q>gleed … naar beneden</q></td>
+            <td><span class="w">Geriatrie</span></td><td class="anders"><q>Geen letsel geconstateerd</q></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Stap 5: het patroon -->
+    <div class="vak patroon" data-vanaf="5" data-tot="5">
+      <div class="zoek"><span class="zoek-label">Zoek op begrip</span>
+        <span class="zoek-veld">Categorie = Val · Afdeling = Geriatrie</span>
+        <span class="zoek-uit">2 van 2 meldingen gevonden</span></div>
+      <div class="signaal">
+        <div class="voorbeeld"><span class="label"><span class="bot-i"></span>AI-signaal</span>Twee vallen op Geriatrie in negen dagen. In beide meldingen stond het bed te hoog.</div>
+        <p class="rol"><span class="wie"><span class="mens-i"></span>Mens</span>De kwaliteitsadviseur beoordeelt het signaal en beslist.</p>
+      </div>
+    </div>
+
+    <!-- Stap 6: wat het oplost -->
+    <div class="vak oplost" data-vanaf="6" data-tot="6">
+      <div class="tegel"><b>Tellen en vergelijken</b><span>Over afdelingen heen (route 3), en tussen de Santeon-ziekenhuizen.</span></div>
+      <div class="tegel"><b>Herleiden</b><span>Elke waarde wijst naar een stuk tekst. Je ziet waarop de uitkomst rust.</span></div>
+      <div class="tegel"><b>Escaleren bij twijfel</b><span>Past een melding in geen begrip? Dan gaat de melding naar een mens.</span></div>
+    </div>
+  </section>
+
+  <p class="onderschrift" id="onderschrift"></p>
+</main>
+
+<nav class="bediening">
+  <button type="button" id="terug" aria-label="Vorige stap">←</button>
+  <button type="button" id="verder" class="volgende" aria-label="Volgende stap">→</button>
+  <span>Pijltjes, spatie of klikker</span>
+  <a href="index.html">Startpagina</a>
+  <span class="merk">
+    <svg viewBox="0 0 32 32" role="img" aria-label="Logo Business Data Solutions"><g fill="#1a1a1a"><polygon points="9,29 11,10 17,10 19,29"/><polygon points="8,8.5 20,8.5 19,10 9,10"/><rect x="11" y="5" width="6" height="3.5"/><path d="M10.5 5 Q10.5 1.5 14 1.5 Q17.5 1.5 17.5 5 Z"/><rect x="13.5" y="0" width="1" height="1.8"/></g><rect x="13" y="6" width="2" height="2" fill="#d4db3e"/><g stroke="#d4db3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 4 L26 7 L21 10"/><path d="M26 4 L31 7 L26 10"/></g></svg>
+    Business Data Solutions
+  </span>
+</nav>
+
+<script type="module" src="/src/ontologie.js"></script>
+</body>
+</html>

@@ -53,7 +53,7 @@ npx esbuild src/main.jsx --bundle --outfile=/dev/null --log-level=warning   # sy
 ## Source of truth
 
 `2026-07-04-sessie-outline.md` is the authoritative session plan: timed blocks with speaker notes. An identical copy is in `background-material/`. Commits change both copies together, so edit both and keep them byte-identical. The outline is written in STE100-style Dutch (short sentences, one instruction per sentence). Keep that style when you edit it. Scope decisions recorded there that other work must respect:
-- Structure (Golden Circle): Opening (5) → **Waarom** (10) → **Hoe** (30: expliciete regels, drie veiligheidsvragen, Ask → Assist → Automate) → **Wat** (35: live demo + interactive segment) → Afsluiting (10). This maps onto the project's fixed structure as follows: Waarom + Hoe 2a–2b = Deel 1, Hoe 2c = Brug (Ask → Assist → Automate applied to the VIM workflow, Route 3 cross-unit trend analysis), Wat = Deel 2.
+- Structure (Golden Circle): Opening (5) → **Waarom** (10) → **Hoe** (33: expliciete regels with the ontology explanation, drie veiligheidsvragen, Ask → Assist → Automate) → **Wat** (32: live demo + interactive segment) → Afsluiting (10). This maps onto the project's fixed structure as follows: Waarom + Hoe 2a–2b = Deel 1, Hoe 2c = Brug (Ask → Assist → Automate applied to the VIM workflow, Route 3 cross-unit trend analysis), Wat = Deel 2.
 - Use only the "kernspine" frameworks (maturity reality check from section 0 of the atlas, Ask→Assist→Automate from section 9). The other atlas frameworks are deliberately excluded.
 - The live demo must stay at the **Ask** tier: the AI signals, and a human decides. Calamities and borderline cases always go to a human.
 - The network's question "is AI veilig — ja of nee?" is answered as three questions (veilig voor de gegevens / de patiënt / de melder), each tied to the audience's own rules: Wkkgz art. 9 and 11 and KNMG "veilig melden". Participants never enter real incident reports into the demo.
@@ -88,6 +88,10 @@ The architecture follows the story the demo tells: **data lake → semantische l
 ### `vim-agent-animatie.html`: scripted walkthrough
 
 Self-contained vanilla HTML, CSS and JS with no network calls. Open it directly in a browser. It replays five cases (`CASES`) with hard-coded results that show the same pipeline step by step: extraction, boundary condition with quote, verify fix, judge score, and IGJ escalation. Its CSS variables mirror the `C` palette object in the JSX.
+
+### `ontologie-uitleg.html` (2a): what an ontology is
+
+Issue #8. Explains the ontology before the demo's "Semantische laag" screen is shown. Speaker-paced (same keys, `#stap-N`, header and nav as above); vanilla JS with no imports, no network calls. It loads `src/ontologie.js` and `src/ontologie.css` on top of `src/architectuur.css` and `src/groeimodel.css` (icons, `.voorbeeld`, `.rol`, `.wie`). Six steps on VIM-2026-0418 and VIM-2026-0470 (both Geriatrie, neither contains the word "val"): search on "val" finds nothing → highlighted fragments → the ontology (human-made, so no AI marker) → one row per melding with a quote (`AI-voorstel`, because the agent fills it in the demo) → the pattern (Categorie = Val · Afdeling = Geriatrie, both with a bed too high; `AI-signaal`, a human decides) → what it solves. The melding texts are hard-coded in the HTML: keep them equal to `INCIDENTS` in the JSX. The page deliberately shows no SAC score, basisoorzaak or vervolgactie: the live AI varies on those, and the human SAC score for 0470 is decided in issue #11. Live AI and the fallback both give 0418 and 0470 categorie Val (the fallback lets Val win over Diagnostiek, because 0418 mentions "röntgen"). The relations shown match `OntoPanel`, including `heeftUitkomst`.
 
 ### `architectuur.html` (3a) and `groeipad.html` (2c): one script, two pages
 
