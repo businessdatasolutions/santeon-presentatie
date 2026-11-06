@@ -249,10 +249,11 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 
 **Ask → Assist → Automate op route 3 (10 min)**
 
-1. Toon de mermaid-figuur Ask → Assist → Automate (sectie 9 van de HTML-atlas).
-2. Toon het VIM-diagram naast de mermaid-figuur.
+1. Toon het groeimodel Ask → Assist → Automate. Kies op de startpagina "Ask → Assist → Automate". Het model komt uit sectie 9 van de HTML-atlas.
+2. Toon het VIM-diagram naast het groeimodel.
 3. Kies één scenario: een trendanalyse over meerdere afdelingen (route 3 in het VIM-diagram).
 4. Doorloop dit scenario drie keer. Geef de AI elke keer meer autonomie.
+5. Klik door het groeimodel met de pijltjes of de klikker. De pagina heeft vijf stappen: het overzicht, Ask, Assist, Automate en een samenvatting. De samenvatting toont de harde grens: calamiteiten en twijfelgevallen gaan altijd naar een mens.
 
 **ASK — "AI leest mee, jij beslist"**
 

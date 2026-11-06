@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ask, Assist, Automate</title>
+<link rel="stylesheet" href="/src/architectuur.css">
+<link rel="stylesheet" href="/src/groeimodel.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <div class="eyebrow">2c · Groeimodel</div>
+    <h1>Ask → Assist → Automate</h1>
+  </div>
+  <div class="teller" id="teller" aria-live="polite"></div>
+</header>
+<div class="voortgang" aria-hidden="true"><i id="balk"></i></div>
+
+<main class="groeimodel">
+  <section class="trap" aria-label="Drie niveaus van zelfstandigheid">
+    <p class="vraag">Hoeveel zelfstandigheid geef je de AI? En in welke volgorde?</p>
+
+    <div class="treden">
+      <article class="trede" data-niveau="ask" style="--ai:20%;--hoog:6%">
+        <div class="kaart">
+          <div class="naam"><span class="nr">1</span>Ask <span class="vandaag">Hier staat de demo</span></div>
+          <p class="kort">Alleen lezen. De AI doet zelf niets.</p>
+          <div class="open samen-deel"><div>
+            <p class="motto">AI leest mee, jij beslist</p>
+            <div class="verdeling" aria-label="Werkverdeling: de mens doet het meeste">
+              <i class="ai-deel"><span class="bot-i"></span>AI</i><i class="mens-deel"><span class="mens-i"></span>Mens</i>
+            </div>
+          </div></div>
+          <div class="open vol-deel"><div>
+            <p class="rol"><span class="wie ai"><span class="bot-i"></span>AI</span>Leest de meldingen van alle afdelingen. Geeft een signaal.</p>
+            <p class="rol"><span class="wie"><span class="mens-i"></span>Mens</span>De kwaliteitsadviseur beoordeelt het signaal en beslist.</p>
+            <div class="voorbeeld"><span class="label"><span class="bot-i"></span>AI-signaal</span>Drie afdelingen meldden deze maand vergelijkbare medicatie-incidenten.</div>
+          </div></div>
+        </div>
+        <div class="blok"></div>
+      </article>
+
+      <article class="trede" data-niveau="assist" style="--ai:50%;--hoog:15%">
+        <div class="kaart">
+          <div class="naam"><span class="nr">2</span>Assist</div>
+          <p class="kort">Een mens zit in elke stap.</p>
+          <div class="open samen-deel"><div>
+            <p class="motto">AI stelt op, jij autoriseert</p>
+            <div class="verdeling" aria-label="Werkverdeling: AI en mens doen elk de helft">
+              <i class="ai-deel"><span class="bot-i"></span>AI</i><i class="mens-deel"><span class="mens-i"></span>Mens</i>
+            </div>
+          </div></div>
+          <div class="open vol-deel"><div>
+            <p class="rol"><span class="wie ai"><span class="bot-i"></span>AI</span>Maakt een concept-analyse met oorzaken volgens PRISMA.</p>
+            <p class="rol"><span class="wie"><span class="mens-i"></span>Mens</span>De PVC- of MIP-commissie corrigeert en autoriseert. Pas dan gaat de analyse naar de RvB.</p>
+            <div class="voorbeeld"><span class="label"><span class="bot-i"></span>AI-concept</span>Twee organisatorische oorzaken, één menselijke. Voorstel: dubbele controle bij een overplaatsing.</div>
+          </div></div>
+        </div>
+        <div class="blok"></div>
+      </article>
+
+      <article class="trede" data-niveau="automate" style="--ai:85%;--hoog:24%">
+        <div class="kaart">
+          <div class="naam"><span class="nr">3</span>Automate</div>
+          <p class="kort">De AI werkt zelf. Uitzonderingen gaan naar een mens.</p>
+          <div class="open samen-deel"><div>
+            <p class="motto">AI handelt zelf af, met een harde grens</p>
+            <div class="verdeling" aria-label="Werkverdeling: de AI doet het meeste, de mens houdt de uitzonderingen">
+              <i class="ai-deel"><span class="bot-i"></span>AI</i><i class="mens-deel"><span class="mens-i"></span></i>
+            </div>
+          </div></div>
+          <div class="open vol-deel"><div>
+            <p class="rol"><span class="wie ai"><span class="bot-i"></span>AI</span>Handelt duidelijke gevallen met een laag risico zelf af. Classificeert en archiveert.</p>
+            <p class="rol"><span class="wie"><span class="mens-i"></span>Mens</span>Krijgt altijd:</p>
+            <div class="grenzen">
+              <span class="grens-chip calamiteit">calamiteiten</span>
+              <span class="grens-chip">twijfelgevallen</span>
+              <span class="grens-chip">stijgende patronen</span>
+            </div>
+          </div></div>
+        </div>
+        <div class="blok"></div>
+      </article>
+    </div>
+
+    <div class="as" aria-hidden="true"><span>Meer zelfstandigheid voor de AI</span><i></i></div>
+
+    <div class="onder">
+      <p class="grens" id="grens"><span class="mens-i"></span>Op elk niveau gaan calamiteiten en twijfelgevallen naar een mens. Leg vast wie beslist en wie verantwoordelijk is.</p>
+      <p class="bron">Naar Joe Beutler (OpenAI), 2026 · toegepast op route 3, trends over afdelingen</p>
+    </div>
+  </section>
+</main>
+
+<nav class="bediening">
+  <button type="button" id="terug" aria-label="Vorige stap">←</button>
+  <button type="button" id="verder" class="volgende" aria-label="Volgende stap">→</button>
+  <span>Pijltjes, spatie of klikker</span>
+  <a href="index.html">Startpagina</a>
+  <span class="merk">
+    <svg viewBox="0 0 32 32" role="img" aria-label="Logo Business Data Solutions"><g fill="#1a1a1a"><polygon points="9,29 11,10 17,10 19,29"/><polygon points="8,8.5 20,8.5 19,10 9,10"/><rect x="11" y="5" width="6" height="3.5"/><path d="M10.5 5 Q10.5 1.5 14 1.5 Q17.5 1.5 17.5 5 Z"/><rect x="13.5" y="0" width="1" height="1.8"/></g><rect x="13" y="6" width="2" height="2" fill="#d4db3e"/><g stroke="#d4db3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 4 L26 7 L21 10"/><path d="M26 4 L31 7 L26 10"/></g></svg>
+    Business Data Solutions
+  </span>
+</nav>
+
+<script type="module" src="/src/groeimodel.js"></script>
+</body>
+</html>
