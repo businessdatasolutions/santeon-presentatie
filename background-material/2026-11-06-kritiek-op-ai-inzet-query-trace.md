@@ -6,6 +6,8 @@ language: nl
 trace: "2026-11-06-kritiek-op-ai-inzet-query-trace.json"
 pages_used: 35
 pages_ignored: 165
+addendum: "§ 9: factcheck van Nederlandse datacentercijfers (Volkskrant-opinie Grove, 5-11-2026); externe bronnen, buiten de wiki om"
+external_sources: 13
 ---
 
 # Query trace: kritiek op het inzetten van AI
@@ -202,6 +204,7 @@ Elke run gaf 60 kandidaten, zonder `graph_warning`. Met vier brede facetten kom 
 - ✚ De training van Grok 4 stootte 72.816 t CO₂ uit; voor GPT-4 was dat 5.184 t [W1]. AI-datacenters vragen 29,6 GW, vergelijkbaar met de staat New York op piekmoment. Het jaarlijkse waterverbruik van GPT-4o kan de drinkwaterbehoefte van 1,2 miljoen mensen overstijgen [W2]. Stroomprijzen worden een verkiezingsthema [W3].
 - − Evans noemt de waterclaim "completely fake". Hij schat Amerikaanse datacenters op 0,017% van het waterverbruik en ~5% van de energie [W4]. Volgens Sivaram is het knelpunt piekcapaciteit en wachten op netaansluiting, niet de totale energie: het net is "1% per jaar of minder" echt krap [W3]. Kanttekening: dat zijn cijfers van een founder.
 - → Flexibele datacenters, die werk pauzeren of verplaatsen (Aurora, 96 MW) [W3]. Kernenergie-deals [W1]. Kleinere, beter gecureerde modellen: OLMo haalt vergelijkbare scores met 90× minder parameters [W1].
+- **NL-context (buiten de wiki, zie § 9):** datacenters gebruikten 4,6% van de Nederlandse elektriciteit in 2024 [E2]. Hun drinkwatergebruik was ~0,08–0,09% van de drinkwaterafzet in 2021–2022 [E1][E3]. Dat getal gaat alleen over drinkwater, is volgens het CBS een onderschatting en stamt van vóór de AI-groei. Het lijkt op Evans' "klein aandeel"-argument [W4] en heeft dezelfde zwakte: een landelijk gemiddelde verbergt de lokale druk.
 
 **A2. Trainingsdata: scraping zonder toestemming of vergoeding, en auteursrecht**
 - ✚ Gebruiksbeperkingen op C4-domeinen stegen van 5–7% naar 20–33% in één jaar [W6]. Uitgevers verloren tot 40% van hun menselijke verkeer, en 52% van de crawlerverzoeken is nu voor training [W5]. De keten van data-annotatie heet "extractive by design" [W6]. Labs maken steeds minder bekend over hun data [W1].
@@ -344,3 +347,82 @@ Dat dit ontbreekt, is een eigenschap van deze wiki en geen bewijs dat de kritiek
 ## 8. Trace-artefact
 
 Machine-leesbare herkomst: [`2026-11-06-kritiek-op-ai-inzet-query-trace.json`](2026-11-06-kritiek-op-ai-inzet-query-trace.json)
+
+## 9. Addendum: factcheck van Nederlandse datacentercijfers
+
+### 9.1 Aanleiding en werkwijze
+
+- **Aanleiding:** het opiniestuk "Sta ook open voor het andere verhaal over datacenters" van Stijn Grove (de Volkskrant, 5 november 2026). Grove is algemeen directeur van de Dutch Data Center Association (DDA), de belangenvereniging van de sector. Het stuk verwijst voor water naar het CBS.
+- **Herkomst:** deze sectie komt **niet uit de wiki**. De ankers zijn E-ankers (extern), geen W-ankers. De wiki-retrieval in § 2–6 is niet opnieuw uitgevoerd.
+- **Werkwijze:** de CBS-tabel [E1] is zelf gedownload en gelezen, inclusief de tabbladen Toelichting en Begrippen. De andere beweringen zijn gecontroleerd via webzoekopdrachten. Van die bronnen zijn alleen de zoeksamenvattingen gelezen, **niet de primaire documenten**. Behandel die oordelen als voorlopig.
+- **De JSON-trace** (§ 8) is niet bijgewerkt. Dit addendum staat alleen in deze markdown.
+
+### 9.2 Externe bronnen
+
+| Anker | Bron | Gebruikt voor |
+|---|---|---|
+| E1 | [CBS, Drinkwatergebruik van datacenters in Nederland 2018–2022 (xlsx, okt. 2026)](https://www.cbs.nl/-/media/_excel/2026/44/drinkwatergebruik-van-datacenters-in-nederland-20182022.xlsx), [projectpagina](https://www.cbs.nl/nl-nl/over-ons/onderzoek-en-innovatie/project/onderzoek-naar-het-drinkwatergebruik-van-datacenters) | drinkwatercijfers, voorbehouden; **zelf gelezen** |
+| E2 | [CBS, Datacenters verbruiken 4,6 procent van de elektriciteit (dec. 2025)](https://www.cbs.nl/nl-nl/nieuws/2025/51/datacenters-verbruiken-4-6-procent-van-de-elektriciteit) | stroomaandeel 2024 |
+| E3 | [Vewin, Kerngegevens drinkwater 2022](https://vewin.nl/wp-content/uploads/2024/06/vewin-kerngegevens-drinkwater-2022.pdf) | noemer: drinkwaterafzet 1.117 mln m³ (2022), 1.125 mln m³ (2021) |
+| E4 | [DDA, Duurzaamheid & Energie](https://www.dutchdatacenters.nl/cijfers/duurzaamheid-energie/), [DDA, Water](https://www.dutchdatacenters.nl/cijfers/water/) | 99% duurzame inkoop; "lokaal zwaarder" |
+| E5 | [De Ingenieur](https://deingenieur.nl/artikelen/koeling-datacenters-geen-gevaar-voor-drinkwatervoorziening), [FTM](https://www.ftm.nl/artikelen/big-tech-datacenters-watervoorziening), [Waterforum](https://www.waterforum.net/minister-vindt-koelen-datacenters-met-drinkwater-niet-wenselijk/), [H2O](https://www.h2owaternetwerk.nl/h2o-actueel/nieuw-datacenter-amsterdam-gaat-420-miljoen-liter-industriewater-per-jaar-gebruiken) | verdringingsreeks; alternatieve waterbronnen |
+| E6 | [AT5](https://www.at5.nl/artikelen/232072/amsterdam-wil-geen-nieuwe-datacentra-meer), [Archidat](https://www.archidat.nl/bouwnieuws/stop-op-datacenters-amsterdam-bespaart-liander-miljoenen) | stop op datacenters in Amsterdam |
+| E7 | [Binnenlands Bestuur](https://www.binnenlandsbestuur.nl/digitaal/begroting-en-jaarrekening/rijk-beperkt-aandeel-public-cloud-vanwege-geopolitiek), [Accountant.nl](https://www.accountant.nl/nieuws/2025/1/rekenkamer-rijk-is-ondoordacht-in-de-cloud-gaan-werken/) | Rijksoverheid en cloud |
+| E8 | [NOS](https://nos.nl/l/2613590), [NL Times](https://nltimes.nl/2026/05/16/northc-data-center-almere-back-online-fire) | brand NorthC Almere |
+| E9 | [Emerce](https://www.emerce.nl/nieuws/nederland-mist-boot-onder-eudatacentra) | doorlooptijd vergunningen |
+| E10 | [Hunton](https://www.hunton.com/privacy-and-cybersecurity-law-blog/european-commission-advances-new-proposal-to-expand-cloud-capacity-and-ai-infrastructure), [Computer Weekly](https://www.computerweekly.com/news/366622165/EU-sets-out-plans-to-at-least-triple-its-AI-datacentre-capacity-over-the-next-seven-years) | EU Cloud and AI Development Act |
+| E11 | [Bundesregierung, Rechenzentrumsstrategie](https://www.bundesregierung.de/breg-de/schwerpunkte/wirksam-regieren/rechenzentrumsstrategie-2412884) | Duitse doelen |
+| E12 | [Tweede Kamer, rapport-Wennink](https://www.tweedekamer.nl/kamerstukken/plenaire_verslagen/kamer_in_het_kort/rapport-wennink-over-toekomstige-welvaart), [Dutch IT Channel](https://www.dutchitchannel.nl/news/720344/peter-wennink-nederlandse-digitale-positie-onder-druk-zonder-investeringen-in-datacenters-en-energie) | rapport-Wennink |
+| E13 | [offshoreWIND.biz](https://www.offshorewind.biz/2024/02/01/google-signs-its-largest-offshore-wind-ppas-to-date/), [DCD](https://datacenterdynamics.com/news/microsoft-signs-15-year-ppa-90mw-netherlands) | PPA's voor wind op zee |
+
+### 9.3 Oordeel per bewering
+
+| # | Bewering in het opiniestuk | Oordeel | Toelichting |
+|---|---|---|---|
+| 1 | Datacenters gebruikten in 2024 "bijna 5 procent" van de Nederlandse elektriciteit | Klopt grotendeels, ruim afgerond | CBS: 4,6% (5,1 mld kWh, voorlopig). Alleen aansluitingen met een datacenter als hoofdactiviteit [E2]. |
+| 2 | "99 procent duurzaam ingekocht" | Misleidend | DDA-cijfer, alleen voor DDA-leden. Eerdere DDA-publicaties noemden 90% en 99,9%. Inkoop via PPA's en certificaten is niet hetzelfde als op elk moment fysiek groene stroom [E4]. |
+| 3 | "Het waterverbruik bedraagt 0,09 procent van het drinkwater" | Het getal klopt ongeveer, de uitspraak is misleidend | Zie § 9.4. |
+| 4 | "Steeds vaker" koeling met regen-, industrie- of gezuiverd afvalwater | Er zijn voorbeelden, de trend is niet aangetoond | Bijvoorbeeld 420 mln liter industriewater per jaar voor een nieuw Amsterdams datacenter [E5]. Dit water zit níet in de 0,09% [E1]. |
+| 5 | Bij waterschaarste worden datacenters "meteen afgeschakeld" | Niet onderbouwd, te stellig | Verdringingsreeks: drinkwater (cat. 2) gaat voor koelwater (cat. 4). Die reeks regelt oppervlaktewater; een waterjurist betwijfelt of drinkwaterlevering aan datacenters eronder valt [E5]. |
+| 6 | Amsterdam "sloot kort geleden de poorten" | Klopt | Tijdelijke stop eind 2023, in 2025 verlengd tot 2035 en ook geldig voor uitbreidingen. De gemeente noemde schaarste op net en ruimte; Liander bespaart ~€125 mln [E6]. |
+| 7 | De Rijksoverheid "stapte massaal over" op Amerikaanse clouddiensten | Overdreven | De Rekenkamer vond dat het Rijk "ondoordacht" de cloud in ging. Het plan voor ~57.000 werkplekken is juist aangepast: mail en documenten blijven in eigen datacenters [E7]. |
+| 8 | Brand in Almere "en de landelijke storing die daarop volgde" | Klopt grotendeels | NorthC, 7 mei 2026. Veel websites en diensten van overheid en instellingen vielen uit; geen data verloren. Of het "landelijk" was, is niet vastgesteld [E8]. |
+| 9 | Vergunningsprocedures duren vijf jaar | Ongeveer juist, de bron is de sector | 4,5 jaar volgens een sectorrapport [E9]. |
+| 10 | De EU wil de capaciteit "in 2035 verdrievoudigen" | Klopt grotendeels, maar het is een voorstel | Commissievoorstel (2026): ongeveer verdrievoudigen in 5–7 jaar. Nog niet aangenomen; bronnen noemen verschillende doeljaren [E10]. |
+| 11 | Datacenters zijn "het fundament van alle doorbraakprojecten" uit het rapport-Wennink | Overdreven | Het rapport pleit voor datacenters en een AI-gigafabriek. "Alle" is niet bevestigd [E12]. |
+| 12 | Duitsland verdubbelt de cloudcapaciteit en verviervoudigt die voor AI | Klopt | Rechenzentrumsstrategie, 18-3-2026: ×2 in 2030 t.o.v. 2025, HPC/AI ten minste ×4 [E11]. |
+| 13 | Datacenters maken wind op zee mogelijk met langlopende contracten | Klopt deels | Vooral hyperscalers: Google 478 MW (Hollandse Kust), Microsoft 90 MW (Borssele, 15 jaar) [E13]. |
+| 14 | Datacenters bij aanlandingspunten "schelen miljarden" aan netverzwaring | Niet te controleren | Geen bron gevonden. |
+| 15 | Restwarmte is een "goedkoop alternatief" | Niet onderbouwd | Niet nagezocht. Restwarmte heeft een lage temperatuur en vraagt warmtepompen en een warmtenet. |
+
+**Rode draad:** de meeste getallen zijn niet verzonnen, maar ze zijn gunstig voor de sector gekozen of afgerond. Elektriciteit en water komen van het CBS; duurzame inkoop en vergunningstijd van de branchevereniging van de auteur.
+
+### 9.4 Het watercijfer: wat het meet en hoe actueel het is
+
+| Jaar | Drinkwater datacenters (×1.000 m³) [E1] | Aandeel van de Vewin-afzet [E3] |
+|---|---|---|
+| 2018* | 693 | — |
+| 2019* | 968 | — |
+| 2020* | 880 | — |
+| 2021* | 976 | 0,087% |
+| 2022* | 940 | 0,084% |
+
+\* Voorlopige cijfers. Het CBS noemt het onderzoek een "eerste verkenning" en heeft de gegevens eenmalig opgevraagd.
+
+**Wat het getal niet meet** (uit de CBS-toelichting [E1]):
+1. Alleen drinkwater. Grond-, oppervlakte-, regen- en industriewater tellen niet mee, "hoewel datacenters dit wel gebruiken".
+2. Een onderschatting. Maar een deel van de datacenters kon aan een drinkwateraansluiting worden gekoppeld, en ontbrekende gegevens zijn niet aangevuld.
+3. 2018 en 2022 zijn onvolledig, omdat er aan het begin van 2018 en het eind van 2022 data ontbreekt. De "stijging" van 2018 naar 2019 komt dus waarschijnlijk door de meetmethode.
+4. De populatie is die van 2024, teruggekoppeld naar 2018–2022. Datacenters die tussentijds zijn gesloten, ontbreken mogelijk.
+
+**Actualiteit:** het CBS publiceerde in oktober 2026, maar het laatste jaar is 2022, bijna vier jaar oud. De AI-groei van na 2023 zit er niet in. Het stroomaandeel steeg in dezelfde periode van 3,3% (2021) naar 4,6% (2024) [E2]. Het CBS noemt het percentage niet zelf. 0,09% past bij 2021; voor 2022 kom je afgerond op 0,08%. De StatLine-tabel "Watergebruik binnen de Nederlandse economie" gaat in november 2026 tot en met 2024, maar deelt in naar bedrijfstak (SBI J), niet naar datacenters.
+
+**Niet geverifieerd:** volgens een zoeksamenvatting noemde de DDA al vóór oktober 2026 "0,09% (CBS, 2025)". Dan circuleerde het percentage eerder, mogelijk op basis van een andere CBS-indeling. De DDA-pagina is niet zelf gelezen.
+
+**Preciezere formulering:** "In 2022 gebruikten datacenters voor zover bekend ten minste 0,08–0,09 procent van het Nederlandse drinkwater. Hun totale watergebruik is onbekend."
+
+### 9.5 Betekenis voor A1
+
+- Het Nederlandse drinkwatercijfer steunt het "klein aandeel"-argument van Evans [W4], net als de 0,017% voor de VS. Het heeft dezelfde zwakte: een landelijk gemiddelde zegt niets over lokale druk. De DDA geeft dat zelf toe [E4].
+- Bij stroom is de Nederlandse kritiek concreter dan in de wiki: Amsterdam stopt met nieuwe datacenters vanwege netcongestie [E6]. Dat sluit aan bij Sivaram: het knelpunt is netcapaciteit, niet de totale energie [W3].
+- Voor de presentatie: noem bij elk cijfer het jaar en wat het meet. "0,09% van het drinkwater (2021–2022, onderschatting)" in plaats van "0,09% waterverbruik".
