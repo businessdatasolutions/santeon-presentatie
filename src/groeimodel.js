@@ -1,4 +1,4 @@
-/* Groeimodel Ask → Assist → Automate (2c). Vast script, geen netwerkaanroepen.
+/* Groeimodel Ask → Assist → Automate (2b). Vast script, geen netwerkaanroepen.
    Elke stap zet body[data-stap] en de klassen op de drie treden; de CSS doet de overgangen.
    Stap 1: overzicht · 2–4: één niveau uitgelicht · 5: samenvatting met de harde grens. */
 

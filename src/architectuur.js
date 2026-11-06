@@ -1,7 +1,7 @@
 /* Van ruwe melding naar bestuurbaar signaal — twee pagina's, één script.
    <body data-versie="keten">    architectuur.html (3a): deel 1 de happy flow als 3D-stapel (Three.js),
                                  deel 2 twee meldingen langs zes stations (D3 + motion).
-   <body data-versie="groeipad"> groeipad.html (2c): dezelfde stapel, van Ask naar Automate,
+   <body data-versie="groeipad"> groeipad.html (2b): dezelfde stapel, van Ask naar Automate,
                                  met de feedbackstroom van de mens terug het systeem in.
    Vast script, geen netwerkaanroepen. Meldingen en uitkomsten zijn gelijk aan
    vim-okf-simulatie.jsx en vim-agent-animatie.html (VIM-2026-0470 en VIM-2026-0485). */
@@ -45,7 +45,7 @@ const VERSIES = {
   },
   groeipad: {
     kop: ["Van Ask naar Automate in de keten"],
-    deel: ["2c · Groeimodel"],
+    deel: ["2b · Groeimodel"],
     stappen: [
       { deel: 0, scene: "ask", laag: "Stap 1 · niveau Ask", titel: "Een mens beoordeelt alles", tekst: ["Een mens beoordeelt elk voorstel van de AI.", "Elke correctie gaat terug: naar de instructies, de kennis en de begrippen.", "Soms ook naar de melder: wat ontbrak er in de melding?"] },
       { deel: 0, scene: "meekijken", laag: "Stap 2 · meekijken bij twijfel", titel: "De AI geeft zijn zekerheid", tekst: ["Per SAC-niveau geeft de AI een kans.", "Is de hoogste kans lager dan 90%? Dan kijkt een mens mee.", "Een steekproef van de zekere gevallen ziet de mens ook."],
@@ -79,7 +79,7 @@ function maakStapel(doek, labelLaag) {
   // (lake: blijven liggen, stijg: tot hoogte top, keten: helemaal door tot de rapportage);
   // bestanden = welke OKF-labels zichtbaar zijn; mens = welke meldingen langs de mens gaan
   // (geen mens = happy flow, alles gaat direct door); feedback = sterkte van de terugstroom.
-  // Groeipad (2c):
+  // Groeipad (2b):
   //   ask        — een mens beoordeelt elke melding.
   //   meekijken  — de AI geeft per SAC-niveau een kans. Een mens kijkt mee als de hoogste kans
   //                onder de drempel (90%) ligt, plus een steekproef van de zekere gevallen.

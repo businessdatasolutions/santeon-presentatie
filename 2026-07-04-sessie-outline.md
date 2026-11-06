@@ -29,8 +29,8 @@ De kwaliteitsadviseurs zoeken nog wat AI voor hen kan doen, ook bij incidentmeld
 De outline beantwoordt deze vraag op vijf plaatsen:
 
 1. een belofte in de opening;
-2. een apart blok in het Hoe (2b);
-3. een kansenkaart aan het begin van het groeimodel (2c);
+2. een kansenkaart aan het begin van het groeimodel (2b);
+3. een apart blok aan het eind van het Hoe, vlak voor de demo (2c);
 4. een veilige werkvorm in het interactieve deel (3b);
 5. voorbereide antwoorden onderaan dit document.
 
@@ -50,11 +50,11 @@ De Golden Circle begint bij het waarom. Daarna komen het hoe en het wat. Het pub
 |---|---|---|---|
 | Opening | Wie spreekt er, en wat komt er? | Welkom, agenda en een belofte over veiligheid. | 5 min |
 | **Waarom** | Waarom is AI belangrijk voor het kwaliteitsvak? | AI is een kans om het vak beter te maken. Iedereen staat nog aan het begin. | 10 min |
-| **Hoe** | Hoe gebruik je AI veilig? | Expliciete regels, drie veiligheidsvragen en een groeimodel in drie niveaus. | 33 min |
+| **Hoe** | Hoe gebruik je AI veilig? | Expliciete regels, een groeimodel in drie niveaus en drie veiligheidsvragen. | 33 min |
 | **Wat** | Wat kan AI vandaag al? | Een werkend prototype op het VIM-proces. Het publiek vergelijkt het eigen oordeel met de AI. | 32 min |
 | Afsluiting | Wat doe je morgen? | Terug naar het waarom. Een eerste stap voor morgen. | 10 min |
 
-**Opmerking:** de vaste structuur van het project is Opening → Deel 1 → Brug → Deel 2 → Afsluiting. In deze versie zijn Waarom en Hoe 2a–2b samen Deel 1. Hoe 2c is de Brug. Wat is Deel 2.
+**Opmerking:** de vaste structuur van het project is Opening → Deel 1 → Brug → Deel 2 → Afsluiting. In deze versie zijn Waarom en Hoe 2a samen Deel 1. Hoe 2b en 2c zijn de Brug: eerst het groeimodel op het VIM-proces, dan de drie veiligheidsvragen. Wat is Deel 2.
 
 ### Afspraken
 
@@ -94,7 +94,7 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 3. Vertel waarom je deze sessie geeft.
 4. Noem dat alle Santeon-ziekenhuizen in de zaal zitten.
 5. Noem meteen de vraag uit het netwerk: "Is AI wel veilig om te gebruiken?"
-6. Geef een belofte: "Het antwoord is geen eenvoudig ja of nee. Het antwoord hangt af van drie vragen: is AI veilig voor de gegevens, voor de patiënt en voor de melder? Voor elke vraag geef ik je een toetssteen uit regels die je al kent. Aan het eind van de sessie bepaal je welke vragen je voor je eigen ziekenhuis al kunt beantwoorden. Voor de andere vragen weet je dan wie het antwoord kent."
+6. Geef een belofte: "Het antwoord is geen eenvoudig ja of nee. Het antwoord hangt af van drie vragen: is AI veilig voor de gegevens, voor de patiënt en voor de melder? Voor elke vraag geef ik je een toetssteen uit regels die je al kent. Aan het eind van de sessie bepaal je welke vragen je voor je eigen ziekenhuis al kunt beantwoorden. Voor de andere vragen bepaal je wie je om het antwoord vraagt."
 7. Geef de agenda: "Eerst vertel ik waarom dit belangrijk is. Dan laat ik zien hoe het veilig kan. Dan laten we het echt werken zien."
 
 **Opmerking:** door de belofte in stap 6 blijft niemand de hele sessie met de veiligheidsvraag zitten.
@@ -163,8 +163,8 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
      2. De fragmenten lichten op: wat er gebeurde, waar, het gevolg en de omstandigheid. Zeg: "Jij leest twee valincidenten. Een computer ziet alleen woorden."
      3. De ontologie: begrippen, waarden en relaties, zoals `Incident heeftCategorie → Categorie`. Zeg: "Deze lijst stellen jullie vast, niet de AI."
      4. Eén regel per melding. Beide meldingen krijgen de categorie Val en de afdeling Geriatrie. Elke waarde heeft een citaat. In de demo vult de agent deze regel in. Daarom heeft de regel de AI-markering.
-     5. Het patroon: zoek op Categorie = Val en Afdeling = Geriatrie. Nu vind je beide meldingen. In beide meldingen stond het bed te hoog. Dat is een signaal op het niveau Ask (2c). De kwaliteitsadviseur beslist.
-     6. Wat het oplost: je kunt tellen en vergelijken, over afdelingen heen (route 3) en in het netwerk. De ontologie maakt ook de twee eisen uit 2b mogelijk. Elke waarde is te herleiden. Een melding die in geen begrip past, gaat naar een mens.
+     5. Het patroon: zoek op Categorie = Val en Afdeling = Geriatrie. Nu vind je beide meldingen. In beide meldingen stond het bed te hoog. Dat is een signaal op het niveau Ask (2b). De kwaliteitsadviseur beslist.
+     6. Wat het oplost: je kunt tellen en vergelijken, over afdelingen heen (route 3) en in het netwerk. De ontologie maakt ook de twee eisen uit 2c mogelijk. Elke waarde is te herleiden. Een melding die in geen begrip past, gaat naar een mens.
    - **Let op:** de pagina toont geen SAC-score, geen basisoorzaak en geen vervolgactie. De live AI geeft daar per keer een ander antwoord. De score van 0470 stelt een mens vast (zie de casus 0470). Zeg dus niets over de ernst van 0470.
    - **Getest op 6 november:** 0418 en 0470 krijgen allebei de categorie Val en de afdeling Geriatrie. Dat geldt voor de live AI (twee keer getest) en voor de fallback.
 4. Onderbouw de kernstelling met Peron (Philips, MIT SMR).
@@ -187,65 +187,7 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 
 **Opmerking:** Peron is een van de weinige bronnen in de wiki die specifiek over AI in de zorg gaan. Stap 6 gebruikt de kernwaarde van het publiek als model voor toezicht op AI.
 
-#### 2b. "Is het veilig?" Drie vragen in plaats van één (9 min)
-
-**Aanleiding:** juist deze vraag komt vaak terug in het netwerk. Neem de vraag serieus en letterlijk. Het eerlijke antwoord is niet "ja" of "nee". Het eerlijke antwoord is een wedervraag: "Veilig voor wie?" In de vraag zitten drie vragen. Voor alle drie heeft het publiek al een toetssteen in de eigen regels.
-
-1. Zeg de aanleiding.
-2. Behandel vraag 1.
-
-   **Vraag 1 — Veilig voor de gegevens: waar gaat de melding naartoe, en wie kan meelezen?**
-
-   - **Toetssteen:** art. 9 Wkkgz.
-     - In het incidentenregister mag de zorgaanbieder gezondheidsgegevens zonder toestemming verwerken (lid 1).
-     - De procedure moet garanderen dat **alleen de functionarissen die met de meldingen werken** persoonsgegevens kunnen zien (lid 3).
-     - De zorgaanbieder is verwerkingsverantwoordelijke onder de AVG (lid 8).
-   - **Vertaling:** een melding in een publieke chatbot plakken is een melding delen met "anderen". Een AI-toepassing hoort binnen de beschermde kring. Dat is een omgeving die het ziekenhuis heeft goedgekeurd en gecontracteerd. Die omgeving heeft een verwerkersovereenkomst en afspraken over opslag. De leverancier gebruikt de gegevens niet om modellen te trainen. Stem de omgeving af met de FG en met informatiebeveiliging.
-   - **KNMG:** een melding bevat "zoveel mogelijk geanonimiseerde informatie". Maar vrije tekst is vaak toch te herleiden, bijvoorbeeld via afdeling + datum + een bijzonderheid. Ga er dus niet van uit dat een melding anoniem is.
-
-3. Behandel vraag 2.
-
-   **Vraag 2 — Veilig voor de patiënt: kan ik de uitkomst vertrouwen?**
-
-   - Leg de jagged frontier uit: AI is betrouwbaar *binnen* een afgebakende, goed beschreven taak. Buiten die taak is AI niet betrouwbaar.
-   - Geef de vuistregel van Böckeler als checklist. Hoeveel toezicht heeft een taak nodig?
-     **Toezicht = (kans op een fout) × (impact van de fout) × (detecteerbaarheid van de fout)**.
-   - Geef twee eisen die het publiek aan élke AI-uitkomst mag stellen:
-     1. Elke uitspraak is te herleiden naar de brontekst (een citaat).
-     2. Bij twijfel of tegenstrijdigheid escaleert het systeem. Het systeem gokt niet.
-   - Zeg: "Beide eisen zie je straks in de demo."
-
-   **Achtergrond bij eis 2:** het grootste gevaar is een vloeiend antwoord dat op een gok rust. Leg daarom als regel vast: "Vul niet in. Kom terug en zeg dat je het niet weet." (In de wiki: *"Say I don't know"*.)
-
-   **Reserve (nieuw) — waarom meten, en niet op gevoel?** De grens van de jagged frontier is van binnenuit niet te zien.
-
-   - In een gerandomiseerde studie (METR) werkten ervaren ontwikkelaars met AI 19% trager. Zelf dachten ze dat ze 20% sneller werkten.
-   - Lakhani is medeauteur van het jagged-frontier-onderzoek. Hij zegt over AI: *"is not perfect but it talks really well"*. In het BCG-experiment verdedigde het model zich harder als consultants tegengas gaven, ook als het model ongelijk had. Zijn tip: laat het model eerst tégen je in argumenteren.
-
-   **Reserve (nieuw) — een voorbeeld uit de zorg:** Hippocratic AI gebruikt spraakagenten voor routinecontact met patiënten. Die agenten volgen dezelfde regels:
-
-   - De agenten stellen geen diagnose en schrijven niets voor.
-   - Bij een echte klinische vraag komt er een mens bij.
-   - Een apart model test het systeem steeds.
-
-   Let op: de bron is een marketingvideo. De term "nul veiligheidsincidenten" heeft in die video geen definitie.
-
-4. Behandel vraag 3.
-
-   **Vraag 3 — Veilig voor de melder: blijft melden veilig?**
-
-   - **Toetssteen 1:** KNMG "veilig melden". De organisatie mag een melding niet gebruiken voor maatregelen tegen de melder of tegen andere betrokkenen.
-   - **Toetssteen 2:** art. 9 lid 6 Wkkgz. Gegevens over intern gemelde incidenten zijn geen bewijs en geen grond voor een disciplinaire maatregel. Uitzonderingen: calamiteiten en geweld in de zorgrelatie. Er is ook een beperkte uitzondering voor strafrechtelijk bewijs.
-   - **Vertaling:** richt AI op patronen in het systeem. Richt AI nooit op personen. Doe dus geen analyses als "wie meldt het meest" of "wie veroorzaakt het meest".
-   - **Open vraag voor de eigen jurist of FG:** blijven gegevens die de AI maakt (samenvattingen, classificaties) binnen het beschermde register? Of komt er een kopie buiten die bescherming?
-   - Verbind vraag 3 met stap 6 uit 2a: "veilig melden" is het model voor toezicht op AI.
-
-5. Toon de tekst op de dia: *"Is het veilig? Veilig voor de gegevens · veilig voor de patiënt · veilig voor de melder."*
-6. Zeg de boodschap: "Bij alle drie de vragen bepalen de afspraken rond de technologie het antwoord. Dat zijn weer de rules of engagement."
-
-**Opmerking:** het publiek wil een concreet kader. Met deze drie vragen kan het publiek elke nieuwe AI-toepassing zelf afwegen.
-
-#### 2c. Groeimodel: Ask → Assist → Automate op het VIM-proces (13 min)
+#### 2b. Groeimodel: Ask → Assist → Automate op het VIM-proces (13 min)
 
 **Kansenkaart: waar in het VIM-proces kan AI helpen? (3 min)**
 
@@ -318,6 +260,66 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 - **Zeg:** "Het systeem leert van jouw oordeel. Daarom begin je met alles zelf beoordelen."
 - **Let op:** de kansen zijn een voorbeeld. De live demo geeft geen kansen per SAC-niveau. Die werkt met grensvoorwaarden en een citaat als bewijs.
 
+**Overgang naar 2c:** "Op niveau Automate beslist de AI over de meeste meldingen. Dan stel je terecht de vraag uit het netwerk: is dit veilig?"
+
+#### 2c. "Is het veilig?" Drie vragen in plaats van één (9 min)
+
+**Aanleiding:** na het groeipad stelt de zaal deze vraag zelf. Neem de vraag serieus en letterlijk. Het eerlijke antwoord is niet "ja" of "nee". Het eerlijke antwoord is een wedervraag: "Veilig voor wie?" In de vraag zitten drie vragen. Voor alle drie heeft het publiek al een toetssteen in de eigen regels.
+
+1. Zeg de aanleiding.
+2. Behandel vraag 1.
+
+   **Vraag 1 — Veilig voor de gegevens: waar gaat de melding naartoe, en wie kan meelezen?**
+
+   - **Toetssteen:** art. 9 Wkkgz.
+     - In het incidentenregister mag de zorgaanbieder gezondheidsgegevens zonder toestemming verwerken (lid 1).
+     - De procedure moet garanderen dat **alleen de functionarissen die met de meldingen werken** persoonsgegevens kunnen zien (lid 3).
+     - De zorgaanbieder is verwerkingsverantwoordelijke onder de AVG (lid 8).
+   - **Vertaling:** een melding in een publieke chatbot plakken is een melding delen met "anderen". Een AI-toepassing hoort binnen de beschermde kring. Dat is een omgeving die het ziekenhuis heeft goedgekeurd en gecontracteerd. Die omgeving heeft een verwerkersovereenkomst en afspraken over opslag. De leverancier gebruikt de gegevens niet om modellen te trainen. Stem de omgeving af met de FG en met informatiebeveiliging.
+   - **KNMG:** een melding bevat "zoveel mogelijk geanonimiseerde informatie". Maar vrije tekst is vaak toch te herleiden, bijvoorbeeld via afdeling + datum + een bijzonderheid. Ga er dus niet van uit dat een melding anoniem is.
+
+3. Behandel vraag 2.
+
+   **Vraag 2 — Veilig voor de patiënt: kan ik de uitkomst vertrouwen?**
+
+   - Leg de jagged frontier uit: AI is betrouwbaar *binnen* een afgebakende, goed beschreven taak. Buiten die taak is AI niet betrouwbaar.
+   - Geef de vuistregel van Böckeler als checklist. Hoeveel toezicht heeft een taak nodig?
+     **Toezicht = (kans op een fout) × (impact van de fout) × (detecteerbaarheid van de fout)**.
+   - Geef twee eisen die het publiek aan élke AI-uitkomst mag stellen:
+     1. Elke uitspraak is te herleiden naar de brontekst (een citaat).
+     2. Bij twijfel of tegenstrijdigheid escaleert het systeem. Het systeem gokt niet.
+   - Zeg: "Beide eisen zie je straks in de demo."
+
+   **Achtergrond bij eis 2:** het grootste gevaar is een vloeiend antwoord dat op een gok rust. Leg daarom als regel vast: "Vul niet in. Kom terug en zeg dat je het niet weet." (In de wiki: *"Say I don't know"*.)
+
+   **Reserve (nieuw) — waarom meten, en niet op gevoel?** De grens van de jagged frontier is van binnenuit niet te zien.
+
+   - In een gerandomiseerde studie (METR) werkten ervaren ontwikkelaars met AI 19% trager. Zelf dachten ze dat ze 20% sneller werkten.
+   - Lakhani is medeauteur van het jagged-frontier-onderzoek. Hij zegt over AI: *"is not perfect but it talks really well"*. In het BCG-experiment verdedigde het model zich harder als consultants tegengas gaven, ook als het model ongelijk had. Zijn tip: laat het model eerst tégen je in argumenteren.
+
+   **Reserve (nieuw) — een voorbeeld uit de zorg:** Hippocratic AI gebruikt spraakagenten voor routinecontact met patiënten. Die agenten volgen dezelfde regels:
+
+   - De agenten stellen geen diagnose en schrijven niets voor.
+   - Bij een echte klinische vraag komt er een mens bij.
+   - Een apart model test het systeem steeds.
+
+   Let op: de bron is een marketingvideo. De term "nul veiligheidsincidenten" heeft in die video geen definitie.
+
+4. Behandel vraag 3.
+
+   **Vraag 3 — Veilig voor de melder: blijft melden veilig?**
+
+   - **Toetssteen 1:** KNMG "veilig melden". De organisatie mag een melding niet gebruiken voor maatregelen tegen de melder of tegen andere betrokkenen.
+   - **Toetssteen 2:** art. 9 lid 6 Wkkgz. Gegevens over intern gemelde incidenten zijn geen bewijs en geen grond voor een disciplinaire maatregel. Uitzonderingen: calamiteiten en geweld in de zorgrelatie. Er is ook een beperkte uitzondering voor strafrechtelijk bewijs.
+   - **Vertaling:** richt AI op patronen in het systeem. Richt AI nooit op personen. Doe dus geen analyses als "wie meldt het meest" of "wie veroorzaakt het meest".
+   - **Open vraag voor de eigen jurist of FG:** blijven gegevens die de AI maakt (samenvattingen, classificaties) binnen het beschermde register? Of komt er een kopie buiten die bescherming?
+   - Verbind vraag 3 met stap 6 uit 2a: "veilig melden" is het model voor toezicht op AI.
+
+5. Toon de tekst op de dia: *"Is het veilig? Veilig voor de gegevens · veilig voor de patiënt · veilig voor de melder."*
+6. Zeg de boodschap: "Bij alle drie de vragen bepalen de afspraken rond de technologie het antwoord. Dat zijn weer de rules of engagement."
+
+**Opmerking:** het publiek wil een concreet kader. Met deze drie vragen kan het publiek elke nieuwe AI-toepassing zelf afwegen.
+
 **Overgang naar Wat:** "Wat je zo ziet, is niveau 1: Ask. Assist en Automate zijn de volgende niveaus. Je groeit bewust, stap voor stap. Je blijft aan het stuur bij elke escalatie."
 
 ---
@@ -332,7 +334,7 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 
 - **Starten:** kies op de startpagina "Van melding naar signaal". Klik verder met de pijltjes, de spatiebalk of de klikker.
 - **Deel 1, hoog over (6 stappen):** de happy flow. Zo werkt de keten als alles goed gaat. De vijf lagen staan als een stapel in 3D. De meldingen gaan automatisch van onder naar boven. Bij de laag AI-agent lichten vier kennisbestanden op. Lijnen lopen naar de agent. Zo zie je welke kennis de agent leest.
-- **Bij de laatste stap van deel 1:** zeg "Dit is de keten als alles goed gaat. Vandaag zit er nog een mens tussen." Zo sluit het beeld aan op het groeipad uit 2c.
+- **Bij de laatste stap van deel 1:** zeg "Dit is de keten als alles goed gaat. Vandaag zit er nog een mens tussen." Zo sluit het beeld aan op het groeipad uit 2b.
 - **Deel 2, twee meldingen (6 stappen):** dit is vandaag, op niveau Ask. VIM-2026-0470 (Geriatrie, geen letsel) en VIM-2026-0485 (IC, overleden) gaan samen langs zes stations.
 - **Wijs op drie momenten:**
   1. Ontologie: in 0470 staat het woord "val" niet. Toch is het een val. Verwijs terug naar 2a. Leg de ontologie niet opnieuw uit.
@@ -357,9 +359,9 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 
 **Spreekinstructies**
 
-1. **Zeg waar de gegevens heen gaan (1 min).** Alle meldingen in de demo zijn verzonnen (St. Machteld). Dat is een bewuste keuze. In deze demo gaat de tekst van de melding naar een extern taalmodel. Met echte meldingen mag dat alleen in een omgeving die aan art. 9 Wkkgz voldoet (vraag 1 uit 2b). Zo toont de demo zelf hoe je de veiligheidsvraag beantwoordt.
+1. **Zeg waar de gegevens heen gaan (1 min).** Alle meldingen in de demo zijn verzonnen (St. Machteld). Dat is een bewuste keuze. In deze demo gaat de tekst van de melding naar een extern taalmodel. Met echte meldingen mag dat alleen in een omgeving die aan art. 9 Wkkgz voldoet (vraag 1 uit 2c). Zo toont de demo zelf hoe je de veiligheidsvraag beantwoordt.
 2. **Toon kort het scherm Semantische laag (30 seconden).** Kies in de demo "Semantische laag". Wijs op de relaties, zoals `Incident heeftCategorie → Categorie`. Zeg: "Dit is de ontologie uit 2a. De agent gebruikt alleen deze begrippen."
-3. **Toon melding VIM-2026-0501.** De melding is onvolledig. De agent vraagt door ("Is de dubbelcheck uitgevoerd?"). De agent gokt niet. Dit is het antwoord op vraag 2 uit 2b, in de praktijk. (Getest op 4 november: drie vragen aan de InfoProvider, daarna SAC 2 en "Geverifieerd".)
+3. **Toon melding VIM-2026-0501.** De melding is onvolledig. De agent vraagt door ("Is de dubbelcheck uitgevoerd?"). De agent gokt niet. Dit is het antwoord op vraag 2 uit 2c, in de praktijk. (Getest op 4 november: drie vragen aan de InfoProvider, daarna SAC 2 en "Geverifieerd".)
 4. **Leg het label "Geverifieerd" uit.** Een aparte aanroep controleert de triage tegen het draaiboek (de OKF-kennisbundel). Dat is de regel "Laat een agent nooit zijn eigen huiswerk nakijken" (wiki, nieuw). Ook Hippocratic AI laat zijn zorgagenten door een apart model testen.
 5. Laat de AI live gesimuleerde meldingen van meerdere afdelingen lezen.
 6. Laat zien dat de AI een patroon over afdelingen signaleert.
@@ -372,7 +374,7 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 
 #### 3b. Mens tegen agent, en het gesprek (15 min)
 
-**Bewust géén echte meldingen.** De demo heeft geen invoerveld. Echte meldingen uit de eigen ziekenhuizen horen niet in een demo-omgeving (vraag 1 uit 2b). Zeg dat hardop: "Dit is het veiligheidsverhaal in de praktijk."
+**Bewust géén echte meldingen.** De demo heeft geen invoerveld. Echte meldingen uit de eigen ziekenhuizen horen niet in een demo-omgeving (vraag 1 uit 2c). Zeg dat hardop: "Dit is het veiligheidsverhaal in de praktijk."
 
 **Mens tegen agent (ongeveer 4 min)**
 
@@ -382,7 +384,7 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 4. Toon daarna de agent. De agent kiest géén score. De agent escaleert, met de tegenstrijdigheid als reden.
 5. Zeg de boodschap: "Bij twijfel is escaleren het goede antwoord. Ook voor AI."
 
-**Opmerking:** ook de fallback escaleert deze melding. Lakhani raadt de volgorde "eerst zelf scoren, dan de machine" ook aan. Zo blijf je het vak leren (zie Assist in 2c).
+**Opmerking:** ook de fallback escaleert deze melding. Lakhani raadt de volgorde "eerst zelf scoren, dan de machine" ook aan. Zo blijf je het vak leren (zie Assist in 2b).
 
 **Gesprek in kleine groepen (ongeveer 8 min)**
 
@@ -476,7 +478,7 @@ Voor deze zaal is vooral artikel 4 belangrijk (van kracht sinds februari 2025). 
    - Optioneel: werk de oude versie op witusj.github.io bij, of haal die offline. Dan gebruikt niemand de verkeerde link.
 3. Vraag Carien:
    1. Wat is de opstelling van de zaal: tafels of theater? Dat bepaalt de werkvorm in 3b.
-   2. Is er in het netwerk al AI-beleid, of een standpunt van FG's of CISO's? Dan kan 2b daarnaar verwijzen.
+   2. Is er in het netwerk al AI-beleid, of een standpunt van FG's of CISO's? Dan kan 2c daarnaar verwijzen.
 4. Laat een FG of jurist uit het netwerk de juridische punten kort controleren: Wkkgz art. 9 en 11, AI-verordening art. 4, en de voorbereide antwoorden. De Wkkgz-citaten komen uit de wettekst in `background-material/`. De vertaling naar AI is een eigen interpretatie.
 5. Oefen de sessie hardop, met een klok. De tijd is krap met een live demo en een interactief deel. Plan daarom een buffer van 5 minuten.
 6. **De wiki-update van 4 november is verwerkt.** De trace staat in `background-material/2026-07-01-hospital-quality-ai-presentation-query-trace.md`. De atlas is bijgewerkt. De nieuwe punten zijn spreeknotities en reserve, **geen extra dia's**. Kies bij het oefenen (stap 5) per blok hooguit één nieuw punt om echt te zeggen. Neem de nieuwe citaten mee in de controle door de FG of jurist (stap 4).

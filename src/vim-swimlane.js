@@ -1,4 +1,4 @@
-/* Het VIM-proces als swimlane (2c): wie doet wat, van melding tot verbetering.
+/* Het VIM-proces als swimlane (2b): wie doet wat, van melding tot verbetering.
    d3      tekent het bord: banen (rollen), kolommen (fasen), vakken, pijlen.
    motion  regelt de overgangen: de baan waar je over praat groeit en toont de volledige
            tekst, de andere banen krimpen. Een stip (de melding) loopt door de stappen.

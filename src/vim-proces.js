@@ -1,4 +1,4 @@
-/* Het VIM-proces (2c): van melding tot verbetering.
+/* Het VIM-proces (2b): van melding tot verbetering.
    d3      tekent het schema: knopen, pijlen, takken en de terugkoppellus (SVG).
    Three.js tekent de meldingen die door het schema stromen (laag boven de SVG):
             bolletjes = meldingen, grijs tot de triage en daarna in de SAC-kleur;
