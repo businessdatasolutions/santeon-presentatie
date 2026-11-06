@@ -282,11 +282,27 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 **AUTOMATE — "AI handelt zelf af, met een harde grens"**
 
 - **De AI:** bij de duidelijkste gevallen met het laagste risico sluit de AI de cyclus zelf. De AI signaleert, classificeert, archiveert (eindpunt A) en informeert de afdelingen.
-- **De harde grens:** is de score onduidelijk, is het patroon nieuw, of is het een calamiteit (route 4)? Dan gaat de melding altijd naar een mens.
+- **De harde grens, in drie regels:**
+  1. Per melding: een calamiteit (route 4) gaat altijd naar een mens.
+  2. Twijfel komt bij de mens, als het model goed gekalibreerd is. Dat meet je met de feedback: als de AI "90% zeker" zegt, klopt het dan ook in ongeveer 90% van de gevallen? Een goed gekalibreerd model twijfelt ook bij een nieuw patroon. Zo komt dat vanzelf bij de mens.
+  3. Per patroon: de AI schat de kans uit de data, over afdelingen heen. Een stijgend risico gaat als signaal naar een mens.
 - **Leg ook vast wíe een escalatie oppakt.** Voorbeeld: in een experiment werd een bedrijf volledig door AI-agenten geleid. Op dag 19 waarschuwde de AI dat het bedrijf de verkeerde kant op ging. Niemand deed iets met die waarschuwing.
 - **Nieuw — kanttekening bij "de afdelingen informeren".** Onderzoek naar *delegation regret* (spijt over een uitbestede beslissing) laat dit zien. Mensen willen vooral een controle bij handelingen die **onomkeerbaar én zichtbaar voor anderen** zijn. Dat zijn niet altijd de "grote" beslissingen. Een bericht aan afdelingen is zo'n handeling. Laat dat bericht daarom ook op het niveau Automate eerst als voorbeeld langs een mens gaan.
 - **Citaat:** *"Als het afdelingshoofd niet verantwoordelijk gehouden kan worden voor het resultaat, heb je een demo, geen agent"*. Een BCG-onderzoek laat zien waarom dat nodig is. Van 70 bestuurders zegt meer dan de helft: bij een fout krijgt de AI de schuld.
 - **Waarom de grens hard is:** PSEBench toont dat AI-modellen bij twijfelgevallen onbetrouwbaar worden. De modellen zijn dan ook te zeker. Automatiseer daarom alleen de duidelijke gevallen. Automatiseer nooit de grensgevallen.
+
+**Het groeipad in de keten (4 min)**
+
+- **Starten:** kies op de startpagina "Groeipad in de keten". Dit is dezelfde 3D-stapel als in 3a, nu met een mens erin. Klik verder met de pijltjes of de klikker.
+- **Vijf stappen:**
+  1. Niveau Ask: een mens beoordeelt elke melding. De organisatie is nog weinig volwassen in AI. Ze leert zo hoe goed de AI is.
+  2. Meekijken bij twijfel: de AI geeft per SAC-niveau een kans, bijvoorbeeld SAC 1 tot en met 4 = 5, 10, 15 en 70%. Het meest waarschijnlijke niveau is dan SAC 4. Is de hoogste kans lager dan 90%? Dan kijkt een mens mee. Een steekproef van de zekere gevallen ziet de mens ook (zie de valkuil "afstempelen"). In de stapel is een licht bolletje een melding waarover de AI twijfelt.
+  3. Het model leert: de correcties worden data. Welke voorstellen waren fout-positief of fout-negatief? Het model leert daarvan en onderscheidt scherper. In het voorbeeld gaat de kans op SAC 4 van 70 naar 93%. Er zijn minder lichte bolletjes, dus minder meldingen langs de mens.
+  4. Niveau Automate: alleen calamiteiten gaan naar een mens, hoe zeker de AI ook is. Alle andere meldingen gaan direct naar het overzicht. Wijs op de rode lijn: de mens meldt de calamiteit binnen 3 werkdagen bij de IGJ. Daarna staat de calamiteit ook in de rapportage voor het bestuur.
+  5. Het systeem onthoudt: drie valincidenten in twee weken, op drie afdelingen. Normaal is één valincident per maand. Stel de vraag: "Past dit nog bij normaal?" Bij normaal is de kans op drie of meer 1,4%. Dus de kans stijgt, en het risico ook (risico = kans × impact). Het patroon gaat als signaal naar een mens, met minimaal SAC 2. Elke melding houdt zelf SAC 4. Laat geen formules zien.
+- **De feedbackstroom:** wijs bij stap 1 op de lijnen van de mens terug naar beneden. Elke correctie verbetert de instructies van de agent, de OKF-kennis en de ontologie. Soms gaat een correctie naar de melder: wat ontbrak er in de melding? In het begin is die stroom groot. Bij elke stap wordt hij kleiner.
+- **Zeg:** "Het systeem leert van jouw oordeel. Daarom begin je met alles zelf beoordelen."
+- **Let op:** de kansen zijn een voorbeeld. De live demo geeft geen kansen per SAC-niveau. Die werkt met grensvoorwaarden en een citaat als bewijs.
 
 **Overgang naar Wat:** "Wat je zo ziet, is niveau 1: Ask. Assist en Automate zijn de volgende niveaus. Je groeit bewust, stap voor stap. Je blijft aan het stuur bij elke escalatie."
 
@@ -297,6 +313,19 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 **Kernboodschap:** "Dit kan vandaag al, op het niveau Ask."
 
 #### 3a. Live demo (18–20 min)
+
+**Eerst: de keten in beeld (4 min)**
+
+- **Starten:** kies op de startpagina "Van melding naar signaal". Klik verder met de pijltjes, de spatiebalk of de klikker.
+- **Deel 1, hoog over (6 stappen):** de happy flow. Zo werkt de keten als alles goed gaat. De vijf lagen staan als een stapel in 3D. De meldingen gaan automatisch van onder naar boven. Bij de laag AI-agent lichten vier kennisbestanden op. Lijnen lopen naar de agent. Zo zie je welke kennis de agent leest.
+- **Bij de laatste stap van deel 1:** zeg "Dit is de keten als alles goed gaat. Vandaag zit er nog een mens tussen." Zo sluit het beeld aan op het groeipad uit 2c.
+- **Deel 2, twee meldingen (6 stappen):** dit is vandaag, op niveau Ask. VIM-2026-0470 (Geriatrie, geen letsel) en VIM-2026-0485 (IC, overleden) gaan samen langs zes stations.
+- **Wijs op drie momenten:**
+  1. Ontologie: in 0470 staat het woord "val" niet. Toch is het een val. Dat is de waarde van één vaste taal (2a).
+  2. OKF-kennis: voor 0485 leest de agent één bestand extra, het draaiboek voor de IGJ.
+  3. Mens beslist: de AI doet een voorstel. Een mens bevestigt beide meldingen. Zo begin je.
+- **Let op:** deel 2 is een vast script. De live demo kan voor 0470 een andere SAC-score geven. Zeg dat als het gebeurt.
+- **Overgang:** "Dit was het script. Nu doet de AI het echt." Open daarna de live demo.
 
 **Het prototype**
 
@@ -338,7 +367,7 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 4. Toon daarna de agent. De agent kiest géén score. De agent escaleert, met de tegenstrijdigheid als reden.
 5. Zeg de boodschap: "Bij twijfel is escaleren het goede antwoord. Ook voor AI."
 
-**Opmerking:** ook de fallback escaleert deze melding. Zonder internet staat dezelfde casus in `vim-agent-animatie.html`. Lakhani raadt de volgorde "eerst zelf scoren, dan de machine" ook aan. Zo blijf je het vak leren (zie Assist in 2c).
+**Opmerking:** ook de fallback escaleert deze melding. Lakhani raadt de volgorde "eerst zelf scoren, dan de machine" ook aan. Zo blijf je het vak leren (zie Assist in 2c).
 
 **Gesprek in kleine groepen (ongeveer 8 min)**
 
@@ -428,7 +457,7 @@ Voor deze zaal is vooral artikel 4 belangrijk (van kracht sinds februari 2025). 
 
 1. Zet deze sessie-flow om naar dia's. Gebruik de mermaid-figuur en het VIM-diagram als beeld.
 2. ~~Krijg de demo werkend.~~ **Opgelost op 4 november:** de demo draait lokaal (`npm start`). Het is de actuele versie, met live AI via een lokale proxy. Ook de atlas werkt weer: een gewijzigde CDN-versie blokkeerde d3.
-   - Nog te doen: een generale repetitie op de presentatielaptop en op het netwerk van de zaal. Zonder internet gebruikt de demo de fallback. De reserve is `vim-agent-animatie.html`.
+   - Nog te doen: een generale repetitie op de presentatielaptop en op het netwerk van de zaal. Zonder internet gebruikt de demo de fallback.
    - Optioneel: werk de oude versie op witusj.github.io bij, of haal die offline. Dan gebruikt niemand de verkeerde link.
 3. Vraag Carien:
    1. Wat is de opstelling van de zaal: tafels of theater? Dat bepaalt de werkvorm in 3b.

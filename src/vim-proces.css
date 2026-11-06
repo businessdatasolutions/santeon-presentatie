@@ -1,0 +1,71 @@
+/* vim-proces.html — bouwt voort op architectuur.css (kop, voortgang, bediening, tokens). */
+
+main.proces{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:.6rem;padding:.6rem 2.2rem 1rem}
+
+/* Het bord houdt de verhouding van de viewBox (1900 × 580) en past altijd in het podium. */
+.podium{container-type:size;min-height:0;display:grid;place-items:center}
+.bord{position:relative;aspect-ratio:1900/580;width:min(100cqw,calc(100cqh * 1900 / 580))}
+.bord svg,.bord canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.bord canvas{pointer-events:none}
+.overlay{position:absolute;inset:0;pointer-events:none}
+
+/* ---------- Schema (SVG, getekend met d3) ---------- */
+#schema{font-family:var(--sans);overflow:visible}
+.knoop{transition:opacity .45s ease}
+.knoop .vorm{fill:#fff;stroke:var(--ink);stroke-width:1.75}
+.knoop.tak .vorm{fill:var(--cream)}
+.knoop.start .vorm{fill:var(--cream)}
+.knoop.beslis .vorm{fill:var(--accent)}
+.knoop .halo{fill:none;stroke:var(--accent);stroke-width:14;opacity:0}
+.knoop text{fill:var(--ink);text-anchor:middle;dominant-baseline:central}
+.knoop .titel{font-size:25px;font-weight:700}
+.knoop .sub{font-size:18px;fill:var(--muted)}
+.knoop.stil{opacity:.35}
+
+.pijl{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s,stroke-width .4s,opacity .4s}
+.pijl.stil{opacity:.2}
+.pijl.gelopen{stroke-width:4}
+.pijl.lus{stroke:var(--mutedSoft);stroke-width:1.75}
+.pijl.lus.stil{opacity:.25}
+#punt path{fill:var(--ink)}
+#punt-grijs path{fill:var(--mutedSoft)}
+
+.taklabel rect{fill:var(--paper);transition:fill .35s}
+.taklabel text{font-size:18px;font-weight:600;fill:var(--ink);dominant-baseline:central}
+.taklabel.aan rect{fill:var(--accent)}
+.taklabel.stil{opacity:.3}
+.luslabel{font-size:17px;fill:var(--mutedSoft);font-weight:600;text-anchor:middle;dominant-baseline:central}
+
+/* ---------- Overlay (HTML boven het bord) ---------- */
+.fiche{position:absolute;transform:translate(-50%,-100%);margin-top:-1.7rem;font-family:var(--mono);font-weight:700;
+  font-size:.9rem;padding:.1rem .5rem;border-radius:.35rem;background:var(--ink);color:#fff;white-space:nowrap;
+  transition:background .4s,color .4s;opacity:0}
+.teller-pil{position:absolute;transform:translate(-50%,-50%);background:var(--ink);color:#fff;border-radius:99px;
+  padding:.1rem .65rem;font-family:var(--mono);font-weight:700;font-size:.9rem;white-space:nowrap;opacity:0}
+.teller-pil small{font-family:var(--sans);font-weight:500;color:#d1d5db;margin-left:.35rem;font-size:.75rem}
+
+/* ---------- Bijschrift ---------- */
+.bijschrift{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:1.6rem;align-items:start;min-height:9.5rem}
+.bijschrift.enkel{grid-template-columns:minmax(0,1fr)}
+.melding-kaart{background:#fff;border:1px solid var(--line);border-radius:.9rem;padding:.8rem 1.1rem}
+.melding-kaart .kop{display:flex;gap:.7rem;align-items:baseline;margin-bottom:.35rem}
+.melding-kaart .id{font-family:var(--mono);font-weight:700;border-radius:.35rem;padding:.05rem .5rem;font-size:.95rem;
+  background:var(--ink);color:#fff;transition:background .4s,color .4s}
+.melding-kaart .meta{color:var(--mutedSoft);font-size:.95rem}
+.melding-kaart p{margin:0;font-size:1.05rem;line-height:1.45;color:var(--muted)}
+.station .wat{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mutedSoft);font-weight:600}
+.station h2{font-size:1.9rem;margin:.2rem 0 .45rem;line-height:1.15;letter-spacing:-.02em}
+.station p{font-size:1.25rem;line-height:1.45;color:var(--muted);margin:0 0 .3rem}
+.station .sac-pil{display:inline-block;border-radius:.35rem;padding:.05rem .55rem;font-weight:700;font-size:1rem;margin-left:.2rem}
+.legenda-sac{display:flex;flex-wrap:wrap;gap:.5rem 1.1rem;margin-top:.6rem;font-size:.95rem;color:var(--muted)}
+.legenda-sac span{display:inline-flex;align-items:center;gap:.4rem}
+.legenda-sac i{width:.85rem;height:.85rem;border-radius:50%;display:inline-block}
+.legenda-sac i.blok{border-radius:2px;background:var(--ink)}
+.voetnoot{font-size:.9rem;color:var(--mutedSoft);margin-top:.4rem}
+
+@media (max-width:760px){
+  main.proces{padding:.4rem 1rem .8rem}
+  .bijschrift{grid-template-columns:1fr;gap:.8rem}
+  .station h2{font-size:1.5rem}
+  .station p{font-size:1.05rem}
+}
