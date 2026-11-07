@@ -1,0 +1,74 @@
+/* Praatplaat bij blok 1: de maquette van een ziekenhuis. Bovenop architectuur.css (kop, voortgang, .lbl,
+   .uitleg, bediening). Cijfers uit de monitor zijn wit of crème met een zwarte rand. AI = warm zwart met geel
+   en het Bot-icoon. Geel als merkaccent markeert de ruimte of het label dat nu aan de beurt is. */
+nav.bediening .bron{font-size:.8rem;color:var(--mutedSoft)}
+
+#maquette{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr)}
+/* de hele plaat: het doek over de volle breedte, de uitleg als smalle band eronder */
+#maquette.plaat{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto}
+#maquette.plaat .uitleg{display:flex;align-items:baseline;flex-wrap:wrap;gap:.2rem 1.4rem;padding:.5rem 2.2rem .8rem;
+  border-top:1px solid var(--line)}
+#maquette.plaat .uitleg .laag{display:none}
+#maquette.plaat .uitleg h2{font-size:1.7rem;margin:0}
+#maquette.plaat .uitleg p{font-size:1.2rem;margin:0}
+
+/* ---------- Labels op de maquette ---------- */
+.lbl.kamer{transform:translate(-50%,calc(-100% - .8rem));align-items:baseline;gap:.45rem;background:#fff;
+  border:1.5px solid var(--ink);padding:.12rem .65rem .18rem;line-height:1.1;pointer-events:auto;cursor:pointer;font:inherit;color:var(--ink)}
+.lbl.kamer::after{content:"";position:absolute;left:50%;top:100%;width:1.5px;height:.8rem;background:var(--ink)}
+.lbl.kamer b{font-size:1.45rem;letter-spacing:-.01em}
+.lbl.kamer span{font-size:.9rem;font-weight:600;color:var(--muted)}
+.lbl.kamer.leeg{background:var(--cream)}
+.lbl.kamer.leeg b{color:var(--mutedSoft)}
+.lbl.kamer.aan{background:var(--accent)}
+.lbl.kamer.aan span{color:var(--ink)}
+.lbl.kamer:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.lbl.roep{transform:translate(-50%,calc(-100% - .6rem));font-size:.95rem;background:#fff;border:1.5px solid var(--ink);padding:.15rem .6rem}
+.lbl.roep::after{content:"";position:absolute;left:50%;top:100%;width:1.5px;height:.6rem;background:var(--ink)}
+.lbl.roep.ai{background:var(--ink);color:var(--accent);border-color:var(--ink)}
+.lbl.roep.ai::after{background:var(--accent)}
+.lbl.roep.aan{background:var(--accent)}
+.lbl.weg{opacity:0;visibility:hidden;pointer-events:none}
+
+.legenda{position:absolute;right:1rem;top:.9rem;display:inline-flex;align-items:center;gap:.45rem;background:var(--ink);color:var(--accent);
+  border-radius:99px;padding:.25rem .8rem;font-size:.85rem;font-weight:700}
+.legenda span{color:#fff;font-weight:600}
+
+/* ---------- De uitleg ---------- */
+#maquette .uitleg p{font-size:1.2rem;margin-bottom:.5rem}
+#maquette .uitleg h2{font-size:2.1rem}
+.uitleg .bron{font-size:.85rem !important;color:var(--mutedSoft) !important;margin-top:.9rem !important}
+.uitleg .grafiek{margin:.4rem 0 .8rem}
+svg.staven{width:100%;height:auto;display:block}
+svg.staven text{font-family:var(--sans);font-size:15px;fill:var(--ink)}
+svg.staven .waarde{font-weight:700;font-size:16px}
+svg.staven .staaf{fill:var(--mutedSoft)}
+svg.staven .acc .staaf{fill:var(--accent)}
+svg.staven .acc .naam{font-weight:700}
+
+.cijfers{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.6rem 0 .9rem}
+.cijfer{background:var(--cream);border-radius:.7rem;padding:.7rem .9rem;display:flex;flex-direction:column;gap:.2rem}
+.cijfer b{font-size:2.3rem;line-height:1}
+.cijfer span{color:var(--muted);font-size:1rem;line-height:1.3}
+
+.personen{display:flex;flex-wrap:wrap;align-items:center;gap:.15rem;margin:.4rem 0 .9rem;color:var(--line)}
+.personen span{display:inline-flex}
+.personen svg{width:1.9rem;height:1.9rem}
+.personen .ja{color:var(--ink)}
+.personen small{flex-basis:100%;color:var(--muted);font-size:.95rem;margin-top:.2rem}
+
+.vraag{display:flex;gap:.6rem;align-items:center;background:var(--accent);border-radius:.6rem;padding:.6rem .9rem;font-weight:700;font-size:1.25rem;margin-top:.4rem}
+.vraag svg{width:1.5rem;height:1.5rem}
+
+.route .klein{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mutedSoft);font-weight:600;margin:.6rem 0 .4rem}
+.route ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem;counter-reset:r}
+.route li{counter-increment:r;border:1.5px solid var(--ink);border-radius:.45rem;padding:.2rem .65rem;font-weight:700;font-size:1.05rem;background:#fff}
+.route li::before{content:counter(r) " ";color:var(--mutedSoft);font-family:var(--mono);font-size:.85rem}
+
+@media (max-width:760px){
+  #maquette{grid-template-columns:1fr;grid-template-rows:minmax(0,1.3fr) auto}
+  #maquette .uitleg{padding:.6rem 1rem 1rem;overflow:auto}
+  #maquette.plaat .uitleg{left:.8rem;right:.8rem;bottom:.8rem}
+  .legenda{right:.6rem;top:.6rem}
+}

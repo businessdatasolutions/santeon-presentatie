@@ -108,7 +108,11 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 
 **Bron:** de AI Monitor Ziekenhuizen 2026 van M&I/Partners (achtste editie, maart 2026). Het pdf-bestand staat in `background-material/2026-03-ai-monitor-ziekenhuizen-2026-mxi.pdf`. 52 ziekenhuizen deden mee: 73% van alle Nederlandse ziekenhuizen. Alle zeven Santeon-ziekenhuizen staan op de deelnemerslijst. De paginanummers hieronder zijn die van het pdf-bestand.
 
+**Beeld:** de praatplaat `ziekenhuis.html`. Dat is een maquette van een ziekenhuis met elk cijfer in de ruimte waar het hoort. Elk deel hieronder noemt zijn stappen.
+
 #### 1a. Hoe snel gaat het? (3 min)
+
+**Beeld:** stap 1–3 (de hele plaat, het scherm en het bord in de bestuurskamer).
 
 1. Noem de bron. Zeg: "Jullie eigen ziekenhuizen zitten in deze cijfers. Alle zeven Santeon-ziekenhuizen deden mee."
 2. Geef het tempo met één reeks: het gebruik van generatieve AI (p. 30).
@@ -129,6 +133,8 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 
 #### 1b. Waar zit AI al? (3 min)
 
+**Beeld:** stap 4–6 (rondgang langs de processen, radiologie, polikliniek en balie).
+
 1. Noem de vijf processen met de meeste AI (p. 27):
    - administratie en facturatie, met verslaglegging: 80% (2025: 48%);
    - diagnostiek, met vroegsignalering: 71%;
@@ -147,6 +153,8 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 
 #### 1c. Wat raakt het kwaliteitsmanagement? (3 min)
 
+**Beeld:** stap 7–8 (kwaliteit en veiligheid, de AI-regiegroep met de lege stoel).
+
 1. Noem de tweede drijfveer. 88% van de ziekenhuizen wil met AI de kwaliteit van zorg verbeteren (p. 35).
 2. Zeg wat ontbreekt: "Het kwaliteitsproces zelf staat niet in de monitor."
    - De lijst met processen heeft geen categorie voor kwaliteit of patiëntveiligheid (p. 27).
@@ -163,6 +171,8 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 **Opmerking:** verwacht weinig handen bij stap 4. Maak er geen verwijt van. De monitor noemt de kwaliteitsmanager alleen als losse vermelding. Het gat zit dus in de organisatie.
 
 #### 1d. Brug naar het programma (1 min)
+
+**Beeld:** stap 9–12 (de radiologie 's avonds en de volgende dag, hetzelfde patroon op VIM-meldingen, de hele plaat).
 
 1. Vat samen: "AI komt snel en breed. Het kwaliteitsproces doet nog bijna niet mee. Daar ligt een kans voor jouw vak."
 2. Noem het patroon dat terugkomt: "In het Máxima MC maakt AI een eerste selectie, en de radioloog beslist. Dat patroon passen we vandaag toe op VIM-meldingen."
@@ -591,4 +601,4 @@ Voor deze zaal is vooral artikel 4 belangrijk (van kracht sinds februari 2025). 
 8. **Controleer de cijfers van blok 1 in het pdf-bestand van de monitor.**
    1. Kijk naar p. 25 (schaal), 26 (trechter), 27 (processen), 30 (generatieve AI) en 37 (opbrengst).
    2. Gebruik bij "kleine schaal" de grafiek (42%), niet de tekst (53%).
-   3. Maak een beeld voor blok 1, of gebruik de grafieken uit de monitor met bronvermelding.
+   3. Het beeld voor blok 1 is de praatplaat `ziekenhuis.html` (12 stappen). Oefen die met de klok: 10 minuten is krap.
