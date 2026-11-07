@@ -59,7 +59,6 @@
   .balk{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:13px;color:var(--line);
     padding-top:12px;border-top:1px solid var(--muted);margin-top:10px}
   .balk[hidden]{display:none}
-  .balk .stand{white-space:nowrap}
   .balk .knoppen{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px}
   .balk button[hidden]{display:none}
   .balk button{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--accent);background:none;
@@ -109,17 +108,15 @@
   .kop{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-left:24px;white-space:nowrap}
   .nummer{display:flex;align-items:baseline;gap:8px;font-family:var(--mono)}
   .nr{font-size:14px;font-weight:700;color:var(--mutedSoft)}
-  .ref{font-size:11px;color:var(--muted)}
   .pijl{width:32px;height:32px;border-radius:99px;background:var(--accent);color:var(--ink);display:inline-flex;
     align-items:center;justify-content:center;font-size:15px;font-weight:700}
-  .zeg{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--mutedSoft)}
   .t{font-weight:700;font-size:17px;line-height:1.3}
   .d{color:var(--muted);font-size:13px;line-height:1.5}
   .tag{margin-top:auto;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mutedSoft)}
   /* AI = warm zwart met geel licht plus het Bot-icoon (zie CLAUDE.md, huisstijl) */
   .kaart.ai{background:var(--ink);border-color:var(--ink);color:var(--paper)}
   .kaart.ai .nr{color:var(--accent)}
-  .kaart.ai .ref, .kaart.ai .d{color:var(--line)}
+  .kaart.ai .d{color:var(--line)}
   .ailabel{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.05em;
     text-transform:uppercase;color:var(--accent)}
   /* Extra materiaal: crème tegels over de volle breedte */
@@ -167,8 +164,6 @@
   <div>
     <div class="tijdlijn" id="tijdlijn" aria-hidden="true"></div>
     <div class="balk" id="balk" hidden>
-      <span>Sleep een blok of tegel aan de greep. Nummers en tijden schuiven mee; "draaiboek 2b" blijft staan. Open of klik een tegel: de tijdlijn toont waar je bent.</span>
-      <span class="stand" id="stand"></span>
       <span class="knoppen">
         <button type="button" id="nu-wis" hidden>Markering wissen</button>
         <button type="button" id="herstel">Beginvolgorde herstellen</button>
@@ -188,7 +183,7 @@
     <div class="lijst">
       <div class="rij" data-id="opening-vraag" data-blok="0">
         <div class="kaart tekst">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="zeg">Zeg</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span></div>
           <span class="t">"Is AI wel veilig om te gebruiken?"</span>
           <span class="d">Deze vraag komt vaak terug in het Santeon-netwerk. Het antwoord is geen eenvoudig ja of nee. Het antwoord hangt af van drie vragen: is AI veilig voor de gegevens, voor de patiënt en voor de melder? Voor elke vraag krijg je een toetssteen uit regels die je al kent. Aan het eind van de sessie bepaal je welke vragen je voor je eigen ziekenhuis al kunt beantwoorden. Voor de andere vragen bepaal je wie je om het antwoord vraagt.</span>
         </div>
@@ -202,31 +197,38 @@
       <div class="sinfo"><h2 class="stitel">Waarom</h2><span class="ssub">AI in het ziekenhuis en jouw vak</span><span class="tijd">10 min</span></div>
     </div>
     <div class="lijst">
+      <div class="rij breed" data-id="praatplaat" data-blok="1">
+        <a class="kaart" href="ziekenhuis.html" target="_blank" rel="noopener">
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <span class="t">Een ziekenhuis in de AI Monitor 2026</span>
+          <span class="d">Een maquette van een ziekenhuis, met elk cijfer in de ruimte waar het hoort. Je gaat van de bestuurskamer langs de afdelingen naar kwaliteit en veiligheid.</span>
+        </a>
+      </div>
       <div class="rij" data-id="tempo" data-blok="1a">
         <div class="kaart tekst">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span></div>
           <span class="t">Hoe snel gaat het?</span>
           <span class="d">Generatieve AI in ziekenhuizen: 57% in 2024, 75% in 2025, 90% in 2026. Gemiddeld 18 AI-toepassingen per ziekenhuis; één is opgeschaald. 8% gebruikt AI op grote schaal.</span>
         </div>
       </div>
       <div class="rij" data-id="gebieden" data-blok="1b">
         <div class="kaart tekst">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span></div>
           <span class="t">Waar zit AI al?</span>
           <span class="d">Administratie 80%, diagnostiek 71%, communicatie 65%. AI gaat van de radiologie naar het hele ziekenhuis. Voorbeelden: fractuurdetectie, codering, spraakgestuurd rapporteren en een eigen veilige chatbot.</span>
         </div>
       </div>
       <div class="rij" data-id="kwaliteit" data-blok="1c">
         <div class="kaart tekst">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span></div>
           <span class="t">Wat raakt het kwaliteitsmanagement?</span>
-          <span class="d">88% wil met AI de kwaliteit verbeteren. De monitor heeft geen categorie voor kwaliteit of patiëntveiligheid. Vraag de zaal: wie zit in de AI-board van het eigen ziekenhuis?</span>
+          <span class="d">88% wil met AI de kwaliteit verbeteren. De AI Monitor heeft geen categorie voor kwaliteit of patiëntveiligheid. Wie zit in de AI-board van jouw ziekenhuis?</span>
         </div>
       </div>
       <div class="rij" data-id="brug" data-blok="1d">
         <div class="kaart tekst">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span></div>
-          <span class="t">Brug naar het programma</span>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span></div>
+          <span class="t">Het programma van vandaag</span>
           <span class="d">AI maakt een eerste selectie, de professional beslist. Dat patroon passen we vandaag toe op VIM-meldingen: eerst de regels, dan het groeimodel, de veiligheid en de demo.</span>
         </div>
       </div>
@@ -241,46 +243,42 @@
     <div class="lijst">
       <div class="rij" data-id="regels" data-blok="2a">
         <div class="kaart tekst">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="zeg">Zeg</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span></div>
           <span class="t">Expliciete regels</span>
           <span class="d">Je kwaliteitshandboek is de ontologie die AI nodig heeft. Elke standaard wordt een regel: regel → trigger → controle → handhaving.</span>
         </div>
       </div>
       <div class="rij" data-id="swimlane" data-blok="2b">
         <a class="kaart" href="vim-swimlane.html" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
           <span class="t">Kansenkaart: wie doet wat in het VIM-proces</span>
-          <span class="d">Swimlane met vijf rollen en vijf fasen, route voor route. Daarna de eindpunten en de bronnen. De vijf kansen noem je zelf: melden, triage, analyse, trends en rapportage.</span>
-          <span class="tag">animatie</span>
+          <span class="d">Een schema met vijf rollen en vijf fasen, route voor route. Daarna de eindpunten en de bronnen. Op vijf plekken kan AI helpen: melden, triage, analyse, trends en rapportage.</span>
         </a>
       </div>
       <div class="rij" data-id="vim-proces" data-blok="2b">
         <a class="kaart" href="vim-proces.html" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
           <span class="t">VIM-werkproces, eenvoudig</span>
           <span class="d">Van melding tot verbetering. 0470 en 0485 gaan door het proces, daarna de stroom van elke dag.</span>
-          <span class="tag">animatie</span>
         </a>
       </div>
       <div class="rij" data-id="groeimodel" data-blok="2b">
         <a class="kaart" href="groeimodel.html" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
           <span class="t">Ask → Assist → Automate</span>
           <span class="d">Het groeimodel als trap, toegepast op route 3: een trendanalyse over afdelingen. Per niveau zie je wat de AI doet en wat de mens doet.</span>
-          <span class="tag">stappen</span>
         </a>
       </div>
       <div class="rij" data-id="groeipad" data-blok="2b">
         <a class="kaart" href="groeipad.html" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
           <span class="t">Groeipad in de keten: van Ask naar Automate</span>
           <span class="d">Eerst beoordeelt een mens alles. Daarna kijkt een mens mee bij twijfel, en het model leert van elke correctie. Op niveau Automate gaan alleen calamiteiten naar een mens. Tot slot: het systeem onthoudt en herkent een patroon over afdelingen heen.</span>
-          <span class="tag">animatie</span>
         </a>
       </div>
       <div class="rij" data-id="veiligheid" data-blok="2c">
         <div class="kaart tekst">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="zeg">Zeg</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span></div>
           <span class="t">Is het veilig? Drie vragen in plaats van één</span>
           <span class="d">Veilig voor de gegevens · veilig voor de patiënt · veilig voor de melder. Toetsstenen: Wkkgz art. 9 en 11, KNMG "veilig melden".</span>
         </div>
@@ -296,33 +294,24 @@
     <div class="lijst">
       <div class="rij" data-id="architectuur" data-blok="3a">
         <a class="kaart" href="architectuur.html" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
           <span class="t">Van melding naar signaal</span>
-          <span class="d">Eerst de vijf lagen in 3D, als alles goed gaat. Daarna gaan 0470 en 0485 vandaag door het proces, met een mens erbij. Bij de ontologie, OKF en de AI-agent staat eerst een uitleg. Vast script, werkt zonder internet.</span>
-          <span class="tag">animatie</span>
+          <span class="d">Eerst de vijf lagen in 3D, als alles goed gaat. Daarna gaan 0470 en 0485 door het proces zoals het nu werkt: met een mens erbij. Bij de ontologie, OKF en de AI-agent krijg je eerst uitleg.</span>
         </a>
       </div>
       <div class="rij breed" data-id="demo" data-blok="3a">
         <a class="kaart ai" href="demo.html" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="ailabel"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>live AI <span aria-hidden="true">↗</span></span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="ailabel"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>live AI <span aria-hidden="true">↗</span></span></div>
           <span class="t">Live demo: VIM-triage bij St. Machteld</span>
           <span class="d">Data lake → ontologie → OKF → AI-agent → rapportage. Alle meldingen zijn verzonnen. Met doorvragen (0501) en escalatie (0505).</span>
         </a>
       </div>
-      <div class="rij" data-id="ontologie" data-blok="3a">
-        <a class="kaart" href="ontologie-uitleg.html" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
-          <span class="t">Reserve: de ontologie uitgebreid</span>
-          <span class="d">Alleen bij vragen. Twee valincidenten op Geriatrie, maar het woord "val" staat er niet in. Met vaste begrippen vind je ze wel, en zie je een patroon.</span>
-          <span class="tag">stappen</span>
-        </a>
-      </div>
       <div class="rij" data-id="meedoen" data-blok="3b">
         <a class="kaart" href="meedoen.html" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
-          <span class="t">De zaal doet mee: mens tegen agent en de drie veiligheidsvragen</span>
-          <span class="d">De zaal stemt met de telefoon. Eerst een SAC-score voor melding VIM-2026-0505, daarna wat de agent doet. Dan per veiligheidsvraag: weet je het, of weet je wie het weet? Druk op D voor het dashboard.</span>
-          <span class="tag">stemtool</span>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <span class="t">Doe mee: mens tegen agent en de drie veiligheidsvragen</span>
+          <span class="d">Eerst geef je melding VIM-2026-0505 een SAC-score. Daarna zie je wat de agent doet. Dan per veiligheidsvraag: weet je het, of weet je wie het weet?</span>
+          <span class="tag">stem met je telefoon</span>
         </a>
       </div>
     </div>
@@ -336,24 +325,24 @@
     <div class="lijst">
       <div class="rij" data-id="morgen" data-blok="4">
         <div class="kaart tekst">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="zeg">Zeg</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span></div>
           <span class="t">Morgen</span>
           <span class="d">Schrijf je top-3 van terugkerende incidenttypen op. Schrijf ook je risicomatrix expliciet op. Dat is je eerste document met rules of engagement.</span>
         </div>
       </div>
       <div class="rij" data-id="fg-vraag" data-blok="4">
         <div class="kaart tekst">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="zeg">Zeg</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span></div>
           <span class="t">Vraag voor je FG of informatiebeveiliger</span>
           <span class="d">"In welke goedgekeurde omgeving mogen wij AI op VIM-meldingen gebruiken?"</span>
         </div>
       </div>
       <div class="rij" data-id="evaluatie" data-blok="4">
         <a class="kaart" href="meedoen.html#stap-9" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
           <span class="t">Evaluatie</span>
-          <span class="d">Drie vragen, tien seconden: informatie, interactie en inspiratie. De cijfers staan alleen op het dashboard.</span>
-          <span class="tag">stemtool</span>
+          <span class="d">Drie vragen, tien seconden: informatie, interactie en inspiratie. De uitslag komt niet op het scherm.</span>
+          <span class="tag">stem met je telefoon</span>
         </a>
       </div>
     </div>
@@ -368,26 +357,32 @@
     <div class="lijst">
       <div class="rij" data-id="monitor" data-blok="1">
         <a class="kaart" href="background-material/2026-03-ai-monitor-ziekenhuizen-2026-mxi.pdf" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
           <span class="t">AI Monitor Ziekenhuizen 2026</span>
-          <span class="d">De bron van blok 1 (M&amp;I/Partners, maart 2026). 52 ziekenhuizen deden mee, ook alle zeven Santeon-ziekenhuizen. Voor kleine schaal geldt de grafiek op p. 25 (42%), niet de tekst (53%).</span>
+          <span class="d">De bron van de cijfers bij Waarom (M&amp;I/Partners, maart 2026). 52 ziekenhuizen deden mee, ook alle zeven Santeon-ziekenhuizen.</span>
           <span class="tag">pdf</span>
         </a>
       </div>
       <div class="rij" data-id="realitycheck-atlas" data-blok="1">
         <a class="kaart" href="background-material/2026-07-01-ai-maturity-frameworks-visuals.html#maturity-measurement" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
           <span class="t">Buiten de zorg: hoe zeldzaam is volwassen?</span>
-          <span class="d">Volwassenheidsbalk uit de atlas (sectie 0). De balk toont oude cijfers. Nieuwere cijfers staan in het onderzoeksrapport van 7 november.</span>
-          <span class="tag">atlas §0</span>
+          <span class="d">Vijf metingen buiten de zorg, elk met een eigen definitie van succes. Veel organisaties gebruiken AI: 78–88%. Weinig organisaties gebruiken AI volwassen.</span>
+          <span class="tag">Engelstalig</span>
+        </a>
+      </div>
+      <div class="rij" data-id="ontologie" data-blok="3a">
+        <a class="kaart" href="ontologie-uitleg.html" target="_blank" rel="noopener">
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <span class="t">De ontologie uitgebreid</span>
+          <span class="d">Twee valincidenten op Geriatrie, maar het woord "val" staat er niet in. Met vaste begrippen vind je ze wel, en zie je een patroon.</span>
         </a>
       </div>
       <div class="rij" data-id="harness" data-blok="3a">
         <a class="kaart" href="harness.html" target="_blank" rel="noopener">
-          <div class="kop"><span class="nummer"><span class="nr"></span><span class="ref"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
+          <div class="kop"><span class="nummer"><span class="nr"></span></span><span class="pijl" aria-hidden="true">↗</span></div>
           <span class="t">De harness en de kennis</span>
           <span class="d">Deel 1: een agent is opgebouwd als een computer, en als jouw ziekenhuis. Melding 0501 gaat door de harness. Deel 2: vier manieren om kennis bij het taalmodel te krijgen (alleen het model, RAG, kennisgraaf, LLM-wiki), getest op drie VIM-vragen.</span>
-          <span class="tag">stappen</span>
         </a>
       </div>
     </div>
@@ -395,7 +390,6 @@
 </main>
 
 <footer>
-  <span>Starten: typ <code>npm start</code> in de projectmap. De API-sleutel staat in <code>.env</code> en blijft op deze computer. Werkt de verbinding niet? Dan gebruikt de demo vaste regels (label "fallback").</span>
   <span class="merk">
     <svg viewBox="0 0 32 32" role="img" aria-label="Logo Business Data Solutions"><g fill="#1a1a1a"><polygon points="9,29 11,10 17,10 19,29"/><polygon points="8,8.5 20,8.5 19,10 9,10"/><rect x="11" y="5" width="6" height="3.5"/><path d="M10.5 5 Q10.5 1.5 14 1.5 Q17.5 1.5 17.5 5 Z"/><rect x="13.5" y="0" width="1" height="1.8"/></g><rect x="13" y="6" width="2" height="2" fill="#d4db3e"/><g stroke="#d4db3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 4 L26 7 L21 10"/><path d="M26 4 L31 7 L26 10"/></g></svg>
     Business Data Solutions
@@ -430,7 +424,7 @@
      of zet de focus op de greep en gebruik pijl omhoog en pijl omlaag.
      Daarna krijgen de blokken een nieuw nummer en een nieuwe begin- en eindtijd, ook in de tijdlijn bovenaan.
      Nummer van een tegel: bloknummer.volgnummer (2.3); in Extra materiaal +1, +2.
-     "draaiboek 2b" komt uit data-blok en verandert niet mee: zo vind je het onderdeel terug in de outline.
+     data-blok verwijst naar het blok in de outline (2b). Het staat niet op het scherm: de zaal ziet deze pagina.
      De volgorde staat in localStorage van deze browser. "Beginvolgorde herstellen" wist die. */
   (() => {
     const OPSLAG = "santeon-startpagina-volgorde-v1";
@@ -441,7 +435,6 @@
     const extra = document.getElementById("extra");
     const tijdlijn = document.getElementById("tijdlijn");
     const herstel = document.getElementById("herstel");
-    const stand = document.getElementById("stand");
     const melding = document.getElementById("melding");
 
     const alleSecties = () => [...document.querySelectorAll(".sectie")];
@@ -492,7 +485,6 @@
     function nummerRijen(s, n) {
       rijenVan(s).forEach((r, k) => {
         r.querySelector(".nr").textContent = n === null ? `+${k + 1}` : `${n}.${k + 1}`;
-        r.querySelector(".ref").textContent = `draaiboek ${r.dataset.blok}`;
       });
     }
 
@@ -549,10 +541,9 @@
       nuWis.hidden = !nuRij;
       const eigen = !zelfde(leesVolgorde(), BEGIN);
       herstel.disabled = !eigen;
-      stand.textContent = eigen ? "Je ziet je eigen volgorde." : "Je ziet de beginvolgorde.";
     }
 
-    // Openen (klik, middelste knop, Enter) of een "Zeg"-tegel aanklikken zet de markering.
+    // Openen (klik, middelste knop, Enter) of een teksttegel (crème) aanklikken zet de markering.
     const opTegel = (e) => {
       if (e.type === "auxclick" && e.button !== 1) return;
       const rij = e.target.closest(".kaart")?.closest(".rij");
@@ -562,7 +553,6 @@
     };
     document.querySelector("main").addEventListener("click", opTegel);
     document.querySelector("main").addEventListener("auxclick", opTegel);
-    document.querySelectorAll(".kaart.tekst").forEach((k) => { k.title = "Klik: hier zijn we nu"; });
     nuWis.addEventListener("click", () => { zetNu(null); melding.textContent = "De markering is weg."; herstel.focus(); });
 
     function meld(el) {
