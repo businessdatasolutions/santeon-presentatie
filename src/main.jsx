@@ -22,8 +22,12 @@ window.fetch = (input, init) => {
   return nativeFetch(input, init);
 };
 
+// De openbare versie heeft nooit live AI. Dan is de rode regel per melding ("Klik Triageer om
+// opnieuw te proberen") misleidend: opnieuw proberen helpt niet. Deze melding bovenaan zegt het één keer.
 function OpenbareVersie() {
   return (
+    <>
+    <style>{"[data-live-fout]{display:none}"}</style>
     <div style={{
       background: "#f0ebe0", color: "#1a1a1a", borderBottom: "1px solid #e5e7eb",
       padding: "8px 16px", textAlign: "center",
@@ -31,6 +35,7 @@ function OpenbareVersie() {
     }}>
       Openbare versie zonder live AI. De demo gebruikt de regelgebaseerde fallback.
     </div>
+    </>
   );
 }
 

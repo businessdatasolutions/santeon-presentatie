@@ -1009,7 +1009,7 @@ function AgentPanel({ results, setResults, running, runAll, runOne }) {
                 </div>
               )}
               {r?._error && (
-                <div style={{ marginTop: 10, fontSize: 12.5, color: C.sac1 }}>
+                <div data-live-fout style={{ marginTop: 10, fontSize: 12.5, color: C.sac1 }}>
                   Geen bruikbaar antwoord van de live-agent. De regelgebaseerde fallback is gebruikt. Klik "Triageer" om opnieuw te proberen.
                 </div>
               )}
