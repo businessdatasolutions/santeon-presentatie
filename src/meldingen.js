@@ -37,7 +37,7 @@ export const MELDINGEN = [
     okf: OKF_BASIS, extra: "runbook-calamiteit-igj.md",
     sac: 1, grens: "Overlijden of ernstige blijvende schade", citaat: "is later overleden",
     basis: "O · Organisatorisch", toets: 95,
-    mens: { kop: "Calamiteit: altijd naar een mens", acties: ["PRISMA-analyse", "Melden bij IGJ", "Raad van bestuur informeren"], draaiboek: "Draaiboek: meld een calamiteit binnen 3 werkdagen bij de IGJ." },
+    mens: { kop: "Calamiteit: altijd naar een mens", acties: ["PRISMA-analyse", "Melden bij IGJ", "Raad van bestuur informeren"], draaiboek: "Draaiboek: meld een calamiteit binnen 3 werkdagen na vaststelling bij de IGJ." },
     categorie: "Medisch hulpmiddel",
   },
 ];

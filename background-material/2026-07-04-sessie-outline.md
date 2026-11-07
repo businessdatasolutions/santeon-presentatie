@@ -308,7 +308,7 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
   1. Niveau Ask: een mens beoordeelt elke melding. De organisatie is nog weinig volwassen in AI. Ze leert zo hoe goed de AI is.
   2. Meekijken bij twijfel: de AI geeft per SAC-niveau een kans, bijvoorbeeld SAC 1 tot en met 4 = 5, 10, 15 en 70%. Het meest waarschijnlijke niveau is dan SAC 4. Is de hoogste kans lager dan 90%? Dan kijkt een mens mee. Een steekproef van de zekere gevallen ziet de mens ook (zie de valkuil "afstempelen"). In de stapel is een licht bolletje een melding waarover de AI twijfelt.
   3. Het model leert: de correcties worden data. Welke voorstellen waren fout-positief of fout-negatief? Het model leert daarvan en onderscheidt scherper. In het voorbeeld gaat de kans op SAC 4 van 70 naar 93%. Er zijn minder lichte bolletjes, dus minder meldingen langs de mens.
-  4. Niveau Automate: alleen calamiteiten gaan naar een mens, hoe zeker de AI ook is. Alle andere meldingen gaan direct naar het overzicht. Wijs op de rode lijn: de mens meldt de calamiteit binnen 3 werkdagen bij de IGJ. Daarna staat de calamiteit ook in de rapportage voor het bestuur.
+  4. Niveau Automate: alleen calamiteiten gaan naar een mens, hoe zeker de AI ook is. Alle andere meldingen gaan direct naar het overzicht. Wijs op de rode lijn: de mens meldt de calamiteit binnen 3 werkdagen na vaststelling bij de IGJ. Daarna staat de calamiteit ook in de rapportage voor het bestuur.
   5. Het systeem onthoudt: drie valincidenten in twee weken, op drie afdelingen. Normaal is één valincident per maand. Stel de vraag: "Past dit nog bij normaal?" Bij normaal is de kans op drie of meer 1,4%. Dus de kans stijgt, en het risico ook (risico = kans × impact). Het patroon gaat als signaal naar een mens, met minimaal SAC 2. Elke melding houdt zelf SAC 4. Laat geen formules zien.
 - **De feedbackstroom:** wijs bij stap 1 op de lijnen van de mens terug naar beneden. Elke correctie verbetert de instructies van de agent, de OKF-kennis en de ontologie. Soms gaat een correctie naar de melder: wat ontbrak er in de melding? In het begin is die stroom groot. Bij elke stap wordt hij kleiner.
 - **Zeg:** "Het systeem leert van jouw oordeel. Daarom begin je met alles zelf beoordelen."
@@ -543,6 +543,9 @@ Dat helpt. Maar vrije tekst is vaak toch te herleiden, bijvoorbeeld via afdeling
 
 **"Wie is verantwoordelijk als de AI een calamiteit mist?"**
 De zorgaanbieder. De meldplicht bij de inspectie (art. 11 Wkkgz) gaat niet over naar een systeem. Daarom gaan calamiteiten en twijfelgevallen altijd naar een mens. Daarom begint AI ook op het niveau Ask. Het risico in de praktijk: de verantwoordelijkheid schuift ongemerkt weg. In een BCG-onderzoek onder 70 bestuurders zegt meer dan de helft: bij een fout krijgt de AI de schuld.
+
+**"Binnen welke termijn meld je een calamiteit?"**
+Art. 11 Wkkgz zegt "onverwijld". De IGJ werkt dat uit in twee termijnen. Je hebt hooguit 6 weken om vast te stellen of iets een calamiteit is. Staat dat vast? Dan meld je binnen 3 werkdagen. Twijfel je na 6 weken nog? Meld dan toch. Het onderzoeksrapport moet binnen 8 weken na de melding bij de IGJ zijn. Je kunt uitstel vragen. Bron: IGJ, *Vragenlijst verplichte melding calamiteit* (2023).
 
 **"Kan een AI-analyse tegen een melder worden gebruikt?"**
 Gegevens in het incidentenregister zijn beschermd (art. 9 lid 6 Wkkgz). Geldt dat ook voor kopieën die de AI buiten het register maakt? Dat is een vraag voor de eigen jurist. De ontwerpregel: AI kijkt naar systemen, niet naar personen.

@@ -493,7 +493,7 @@ const STAPPEN = [
   { modus: "casus", m: M0485, bij: "triage", titel: "Triage op ernst",
     tekst: ["Ook hier bepaalt een lid van de PVC de ernst met de risicomatrix."], uitkomst: "Dit is een calamiteit." },
   { modus: "casus", m: M0485, bij: "centraal", titel: "Centrale analyse",
-    tekst: ["Een calamiteit gaat altijd naar de centrale analyse.", "De raad van bestuur meldt de calamiteit binnen 3 werkdagen bij de IGJ.", "De MIP-commissie zoekt de oorzaak met PRISMA."] },
+    tekst: ["Een calamiteit gaat altijd naar de centrale analyse.", "De raad van bestuur meldt de calamiteit binnen 3 werkdagen na vaststelling bij de IGJ.", "De MIP-commissie zoekt de oorzaak met PRISMA."] },
   { modus: "casus", m: M0485, bij: "terug", titel: "Maatregel en terugkoppeling",
     tekst: ["Na elke overplaatsing controleren twee zorgverleners de beademing.", "De intensivist hoort de uitkomst van het onderzoek."] },
   { modus: "stroom", wat: "Elke dag", titel: "Zo stromen de meldingen",

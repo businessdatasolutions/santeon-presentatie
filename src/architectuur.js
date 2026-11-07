@@ -64,7 +64,7 @@ const VERSIES = {
         legenda: true,
         zeker: { titel: "Dezelfde soort melding, na leren", reeks: [[5, 10, 15, 70], [2, 5, 9, 84], [1, 2, 4, 93]], drempel: 90, conclusie: "SAC 4, met 93%. Boven de drempel: direct naar het overzicht." } },
       { deel: 0, scene: "automate", laag: "Stap 4 · niveau Automate", titel: "Alleen calamiteiten naar een mens", tekst: ["Alle andere meldingen gaan direct naar het overzicht.", "Een calamiteit gaat altijd naar een mens, hoe zeker de AI ook is.", "De mens meldt de calamiteit bij de IGJ. Daarna staat die ook in de rapportage."],
-        zeker: { titel: "Voorbeeld: een calamiteit", reeks: [[88, 8, 3, 1]], drempel: null, conclusie: "SAC 1, met 88%. Calamiteit: altijd naar een mens. Die meldt binnen 3 werkdagen bij de IGJ." } },
+        zeker: { titel: "Voorbeeld: een calamiteit", reeks: [[88, 8, 3, 1]], drempel: null, conclusie: "SAC 1, met 88%. Calamiteit: altijd naar een mens. Die meldt binnen 3 werkdagen na vaststelling bij de IGJ." } },
       { deel: 0, scene: "patroon", laag: "Stap 5 · het systeem onthoudt", titel: "Drie keer hetzelfde is een patroon", tekst: ["Het systeem onthoudt wat het zag, over afdelingen heen.", "Normaal: één valincident per maand. Nu: drie in twee weken, op drie afdelingen.", "De kans stijgt, dus het risico ook. Het patroon gaat als signaal naar een mens."],
         normaal: { titel: "Hoe vaak is normaal? · in twee weken", perTweeWeken: 0.5, gezien: 3, conclusie: "Bij normaal is de kans op drie of meer 1,4%. Dit past niet bij normaal: een signaal met minimaal SAC 2. Elke melding houdt zelf SAC 4." } },
     ],
@@ -192,7 +192,7 @@ function maakStapel(doek, labelLaag) {
     scene.add(b);
     return b;
   });
-  const igjLabel = label("IGJ-melding · binnen 3 werkdagen", "igj");
+  const igjLabel = label("IGJ-melding · 3 werkdagen na vaststelling", "igj");
 
   // Feedback van de mens terug het systeem in: naar de instructies van de agent, de OKF-kennis,
   // de ontologie en (dunner) naar de melder. Bij de start (Ask) is die stroom groot; hij krimpt
@@ -530,7 +530,7 @@ function maakReis() {
     ["Taxonomie", "taxonomy-incidentcategorie.md", "De lijst met categorieën"],
     ["Metric", "metric-severity-assessment-code.md", "Wanneer is iets SAC 1, 2, 3 of 4?"],
     ["Draaiboek", "runbook-triage-vim.md", "De stappen van de triage"],
-    ["Draaiboek", "runbook-calamiteit-igj.md", "Meld een calamiteit binnen 3 werkdagen bij de IGJ"],
+    ["Draaiboek", "runbook-calamiteit-igj.md", "Meld een calamiteit binnen 3 werkdagen na vaststelling bij de IGJ"],
   ];
   const UITLEG = {
     ontoProbleem: () => `<div class="twee">

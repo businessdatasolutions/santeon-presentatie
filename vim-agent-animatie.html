@@ -241,7 +241,7 @@
           <div class="res-badges reveal" id="resBadges"></div>
           <div class="acties reveal" id="acties"></div>
           <div class="judge-line reveal" id="judgeLine"></div>
-          <div class="igj" id="igj">⚠ <b>Calamiteit</b> — melden bij de IGJ binnen 3 werkdagen en onderzoeken met PRISMA/SIRE.</div>
+          <div class="igj" id="igj">⚠ <b>Calamiteit</b> — melden bij de IGJ binnen 3 werkdagen na vaststelling en onderzoeken met PRISMA/SIRE.</div>
           <div class="esc" id="esc">❓ <b>Escalatie — onzeker:</b> <span id="escReason"></span></div>
         </div>
       </div>
@@ -415,7 +415,7 @@ function buildFrames(cs){
   }
 
   f.push({fn:()=>{flow(3); caption('Routeren naar de rapportagelaag','');}, d:800});
-  f.push({fn:()=>{setStage(4); revealResult(cs); caption('Vervolgroute bepaald', cs.escalatie?'Onzeker — nadere verificatie nodig':(cs.igj?'Melden bij IGJ binnen 3 werkdagen':'Verwerkt en geregistreerd')); phase('5 / 5');}, d:2900});
+  f.push({fn:()=>{setStage(4); revealResult(cs); caption('Vervolgroute bepaald', cs.escalatie?'Onzeker — nadere verificatie nodig':(cs.igj?'Melden bij IGJ binnen 3 werkdagen na vaststelling':'Verwerkt en geregistreerd')); phase('5 / 5');}, d:2900});
   f.push({fn:()=>{caption('Volgende melding…',''); }, d:1000});
   return f;
 }

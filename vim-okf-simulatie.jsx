@@ -244,7 +244,8 @@ Kies de meest dominante basisoorzaak op basis van de melding.`,
     resource: "confluence/kwaliteit/igj-melding", tags: ["runbook", "igj", "calamiteit"],
     timestamp: "2026-06-16",
     body: `# Regel
-Een calamiteit wordt binnen **3 werkdagen** gemeld bij de IGJ en onderzocht met PRISMA of SIRE.
+De zorgaanbieder heeft hooguit 6 weken om vast te stellen of iets een calamiteit is.
+Een calamiteit wordt binnen **3 werkdagen na vaststelling** gemeld bij de IGJ en onderzocht met PRISMA of SIRE.
 Zet \`igj_melding = true\`, informeer raad van bestuur en de klachten-/kwaliteitsfunctionaris.
 Alleen incidenten met SAC 1 (overlijden of ernstige blijvende schade) volgen dit pad.`,
   },
@@ -1062,7 +1063,7 @@ function ReportPanel({ results, go }) {
       setSummary(data.content.filter((b) => b.type === "text").map((b) => b.text).join("").trim());
     } catch {
       setSummary("Samenvatting kon niet live worden gegenereerd. Kern: " +
-        `${stats.igj} calamiteit(en) vereisen melding bij de IGJ binnen 3 werkdagen. ` +
+        `${stats.igj} calamiteit(en) vereisen melding bij de IGJ binnen 3 werkdagen na vaststelling. ` +
         "Medicatie- en overdrachtsincidenten domineren; borg de dubbelcheck en gestructureerde overdracht (SBARR).");
     }
     setGenning(false);
@@ -1123,7 +1124,7 @@ function ReportPanel({ results, go }) {
         <Card style={{ marginTop: 10, background: "#FBECEA", borderColor: `${C.sac1}44`, display: "flex", gap: 10, alignItems: "center" }}>
           <ShieldAlert size={20} color={C.sac1} style={{ flexShrink: 0 }} />
           <div style={{ fontSize: 13, color: C.ink }}>
-            <strong>{stats.igj} incident(en)</strong> geclassificeerd als calamiteit — melden bij de <strong>IGJ binnen 3 werkdagen</strong> en onderzoeken met PRISMA/SIRE.
+            <strong>{stats.igj} incident(en)</strong> geclassificeerd als calamiteit — melden bij de <strong>IGJ binnen 3 werkdagen na vaststelling</strong> en onderzoeken met PRISMA/SIRE.
           </div>
         </Card>
       )}
