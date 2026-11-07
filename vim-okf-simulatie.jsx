@@ -78,10 +78,16 @@ const MAX_VERIFY_RETRIES = 2; // max. pogingen in de verificatie-/retry-lus
 const INCIDENTS = [
   { id: "VIM-2026-0412", datum: "2026-06-03", afdeling: "IC", melder: "IC-verpleegkundige",
     tekst: "Patiënt kreeg tweemaal een dosis nadroparine 5700 IE binnen het uur. Dubbele aftekening niet zichtbaar in EPD, wisseling van dienst. Patiënt vertoonde nadien lichte hematoomvorming, arts geïnformeerd, extra controle stolling ingezet." },
+  { id: "VIM-2026-0414", datum: "2026-06-03", afdeling: "Orthopedie", melder: "Verpleegkundige",
+    tekst: "Patiënt opgenomen zonder identificatiebandje. Opgemerkt bij de ochtendronde, identiteit mondeling gecontroleerd met naam en geboortedatum. Bandje binnen een uur aangebracht. Geen gevolgen voor de patiënt." },
   { id: "VIM-2026-0418", datum: "2026-06-03", afdeling: "Geriatrie", melder: "Verpleegkundige",
     tekst: "Mevrouw wilde zelfstandig naar het toilet, bel niet gebruikt. Gevonden op de grond naast het bed. Klaagt over pijn heup, röntgen bevestigt heupfractuur. Bed stond hoog, remmen niet gecontroleerd." },
   { id: "VIM-2026-0421", datum: "2026-06-04", afdeling: "Interne", melder: "Laborant",
     tekst: "Twee buisjes bloed binnengekomen met sticker van verkeerde patiënt. Bij inscannen kwam ID-mismatch naar voren, analyse gestopt vóór uitgifte. Geen uitslag verstrekt. Nieuwe afname aangevraagd." },
+  { id: "VIM-2026-0425", datum: "2026-06-04", afdeling: "Kindergeneeskunde", melder: "Kinderverpleegkundige",
+    tekst: "Geplande medicatie (paracetamol) om 9.15 uur gegeven in plaats van om 8.00 uur. Drukte door twee spoedopnames. Kind had geen pijnklachten." },
+  { id: "VIM-2026-0427", datum: "2026-06-05", afdeling: "Interne", melder: "Verpleegkundige",
+    tekst: "Perifeer infuus vier dagen niet gewisseld, het protocol zegt drie dagen. Lokale reactie: roodheid en zwelling rond de insteekplaats. Infuus verwijderd, arm gekoeld. Klachten na twee dagen verdwenen." },
   { id: "VIM-2026-0430", datum: "2026-06-05", afdeling: "Cardiologie", melder: "Verpleegkundige",
     tekst: "Infuuspomp gaf geen occlusie-alarm, batterij bleek leeg en netvoeding niet aangesloten. Antibiotica liep 3 uur niet door. Geen directe schade, arts akkoord met inhalen dosis." },
   { id: "VIM-2026-0435", datum: "2026-06-06", afdeling: "Interne", melder: "Wondverpleegkundige",
@@ -96,12 +102,20 @@ const INCIDENTS = [
     tekst: "Aanvraag röntgen linkerpols, patiënt had klachten rechts. Fout ontdekt bij positioneren, geen opname gemaakt van verkeerde zijde. Aanvraag gecorrigeerd." },
   { id: "VIM-2026-0463", datum: "2026-06-11", afdeling: "Apotheek", melder: "Apothekersassistent",
     tekst: "Voorschrift insuline met kommafout: 100 E i.p.v. 10 E. Onderschept bij medicatiebewaking vóór aflevering. Voorschrijver gebeld, dosering aangepast. Patiënt heeft niets ontvangen." },
+  { id: "VIM-2026-0466", datum: "2026-06-11", afdeling: "Interne", melder: "Voedingsassistent",
+    tekst: "Patiënt met een lactosearm dieet kreeg bij de lunch een broodje kaas. Patiënt zag het zelf en at er niet van. Ander broodje gebracht, keuken geïnformeerd." },
   { id: "VIM-2026-0470", datum: "2026-06-12", afdeling: "Geriatrie", melder: "Verzorgende",
     tekst: "Bed in te hoge stand achtergelaten na verzorging. Patiënt gleed bij opstaan langs de rand naar beneden, opgevangen door familie. Geen letsel geconstateerd." },
+  { id: "VIM-2026-0474", datum: "2026-06-12", afdeling: "Orthopedie", melder: "Arts-assistent",
+    tekst: "Na heupoperatie overgeplaatst van Chirurgie naar Orthopedie. Voorschrift nadroparine niet meegekomen bij de overplaatsing, tromboseprofylaxe niet gestart. Op dag 5 longembolie, patiënt gereanimeerd en opgenomen op de IC. Neuroloog stelt ernstige blijvende hersenschade vast." },
   { id: "VIM-2026-0478", datum: "2026-06-13", afdeling: "Chirurgie", melder: "Zaalarts",
     tekst: "Postoperatieve wondinfectie na darmresectie, kweek positief. Perioperatieve antibioticaprofylaxe volgens dossier te laat toegediend. Patiënt langere opname, IV-antibiotica gestart." },
+  { id: "VIM-2026-0482", datum: "2026-06-13", afdeling: "Chirurgie", melder: "Verpleegkundige",
+    tekst: "Patiënt liep met infuuspaal over de gang en is gevallen over een losliggend snoer. Kneuzing aan de knie, arts ziet geen reden voor een foto. Snoer weggehaald en gang gecontroleerd." },
   { id: "VIM-2026-0485", datum: "2026-06-14", afdeling: "IC", melder: "Intensivist",
     tekst: "Beademingsinstelling na overplaatsing niet gecontroleerd, verkeerde tidal volume ingesteld. Patiënt raakte respiratoir gedecompenseerd en is later overleden. Directe melding aan raad van bestuur." },
+  { id: "VIM-2026-0488", datum: "2026-06-14", afdeling: "Dagbehandeling", melder: "Verpleegkundige",
+    tekst: "Na bloedafname een gewone pleister geplakt, terwijl een pleisterallergie in het EPD stond. Lichte huidreactie rond de pleister, na een dag verdwenen. Pleister vervangen door een hypoallergeen type." },
   { id: "VIM-2026-0491", datum: "2026-06-15", afdeling: "Cardiologie", melder: "Verpleegkundige",
     tekst: "Bekende jodiumallergie niet geregistreerd in EPD bij opname. Ontdekt vóór contrastonderzoek door navraag familie, onderzoek uitgesteld. Geen toediening geweest." },
   { id: "VIM-2026-0496", datum: "2026-06-16", afdeling: "Kindergeneeskunde", melder: "Kinderverpleegkundige",
@@ -263,6 +277,7 @@ function ruleBasedTriage(inc) {
   if (/niet geregistreerd|epd|dossier/.test(t) && categorie === "Overig") categorie = "Documentatie";
 
   const overleden = /overleden/.test(t);
+  const blijvend = /(?<!geen )blijvende/.test(t);
   const bijna = /gestopt|onderschept|niet gestart|geen opname|geen toediening|niets ontvangen|niet ontvangen|uitgesteld|opgevangen/.test(t);
   const schade = /fractuur|anafyla|hematoom|kneuzing|infectie|decubitus|reactie/.test(t);
   const onbekend = /onbekend|niet vastgelegd|kan het niet bevestigen/.test(t);
@@ -270,6 +285,7 @@ function ruleBasedTriage(inc) {
 
   let uitkomst = "GeenSchade", gevolg = 2, kans = 3;
   if (overleden) { uitkomst = "Overlijden"; gevolg = 5; }
+  else if (blijvend) { uitkomst = "BlijvendeSchade"; gevolg = 5; }
   else if (bijna) { uitkomst = "BijnaIncident"; gevolg = 3; }
   else if (/anafyla|heupfractuur|fractuur/.test(t)) { uitkomst = "TijdelijkeSchade"; gevolg = 4; }
   else if (schade) { uitkomst = "TijdelijkeSchade"; gevolg = 3; }
@@ -307,16 +323,27 @@ function ruleBasedTriage(inc) {
 }
 
 /* ---------- Generieke Claude-call helpers ---------- */
+// Soms zet het model een citaat tussen "…" binnen een tekstwaarde. Dan is de JSON ongeldig.
+// Daarom één nieuwe poging bij een parsefout. Een HTTP-fout stopt direct (dan volgt de fallback).
 async function callClaudeJSON(system, messages) {
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, system, messages }),
-  });
-  const data = await res.json();
-  let text = data.content.filter((b) => b.type === "text").map((b) => b.text).join("");
-  text = text.replace(/```json/g, "").replace(/```/g, "").trim();
-  return JSON.parse(text);
+  let parseFout;
+  for (let poging = 0; poging < 2; poging++) {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, system, messages }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(`API ${res.status}: ${data?.error?.message || "onbekende fout"}`);
+    let text = data.content.filter((b) => b.type === "text").map((b) => b.text).join("");
+    text = text.replace(/```json/g, "").replace(/```/g, "").trim();
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      parseFout = e;
+    }
+  }
+  throw parseFout;
 }
 
 async function callClaudeText(system, userText, max_tokens = 300) {
@@ -411,6 +438,7 @@ GEDRAGSREGELS (verplicht, in volgorde van belang):
 6. Gebruik in "rationale" concrete feiten/citaten uit de melding, geen vage labels zoals "leek ernstig" of "waarschijnlijk".
 
 Antwoord UITSLUITEND met geldige JSON, zonder uitleg, zonder markdown, zonder backticks.
+Een "citaat" bevat alleen letterlijke tekst uit de melding, zonder eigen toelichting. Gebruik binnen een tekstwaarde geen dubbele aanhalingstekens.
 
 Schema bij "actie":"ASK":
 { "actie": "ASK", "vraag": "één concrete, gesloten vraag aan de InfoProvider" }
@@ -981,7 +1009,7 @@ function AgentPanel({ results, setResults, running, runAll, runOne }) {
               )}
               {r?._error && (
                 <div style={{ marginTop: 10, fontSize: 12.5, color: C.sac1 }}>
-                  Live-agent onbereikbaar — regelgebaseerde fallback gebruikt. Klik "Triageer" om opnieuw te proberen.
+                  Geen bruikbaar antwoord van de live-agent. De regelgebaseerde fallback is gebruikt. Klik "Triageer" om opnieuw te proberen.
                 </div>
               )}
             </Card>
@@ -1184,7 +1212,8 @@ export default function App() {
     let out;
     try {
       out = await agentTriage(inc);
-    } catch {
+    } catch (e) {
+      console.warn(`Triage ${inc.id}: live-agent faalde, fallback gebruikt.`, e);
       out = ruleBasedTriage(inc);
       out._error = true;
     }
