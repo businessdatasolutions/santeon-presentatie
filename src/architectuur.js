@@ -35,12 +35,21 @@ const VERSIES = {
       { deel: 0, scene: "okf", laag: "Laag 3 van 5", titel: "OKF-kennis", tekst: ["Hier staan de regels en definities.", "Mensen hebben ze opgeschreven."] },
       { deel: 0, scene: "ai", laag: "Laag 4 van 5", titel: "AI-agent", ai: true, tekst: ["De agent leest vier kennisbestanden.", "Je ziet precies welke."] },
       { deel: 0, scene: "rapportage", laag: "Laag 5 van 5", titel: "Rapportage", tekst: ["Het bestuur ziet het signaal.", "Elk getal is terug te volgen tot de melding.", "Dit is de keten als alles goed gaat. Vandaag zit er nog een mens tussen: dat zie je zo."] },
-      { deel: 1, onder: "Vandaag, op niveau Ask: twee meldingen uit de data lake. Nog vrije tekst." },
-      { deel: 1, onder: "In 0470 staat het woord ‘val’ niet. Via de ontologie is het toch een val." },
-      { deel: 1, onder: "Voor 0485 leest de agent één bestand extra: het draaiboek voor de IGJ." },
-      { deel: 1, onder: "De AI doet een voorstel, met een citaat uit de melding als bewijs." },
-      { deel: 1, onder: "Een mens beslist. Bij een calamiteit altijd." },
-      { deel: 1, onder: "Beide meldingen staan in het overzicht. 0485 geeft een IGJ-signaal." },
+      // station = index in STATIONS (maakReis). uitleg = een uitlegvak in plaats van de twee banen (zie UITLEG).
+      // Ontologie, OKF en agent: eerst het probleem of het begrip, dan de twee meldingen, dan wat het oplost.
+      { deel: 1, station: 0, onder: "Vandaag, op niveau Ask: twee meldingen uit de data lake. Nog vrije tekst." },
+      { deel: 1, station: 1, uitleg: "ontoProbleem", onder: "Zoek je op het woord ‘val’, dan vind je 0470 niet." },
+      { deel: 1, station: 1, uitleg: "ontoWat", onder: "Een ontologie legt vast welke begrippen er zijn, welke waarden ze hebben en hoe ze samenhangen." },
+      { deel: 1, station: 1, onder: "In 0470 staat het woord ‘val’ niet. Via de ontologie is het toch een val." },
+      { deel: 1, station: 1, uitleg: "ontoOplost", onder: "Eén taal: binnen het ziekenhuis en tussen de Santeon-ziekenhuizen." },
+      { deel: 1, station: 2, uitleg: "okfWat", onder: "OKF: kleine bestanden met kennis die mensen hebben opgeschreven." },
+      { deel: 1, station: 2, onder: "Voor 0485 leest de agent één bestand extra: het draaiboek voor de IGJ." },
+      { deel: 1, station: 2, uitleg: "okfOplost", onder: "De ontologie zegt wat iets is. OKF zegt wat je ermee doet." },
+      { deel: 1, station: 3, uitleg: "agentWat", onder: "Een agent gebruikt een taalmodel om een taak in stappen uit te voeren, binnen vaste grenzen." },
+      { deel: 1, station: 3, onder: "De AI doet een voorstel, met een citaat uit de melding als bewijs." },
+      { deel: 1, station: 3, uitleg: "agentGrenzen", onder: "Een taalmodel kan zich vergissen. De grenzen eromheen vangen dat op." },
+      { deel: 1, station: 4, onder: "Een mens beslist. Bij een calamiteit altijd." },
+      { deel: 1, station: 5, onder: "Beide meldingen staan in het overzicht. 0485 geeft een IGJ-signaal." },
     ],
   },
   groeipad: {
@@ -512,6 +521,77 @@ function maakReis() {
       <div class="besluit">${VINK} Bevestigd: SAC ${m.sac}</div></div>`,
   ];
 
+  // Uitleg bij de stations Ontologie, OKF-kennis en AI-agent (#8, #3). Vervangt even de twee banen.
+  // Wat mensen vastleggen (ontologie, OKF-bestanden) krijgt geen AI-markering; het taalmodel wel.
+  const m0470 = MELDINGEN.find((m) => m.kort === "0470");
+  const tegels = (rij) => `<div class="tegels">${rij.map(([kop, tekst]) => `<div class="tegel"><b>${kop}</b><span>${tekst}</span></div>`).join("")}</div>`;
+  const OKF_BESTANDEN = [
+    ["Ontologie", "ontology-vim-kern.md", "De begrippen en hoe ze samenhangen"],
+    ["Taxonomie", "taxonomy-incidentcategorie.md", "De lijst met categorieën"],
+    ["Metric", "metric-severity-assessment-code.md", "Wanneer is iets SAC 1, 2, 3 of 4?"],
+    ["Draaiboek", "runbook-triage-vim.md", "De stappen van de triage"],
+    ["Draaiboek", "runbook-calamiteit-igj.md", "Meld een calamiteit binnen 3 werkdagen bij de IGJ"],
+  ];
+  const UITLEG = {
+    ontoProbleem: () => `<div class="twee">
+      <div class="blok"><div class="klein">Zoeken op een woord</div>
+        <div class="zoek"><span class="zoek-veld">val</span><span class="zoek-uit nul">0470 niet gevonden</span></div>
+        <p class="ruw klein-tekst">${m0470.tekst}</p>
+        <p class="zin">Melders beschrijven hetzelfde met andere woorden. Een AI die alleen de tekst leest, kiest zelf een betekenis.</p></div>
+      <div class="blok later"><div class="klein">Zoeken op een begrip</div>
+        <div class="zoek"><span class="zoek-veld">Categorie = Val</span><span class="zoek-uit">0470 gevonden</span></div>
+        <p class="zin">Dat kan pas als elke melding vaste begrippen heeft. Die legt de ontologie vast.</p></div></div>`,
+    ontoWat: () => `<div class="twee smal-breed">
+      <div class="blok"><h3>Wat is een ontologie?</h3>
+        <dl class="def"><dt>Begrippen</dt><dd>categorie, afdeling, ernst</dd>
+          <dt>Waarden</dt><dd>de vaste keuzes, zoals val of medicatie</dd>
+          <dt>Samenhang</dt><dd>een incident heeft een categorie en vindt plaats op een afdeling</dd></dl></div>
+      <div class="blok ontologie"><div class="onto-kop">${MENS} De ontologie: door jullie vastgesteld, niet door de AI</div>
+        <div class="relaties">
+          <div class="rel"><span class="ding">Incident</span><span class="pijl">heeftCategorie →</span><span class="begrip">Categorie</span><span class="waarden"><b>Val</b> · Medicatie · Decubitus · Agressie · …</span></div>
+          <div class="rel"><span class="ding">Incident</span><span class="pijl">vondPlaatsOp →</span><span class="begrip">Afdeling</span><span class="waarden"><b>Geriatrie</b> · IC · SEH · Chirurgie · …</span></div>
+          <div class="rel"><span class="ding">Incident</span><span class="pijl">heeftErnst →</span><span class="begrip">Ernst (SAC)</span><span class="waarden">SAC 1 · SAC 2 · SAC 3 · SAC 4</span></div>
+          <div class="rel"><span class="ding">Incident</span><span class="pijl">heeftBasisoorzaak →</span><span class="begrip">Basisoorzaak</span><span class="waarden">Technisch · Organisatorisch · Menselijk · …</span></div>
+        </div></div></div>`,
+    ontoOplost: () => `<h3>Wat de ontologie oplost</h3>${tegels([
+      ["Tellen en vergelijken", "Over afdelingen heen, en tussen de Santeon-ziekenhuizen."],
+      ["Herleiden", "Elke waarde wijst naar een stuk tekst. Je ziet waarop de uitkomst rust."],
+      ["Escaleren bij twijfel", "Past een melding in geen begrip? Dan gaat de melding naar een mens."],
+    ])}`,
+    okfWat: () => `<div class="twee smal-breed">
+      <div class="blok"><h3>Wat een taalmodel niet weet</h3>
+        <ul class="lijst"><li>jouw SAC-drempels</li><li>jouw draaiboek voor de triage</li><li>de termijn voor een melding bij de IGJ</li></ul>
+        <p class="zin">Wat niet is opgeschreven, vult het model zelf in.</p></div>
+      <div class="blok ontologie"><div class="onto-kop">${MENS} OKF · Open Knowledge Format: door mensen opgeschreven</div>
+        <div class="okf-lijst">${OKF_BESTANDEN.map(([soort, naam, wat]) =>
+          `<div class="okf"><span class="soort">${soort}</span><span class="naam">${naam}</span><span class="wat">${wat}</span></div>`).join("")}</div></div></div>`,
+    okfOplost: () => `<div class="vergelijk">
+        <div><span class="soort">Ontologie</span>Wat iets <b>is</b>: de begrippen.</div>
+        <div><span class="soort">OKF</span>Wat je ermee <b>doet</b>: de drempels en de draaiboeken.</div></div>
+      ${tegels([
+        ["Elke melding dezelfde regels", "De agent leest bij elke melding dezelfde bestanden."],
+        ["Leesbaar voor mensen", "Jij kunt de bestanden lezen, controleren en aanpassen."],
+        ["Herleidbaar", "Je ziet welke bestanden de agent heeft gelezen."],
+      ])}`,
+    agentWat: () => `<div class="twee smal-breed">
+      <div class="blok kern">${BOT}<h3>Taalmodel</h3><p>Leest tekst en schrijft een antwoord.</p>
+        <p class="def-agent">Een <b>agent</b> gebruikt een taalmodel om een taak in stappen uit te voeren: lezen, een stap kiezen, iets doen, controleren.</p></div>
+      <div class="onderdelen">${[
+        ["Context", "Wat de agent leest: de melding en de OKF-bestanden.", "het dossier"],
+        ["Skills", "Het draaiboek dat de agent volgt: de stappen van de triage.", "protocollen en werkinstructies"],
+        ["Tools", "Wat de agent mag doen: doorvragen bij de melder.", "navragen bij een collega"],
+        ["Harness", "De vaste grenzen eromheen: hooguit 3 vragen, een tweede controle, terugval op vaste regels.", "het kwaliteitssysteem rond de professional"],
+      ].map(([term, keten, vak]) => `<div class="onderdeel"><b>${term}</b><span>${keten}</span><span class="vak">In jouw vak: ${vak}</span></div>`).join("")}</div></div>`,
+    agentGrenzen: () => `<h3>Wat kan er misgaan, en wat vangt het op?</h3>
+      <div class="grenzen">${[
+        ["Een vloeiend antwoord zonder grond (hallucinatie)", "Verankering: elk voorstel heeft een citaat uit de melding."],
+        ["Er ontbreekt een feit", "De agent vraagt door bij de melder. In de demo: 0501."],
+        ["De feiten spreken elkaar tegen", "De agent kiest geen score en escaleert naar een mens. In de demo: 0505."],
+        ["De agent kijkt zijn eigen huiswerk na", "Een tweede AI toetst het voorstel tegen het draaiboek (eval)."],
+      ].map(([risico, grens]) => `<div class="risico">${risico}</div><div class="pijl-r">→</div><div class="grens">${grens}</div>`).join("")}</div>
+      <p class="zin">En daarna beslist een mens. Dat is het volgende station.</p>`,
+  };
+
   function dashboardTekenen() {
     dashboard.innerHTML = "";
     const kolommen = d3.select(dashboard).selectAll("div.kolom").data([1, 2, 3, 4]).join("div").attr("class", "kolom");
@@ -529,28 +609,42 @@ function maakReis() {
     animate(dashboard.querySelectorAll(".kpi"), { opacity: [0, 1], x: [20, 0] }, { duration: T(0.4), delay: stagger(T(0.15), { startDelay: T(1.2) }) });
   }
 
+  const uitlegvak = $("uitlegvak");
   let vorige = -1;
   return {
-    ga(i) {
-      const richting = i >= vorige ? 1 : -1;
-      vorige = i;
+    // s = de stap uit STAPPEN; n = het stapnummer (voor de richting van de animatie)
+    ga(s, n) {
+      const i = s.station;
+      const richting = n >= vorige ? 1 : -1;
+      vorige = n;
       voortgang.transition().duration(T(0.7) * 1000).ease(d3.easeCubicInOut).attr("x2", X[i]);
       fiches.transition().duration(T(0.7) * 1000).ease(d3.easeCubicInOut)
         .attr("transform", (_, n) => `translate(${X[i] + (n ? 44 : -44)},${RY - 58})`);
-      // de ernst wordt pas zichtbaar als de AI een voorstel doet (station 3)
+      // de ernst wordt pas zichtbaar als de AI een voorstel doet (station 3, ná de uitleg over de agent)
+      const ernst = i > 3 || (i === 3 && s.uitleg !== "agentWat");
       fiches.select("rect").transition().duration(T(0.4) * 1000)
-        .attr("fill", (m) => (i >= 3 ? SAC[m.sac].kleur : "#1a1a1a"));
-      fiches.select("text").attr("fill", (m) => (i >= 3 ? SAC[m.sac].inkt : "#fff"));
+        .attr("fill", (m) => (ernst ? SAC[m.sac].kleur : "#1a1a1a"));
+      fiches.select("text").attr("fill", (m) => (ernst ? SAC[m.sac].inkt : "#fff"));
       st.select("circle").transition().duration(T(0.3) * 1000)
         .attr("stroke", (_, n) => (n === i ? "#d4db3e" : n === 3 ? "#1a1a1a" : "#9ca3af"))
         .attr("stroke-width", (_, n) => (n === i ? 6 : 2.5));
 
-      onder.textContent = STAPPEN[START_REIS + i].onder;
+      onder.textContent = s.onder;
       animate(onder, { opacity: [0, 1], y: [8, 0] }, { duration: T(0.4) });
 
       const dash = i === STATIONS.length - 1;
-      banen.hidden = dash;
+      banen.hidden = dash || Boolean(s.uitleg);
       dashboard.hidden = !dash;
+      uitlegvak.hidden = !s.uitleg;
+      if (s.uitleg) {
+        uitlegvak.innerHTML = UITLEG[s.uitleg]();
+        // eerst het blok, daarna (wat later) wat er "later" bij komt, zoals het antwoord op het probleem
+        animate(uitlegvak.querySelectorAll(":scope > *, .twee > .blok:not(.later), .tegel, .onderdeel, .okf, .risico, .grens"),
+          { opacity: [0, 1], y: [10, 0] }, { duration: T(0.4), delay: stagger(T(0.1)) });
+        const later = uitlegvak.querySelectorAll(".later");
+        if (later.length) animate(later, { opacity: [0, 1], x: [30, 0] }, { duration: T(0.5), delay: T(1.4) });
+        return;
+      }
       if (dash) return dashboardTekenen();
 
       MELDINGEN.forEach((m, n) => {
@@ -706,7 +800,7 @@ function ga(n) {
     stapel.ga(s.scene);
     uitlegTekenen(s);
   } else {
-    reis.ga(n - START_REIS);
+    reis.ga(s, n);
   }
 }
 

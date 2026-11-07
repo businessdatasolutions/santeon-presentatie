@@ -19,7 +19,7 @@
     -webkit-font-smoothing:antialiased;padding:48px 16px}
   .wrap{max-width:760px;margin:0 auto}
   .eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mutedSoft);font-weight:600}
-  h1{font-size:36px;font-weight:700;line-height:1.2;margin:8px 0 12px}
+  h1{font-size:36px;font-weight:700;line-height:1.2;margin:8px 0 12px;hyphens:auto;-webkit-hyphens:auto}
   .lede{color:var(--muted);margin:0 0 28px;font-size:18px;line-height:1.5;max-width:70ch}
 
   .status{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
@@ -32,7 +32,7 @@
     padding:4px 12px;cursor:pointer;color:var(--ink)}
 
   h2{display:flex;align-items:baseline;gap:12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--muted);margin:32px 0 8px;font-weight:600}
+    color:var(--muted);margin:0 0 8px;font-weight:600}
   h2 .tijd{margin-left:auto;font-family:var(--mono);letter-spacing:0;text-transform:none;color:var(--mutedSoft);font-weight:400}
   .item{display:flex;gap:14px;align-items:baseline;background:var(--card);border:1px solid var(--line);
     border-radius:12px;padding:14px 16px;margin-bottom:8px;text-decoration:none;color:inherit}
@@ -53,6 +53,33 @@
   .merk{display:flex;align-items:center;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line);
     color:var(--ink);font-weight:700;font-size:14px}
   .merk svg{width:28px;height:28px;flex-shrink:0}
+  /* Volgorde aanpassen: blokken en onderdelen slepen (zie script onderaan) */
+  .balk{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin:-16px 0 0}
+  .balk[hidden]{display:none}
+  .balk svg{vertical-align:-3px}
+  .balk .stand{color:var(--mutedSoft)}
+  .balk button{margin-left:auto;font:inherit;font-size:13px;font-weight:600;border:1px solid var(--ink);background:#fff;border-radius:6px;
+    padding:4px 12px;cursor:pointer;color:var(--ink)}
+  .balk button:disabled{border-color:var(--line);color:var(--mutedSoft);cursor:default}
+  .sectie{margin-top:32px}
+  .rij{display:flex;align-items:stretch;gap:4px;margin-bottom:8px}
+  .rij > .item{flex:1;min-width:0;margin-bottom:0}
+  .lijst:empty{min-height:52px;border:1px solid var(--line);border-radius:12px;background:var(--card);
+    display:flex;align-items:center;justify-content:center;color:var(--mutedSoft);font-size:14px}
+  .lijst:empty::after{content:"Leeg. Sleep hier een onderdeel heen."}
+  .greep{flex:0 0 24px;display:flex;align-items:center;justify-content:center;border:0;background:none;padding:0;
+    color:var(--mutedSoft);border-radius:6px;cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none}
+  h2 .greep{height:24px;align-self:center;margin-left:-28px}
+  .greep:hover{color:var(--ink);background:var(--line)}
+  .greep:focus-visible{outline:2px solid var(--ink);outline-offset:1px;color:var(--ink)}
+  .sleept{position:fixed;z-index:10;pointer-events:none}
+  .rij.sleept > .item{border-color:var(--accent);box-shadow:0 8px 24px rgba(26,26,26,.15)}
+  .sectie.sleept{background:var(--paper);border-radius:12px;box-shadow:0 8px 24px rgba(26,26,26,.15),0 0 0 2px var(--accent)}
+  .plek{border:2px solid var(--accent);background:var(--accentSoft);border-radius:12px;margin-bottom:8px}
+  .plek.sectieplek{margin:32px 0 0}
+  body.bezig,body.bezig *{cursor:grabbing !important;-webkit-user-select:none;user-select:none}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  @media (max-width:820px){ h2 .greep{margin-left:0} }
 </style>
 </head>
 <body>
@@ -68,100 +95,173 @@
     <button type="button" id="status-opnieuw">Opnieuw</button>
   </div>
 
-  <h2><span>0 · Opening</span><span class="tijd">5 min</span></h2>
-  <div class="item tekst">
-    <span class="nr">0</span>
-    <div><div class="t">"Is AI wel veilig om te gebruiken?"</div>
-    <div class="d">Deze vraag komt vaak terug in het Santeon-netwerk. Het antwoord is geen eenvoudig ja of nee. Het antwoord hangt af van drie vragen: is AI veilig voor de gegevens, voor de patiënt en voor de melder? Voor elke vraag krijg je een toetssteen uit regels die je al kent. Aan het eind van de sessie bepaal je welke vragen je voor je eigen ziekenhuis al kunt beantwoorden. Voor de andere vragen bepaal je wie je om het antwoord vraagt.</div></div>
+  <div class="balk" id="balk" hidden>
+    <span>Sleep een blok of onderdeel aan de greep <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></svg> naar een andere plek. De nummers en tijden passen zich aan.</span>
+    <span class="stand" id="stand"></span>
+    <button type="button" id="herstel">Beginvolgorde herstellen</button>
+  </div>
+  <div class="sr" id="melding" aria-live="polite"></div>
+
+  <div id="sessie">
+  <section class="sectie" data-id="opening" data-min="5">
+    <h2><span><span class="snr">0</span> · <span class="stitel">Opening</span></span><span class="tijd">5 min</span></h2>
+    <div class="lijst">
+      <div class="rij" data-id="opening-vraag" data-blok="0">
+        <div class="item tekst">
+          <span class="nr">0</span>
+          <div><div class="t">"Is AI wel veilig om te gebruiken?"</div>
+          <div class="d">Deze vraag komt vaak terug in het Santeon-netwerk. Het antwoord is geen eenvoudig ja of nee. Het antwoord hangt af van drie vragen: is AI veilig voor de gegevens, voor de patiënt en voor de melder? Voor elke vraag krijg je een toetssteen uit regels die je al kent. Aan het eind van de sessie bepaal je welke vragen je voor je eigen ziekenhuis al kunt beantwoorden. Voor de andere vragen bepaal je wie je om het antwoord vraagt.</div></div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sectie" data-id="waarom" data-min="10">
+    <h2><span><span class="snr">1</span> · <span class="stitel">Waarom · AI als kans voor het vak</span></span><span class="tijd">10 min</span></h2>
+    <div class="lijst">
+      <div class="rij" data-id="realitycheck" data-blok="1b">
+        <a class="item" href="background-material/2026-07-01-ai-maturity-frameworks-visuals.html#maturity-measurement" target="_blank" rel="noopener">
+          <span class="nr">1b</span>
+          <div><div class="t">Realitycheck: hoe zeldzaam is "volwassen"?</div>
+          <div class="d">Volwassenheidsbalk uit de atlas (sectie 0). De adoptie is hoog. Volwassenheid is zeldzaam.</div></div>
+          <span class="tag">atlas §0</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sectie" data-id="hoe" data-min="30">
+    <h2><span><span class="snr">2</span> · <span class="stitel">Hoe · AI veilig gebruiken</span></span><span class="tijd">30 min</span></h2>
+    <div class="lijst">
+      <div class="rij" data-id="regels" data-blok="2a">
+        <div class="item tekst">
+          <span class="nr">2a</span>
+          <div><div class="t">Expliciete regels</div>
+          <div class="d">Je kwaliteitshandboek is de ontologie die AI nodig heeft. Elke standaard wordt een regel: regel → trigger → controle → handhaving.</div></div>
+      </div>
+      </div>
+      <div class="rij" data-id="swimlane" data-blok="2b">
+        <a class="item" href="vim-swimlane.html" target="_blank" rel="noopener">
+          <span class="nr">2b</span>
+          <div><div class="t">Kansenkaart: wie doet wat in het VIM-proces</div>
+          <div class="d">Swimlane met vijf rollen en vijf fasen, route voor route. Daarna de eindpunten en de bronnen. De vijf kansen noem je zelf: melden, triage, analyse, trends en rapportage.</div></div>
+          <span class="tag">animatie</span>
+        </a>
+      </div>
+      <div class="rij" data-id="vim-proces" data-blok="2b">
+        <a class="item" href="vim-proces.html" target="_blank" rel="noopener">
+          <span class="nr">2b</span>
+          <div><div class="t">VIM-werkproces, eenvoudig</div>
+          <div class="d">Van melding tot verbetering. 0470 en 0485 gaan door het proces, daarna de stroom van elke dag.</div></div>
+          <span class="tag">animatie</span>
+        </a>
+      </div>
+      <div class="rij" data-id="groeimodel" data-blok="2b">
+        <a class="item" href="groeimodel.html" target="_blank" rel="noopener">
+          <span class="nr">2b</span>
+          <div><div class="t">Ask → Assist → Automate</div>
+          <div class="d">Het groeimodel als trap, toegepast op route 3: een trendanalyse over afdelingen. Per niveau zie je wat de AI doet en wat de mens doet.</div></div>
+          <span class="tag">stappen</span>
+        </a>
+      </div>
+      <div class="rij" data-id="groeipad" data-blok="2b">
+        <a class="item" href="groeipad.html" target="_blank" rel="noopener">
+          <span class="nr">2b</span>
+          <div><div class="t">Groeipad in de keten: van Ask naar Automate</div>
+          <div class="d">Eerst beoordeelt een mens alles. Daarna kijkt een mens mee bij twijfel, en het model leert van elke correctie. Op niveau Automate gaan alleen calamiteiten naar een mens. Tot slot: het systeem onthoudt en herkent een patroon over afdelingen heen.</div></div>
+          <span class="tag">animatie</span>
+        </a>
+      </div>
+      <div class="rij" data-id="veiligheid" data-blok="2c">
+        <div class="item tekst">
+          <span class="nr">2c</span>
+          <div><div class="t">Is het veilig? Drie vragen in plaats van één</div>
+          <div class="d">Veilig voor de gegevens · veilig voor de patiënt · veilig voor de melder. Toetsstenen: Wkkgz art. 9 en 11, KNMG "veilig melden".</div></div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sectie" data-id="wat" data-min="35">
+    <h2><span><span class="snr">3</span> · <span class="stitel">Wat · Werkend prototype</span></span><span class="tijd">35 min</span></h2>
+    <div class="lijst">
+      <div class="rij" data-id="architectuur" data-blok="3a">
+        <a class="item" href="architectuur.html" target="_blank" rel="noopener">
+          <span class="nr">3a</span>
+          <div><div class="t">Van melding naar signaal</div>
+          <div class="d">Eerst de vijf lagen in 3D, als alles goed gaat. Daarna gaan 0470 en 0485 vandaag door het proces, met een mens erbij. Bij de ontologie, OKF en de AI-agent staat eerst een uitleg. Vast script, werkt zonder internet.</div></div>
+          <span class="tag">animatie</span>
+        </a>
+      </div>
+      <div class="rij" data-id="demo" data-blok="3a">
+        <a class="item demo" href="demo.html" target="_blank" rel="noopener">
+          <span class="nr">3a</span>
+          <div><div class="t">Live demo: VIM-triage bij St. Machteld</div>
+          <div class="d">Data lake → ontologie → OKF → AI-agent → rapportage. Alle meldingen zijn verzonnen. Met doorvragen (0501) en escalatie (0505).</div></div>
+          <span class="tag ai"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> live AI</span>
+        </a>
+      </div>
+      <div class="rij" data-id="ontologie" data-blok="3a">
+        <a class="item" href="ontologie-uitleg.html" target="_blank" rel="noopener">
+          <span class="nr">3a</span>
+          <div><div class="t">Reserve: de ontologie uitgebreid</div>
+          <div class="d">Alleen bij vragen. Twee valincidenten op Geriatrie, maar het woord "val" staat er niet in. Met vaste begrippen vind je ze wel, en zie je een patroon.</div></div>
+          <span class="tag">stappen</span>
+        </a>
+      </div>
+      <div class="rij" data-id="meedoen" data-blok="3b">
+        <a class="item" href="meedoen.html" target="_blank" rel="noopener">
+          <span class="nr">3b</span>
+          <div><div class="t">De zaal doet mee: mens tegen agent en de drie veiligheidsvragen</div>
+          <div class="d">De zaal stemt met de telefoon. Eerst een SAC-score voor melding VIM-2026-0505, daarna wat de agent doet. Dan per veiligheidsvraag: weet je het, of weet je wie het weet? Druk op D voor het dashboard.</div></div>
+          <span class="tag">stemtool</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sectie" data-id="afsluiting" data-min="10">
+    <h2><span><span class="snr">4</span> · <span class="stitel">Afsluiting · Je eerste stap</span></span><span class="tijd">10 min</span></h2>
+    <div class="lijst">
+      <div class="rij" data-id="morgen" data-blok="4">
+        <div class="item tekst">
+          <span class="nr">4</span>
+          <div><div class="t">Morgen</div>
+          <div class="d">Schrijf je top-3 van terugkerende incidenttypen op. Schrijf ook je risicomatrix expliciet op. Dat is je eerste document met rules of engagement.</div></div>
+      </div>
+      </div>
+      <div class="rij" data-id="fg-vraag" data-blok="4">
+        <div class="item tekst">
+          <span class="nr">4</span>
+          <div><div class="t">Vraag voor je FG of informatiebeveiliger</div>
+          <div class="d">"In welke goedgekeurde omgeving mogen wij AI op VIM-meldingen gebruiken?"</div></div>
+      </div>
+      </div>
+      <div class="rij" data-id="evaluatie" data-blok="4">
+        <a class="item" href="meedoen.html#stap-9" target="_blank" rel="noopener">
+          <span class="nr">4</span>
+          <div><div class="t">Evaluatie</div>
+          <div class="d">Drie vragen, tien seconden: informatie, interactie en inspiratie. De cijfers staan alleen op het dashboard.</div></div>
+          <span class="tag">stemtool</span>
+        </a>
+      </div>
+    </div>
+  </section>
   </div>
 
-  <h2><span>1 · Waarom · AI als kans voor het vak</span><span class="tijd">10 min</span></h2>
-  <a class="item" href="background-material/2026-07-01-ai-maturity-frameworks-visuals.html#maturity-measurement" target="_blank" rel="noopener">
-    <span class="nr">1b</span>
-    <div><div class="t">Realitycheck: hoe zeldzaam is "volwassen"?</div>
-    <div class="d">Volwassenheidsbalk uit de atlas (sectie 0). De adoptie is hoog. Volwassenheid is zeldzaam.</div></div>
-    <span class="tag">atlas §0</span>
-  </a>
-
-  <h2><span>2 · Hoe · AI veilig gebruiken</span><span class="tijd">33 min</span></h2>
-  <div class="item tekst">
-    <span class="nr">2a</span>
-    <div><div class="t">Expliciete regels</div>
-    <div class="d">Je kwaliteitshandboek is de ontologie die AI nodig heeft. Elke standaard wordt een regel: regel → trigger → controle → handhaving.</div></div>
-  </div>
-  <a class="item" href="ontologie-uitleg.html" target="_blank" rel="noopener">
-    <span class="nr">2a</span>
-    <div><div class="t">Wat is een ontologie?</div>
-    <div class="d">Twee valincidenten op Geriatrie, maar het woord "val" staat er niet in. Met vaste begrippen vind je ze wel, en zie je een patroon.</div></div>
-    <span class="tag">stappen</span>
-  </a>
-  <a class="item" href="vim-swimlane.html" target="_blank" rel="noopener">
-    <span class="nr">2b</span>
-    <div><div class="t">Kansenkaart: wie doet wat in het VIM-proces</div>
-    <div class="d">Swimlane met vijf rollen en vijf fasen, route voor route. Daarna de eindpunten en de bronnen. De vijf kansen noem je zelf: melden, triage, analyse, trends en rapportage.</div></div>
-    <span class="tag">animatie</span>
-  </a>
-  <a class="item" href="vim-proces.html" target="_blank" rel="noopener">
-    <span class="nr">2b</span>
-    <div><div class="t">VIM-werkproces, eenvoudig</div>
-    <div class="d">Van melding tot verbetering. 0470 en 0485 gaan door het proces, daarna de stroom van elke dag.</div></div>
-    <span class="tag">animatie</span>
-  </a>
-  <a class="item" href="groeimodel.html" target="_blank" rel="noopener">
-    <span class="nr">2b</span>
-    <div><div class="t">Ask → Assist → Automate</div>
-    <div class="d">Het groeimodel als trap, toegepast op route 3: een trendanalyse over afdelingen. Per niveau zie je wat de AI doet en wat de mens doet.</div></div>
-    <span class="tag">stappen</span>
-  </a>
-  <a class="item" href="groeipad.html" target="_blank" rel="noopener">
-    <span class="nr">2b</span>
-    <div><div class="t">Groeipad in de keten: van Ask naar Automate</div>
-    <div class="d">Eerst beoordeelt een mens alles. Daarna kijkt een mens mee bij twijfel, en het model leert van elke correctie. Op niveau Automate gaan alleen calamiteiten naar een mens. Tot slot: het systeem onthoudt en herkent een patroon over afdelingen heen.</div></div>
-    <span class="tag">animatie</span>
-  </a>
-  <div class="item tekst">
-    <span class="nr">2c</span>
-    <div><div class="t">Is het veilig? Drie vragen in plaats van één</div>
-    <div class="d">Veilig voor de gegevens · veilig voor de patiënt · veilig voor de melder. Toetsstenen: Wkkgz art. 9 en 11, KNMG "veilig melden".</div></div>
-  </div>
-
-  <h2><span>3 · Wat · Werkend prototype</span><span class="tijd">32 min</span></h2>
-  <a class="item" href="architectuur.html" target="_blank" rel="noopener">
-    <span class="nr">3a</span>
-    <div><div class="t">Van melding naar signaal</div>
-    <div class="d">Eerst de vijf lagen in 3D, als alles goed gaat. Daarna gaan 0470 en 0485 vandaag door het proces, met een mens erbij. Vast script, werkt zonder internet.</div></div>
-    <span class="tag">animatie</span>
-  </a>
-  <a class="item demo" href="demo.html" target="_blank" rel="noopener">
-    <span class="nr">3a</span>
-    <div><div class="t">Live demo: VIM-triage bij St. Machteld</div>
-    <div class="d">Data lake → ontologie → OKF → AI-agent → rapportage. Alle meldingen zijn verzonnen. Met doorvragen (0501) en escalatie (0505).</div></div>
-    <span class="tag ai"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> live AI</span>
-  </a>
-  <a class="item" href="meedoen.html" target="_blank" rel="noopener">
-    <span class="nr">3b</span>
-    <div><div class="t">De zaal doet mee: mens tegen agent en de drie veiligheidsvragen</div>
-    <div class="d">De zaal stemt met de telefoon. Eerst een SAC-score voor melding VIM-2026-0505, daarna wat de agent doet. Dan per veiligheidsvraag: weet je het, of weet je wie het weet? Druk op D voor het dashboard.</div></div>
-    <span class="tag">stemtool</span>
-  </a>
-
-  <h2><span>4 · Afsluiting · Je eerste stap</span><span class="tijd">10 min</span></h2>
-  <div class="item tekst">
-    <span class="nr">4</span>
-    <div><div class="t">Morgen</div>
-    <div class="d">Schrijf je top-3 van terugkerende incidenttypen op. Schrijf ook je risicomatrix expliciet op. Dat is je eerste document met rules of engagement.</div></div>
-  </div>
-  <div class="item tekst">
-    <span class="nr">4</span>
-    <div><div class="t">Vraag voor je FG of informatiebeveiliger</div>
-    <div class="d">"In welke goedgekeurde omgeving mogen wij AI op VIM-meldingen gebruiken?"</div></div>
-  </div>
-  <a class="item" href="meedoen.html#stap-9" target="_blank" rel="noopener">
-    <span class="nr">4</span>
-    <div><div class="t">Evaluatie</div>
-    <div class="d">Drie vragen, tien seconden: informatie, interactie en inspiratie. De cijfers staan alleen op het dashboard.</div></div>
-    <span class="tag">stemtool</span>
-  </a>
+  <section class="sectie" id="extra" data-id="extra">
+    <h2><span class="stitel">Extra materiaal · Voor vragen en voor na de sessie</span></h2>
+    <div class="lijst">
+      <div class="rij" data-id="harness" data-blok="3a">
+        <a class="item" href="harness.html" target="_blank" rel="noopener">
+          <span class="nr">3a</span>
+          <div><div class="t">De harness en de kennis</div>
+          <div class="d">Deel 1: een agent is opgebouwd als een computer, en als jouw ziekenhuis. Melding 0501 gaat door de harness. Deel 2: vier manieren om kennis bij het taalmodel te krijgen (alleen het model, RAG, kennisgraaf, LLM-wiki), getest op drie VIM-vragen.</div></div>
+          <span class="tag">stappen</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <footer>
     Starten: typ <code>npm start</code> in de projectmap. De API-sleutel staat in <code>.env</code> en blijft op deze computer.
@@ -194,6 +294,278 @@
   }
   document.getElementById("status-opnieuw").addEventListener("click", controleer);
   controleer();
+</script>
+
+<script>
+  /* Volgorde aanpassen. Sleep een blok (kop) of een onderdeel (kaart) aan de greep,
+     of zet de focus op de greep en gebruik pijl omhoog en pijl omlaag.
+     Daarna krijgen de blokken een nieuw nummer en een nieuwe begin- en eindtijd.
+     Nummer van een onderdeel: bloknummer + letter per reeks van hetzelfde outline-blok (data-blok),
+     dus vier 2b-onderdelen naast elkaar blijven samen één letter. Eén reeks in een blok: alleen het bloknummer.
+     De volgorde staat in localStorage van deze browser. "Beginvolgorde herstellen" wist die. */
+  (() => {
+    const OPSLAG = "santeon-startpagina-volgorde-v1";
+    const LETTERS = "abcdefghijklmnopqrstuvwxyz";
+    const RUSTIG = matchMedia("(prefers-reduced-motion: reduce)");
+    const GREEP = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></svg>';
+
+    const sessie = document.getElementById("sessie");
+    const extra = document.getElementById("extra");
+    const herstel = document.getElementById("herstel");
+    const stand = document.getElementById("stand");
+    const melding = document.getElementById("melding");
+
+    const alleSecties = () => [...document.querySelectorAll(".sectie")];
+    const sessieSecties = () => [...sessie.children].filter((e) => e.classList.contains("sectie"));
+    const lijstVan = (s) => s.querySelector(".lijst");
+    const rijenVan = (s) => [...lijstVan(s).children].filter((e) => e.classList.contains("rij"));
+    const titelVan = (el) => el.querySelector(el.classList.contains("rij") ? ".t" : ".stitel").textContent.trim();
+
+    function leesVolgorde() {
+      return {
+        secties: sessieSecties().map((s) => s.dataset.id),
+        lijsten: Object.fromEntries(alleSecties().map((s) => [s.dataset.id, rijenVan(s).map((r) => r.dataset.id)])),
+      };
+    }
+    const BEGIN = leesVolgorde();
+    const zelfde = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+    // Zet een opgeslagen volgorde terug. Onbekende id's vallen weg; nieuwe onderdelen komen achteraan in hun eigen blok.
+    function zetVolgorde(v) {
+      const sectieOp = new Map(alleSecties().map((s) => [s.dataset.id, s]));
+      const rijOp = new Map([...document.querySelectorAll(".rij")].map((r) => [r.dataset.id, r]));
+      [...new Set([...(v.secties || []), ...BEGIN.secties])]
+        .filter((id) => sectieOp.has(id) && id !== "extra")
+        .forEach((id) => sessie.appendChild(sectieOp.get(id)));
+      const geplaatst = new Set();
+      const nieuw = Object.fromEntries([...sectieOp.keys()].map((id) => [id, []]));
+      const plaats = (sid, rid) => {
+        if (nieuw[sid] && rijOp.has(rid) && !geplaatst.has(rid)) { nieuw[sid].push(rid); geplaatst.add(rid); }
+      };
+      for (const [sid, rids] of Object.entries(v.lijsten || {})) rids.forEach((rid) => plaats(sid, rid));
+      for (const [sid, rids] of Object.entries(BEGIN.lijsten)) rids.forEach((rid) => plaats(sid, rid));
+      for (const [sid, rids] of Object.entries(nieuw)) {
+        const lijst = lijstVan(sectieOp.get(sid));
+        rids.forEach((rid) => lijst.appendChild(rijOp.get(rid)));
+      }
+    }
+
+    function bewaar() {
+      try {
+        const v = leesVolgorde();
+        if (zelfde(v, BEGIN)) localStorage.removeItem(OPSLAG);
+        else localStorage.setItem(OPSLAG, JSON.stringify(v));
+      } catch { /* geen opslag (privévenster): de volgorde geldt alleen tot je de pagina herlaadt */ }
+    }
+
+    const klok = (m) => `${Math.floor(m / 60)}:${String(m % 60).padStart(2, "0")}`;
+
+    function nummerRijen(s, n) {
+      const rijen = rijenVan(s);
+      let vorige = null, g = -1;
+      const groep = rijen.map((r) => { if (r.dataset.blok !== vorige) { g++; vorige = r.dataset.blok; } return g; });
+      rijen.forEach((r, k) => {
+        r.querySelector(".nr").textContent = n === null ? "+" : g === 0 ? n : n + LETTERS[groep[k]];
+      });
+    }
+
+    function nummer() {
+      let start = 0;
+      sessieSecties().forEach((s, i) => {
+        const min = Number(s.dataset.min);
+        s.querySelector(".snr").textContent = i;
+        s.querySelector(".tijd").textContent = `${min} min · ${klok(start)}–${klok(start + min)}`;
+        start += min;
+        nummerRijen(s, String(i));
+      });
+      nummerRijen(extra, null);
+      const eigen = !zelfde(leesVolgorde(), BEGIN);
+      herstel.disabled = !eigen;
+      stand.textContent = eigen ? "Je ziet je eigen volgorde." : "Je ziet de beginvolgorde.";
+    }
+
+    function meld(el) {
+      if (el.classList.contains("rij")) {
+        const s = el.closest(".sectie");
+        melding.textContent = `"${titelVan(el)}" staat nu op plek ${el.querySelector(".nr").textContent}, in ${titelVan(s)}.`;
+      } else {
+        melding.textContent = `Blok "${titelVan(el)}" is nu blok ${el.querySelector(".snr").textContent}, ${el.querySelector(".tijd").textContent}.`;
+      }
+    }
+
+    // FLIP: meet de posities, verplaats in de DOM, en laat de buren vloeiend naar hun nieuwe plek schuiven.
+    function leden(soort, behalve) {
+      const sel = soort === "rij" ? ".sectie > h2, .rij" : "#sessie > .sectie, #extra";
+      return [...document.querySelectorAll(sel)].filter((x) => x !== behalve && !behalve?.contains(x));
+    }
+    function verschuif(soort, behalve, doe) {
+      const voor = new Map(leden(soort, behalve).map((x) => [x, x.getBoundingClientRect().top]));
+      doe();
+      if (RUSTIG.matches) return;
+      for (const [x, top] of voor) {
+        const d = top - x.getBoundingClientRect().top;
+        if (Math.abs(d) > 1) x.animate([{ transform: `translateY(${d}px)` }, { transform: "none" }], { duration: 160, easing: "ease-out" });
+      }
+    }
+
+    // ---- Slepen met de muis, pen of vinger ----
+    let sleep = null;
+
+    function begin() {
+      const { el, soort } = sleep;
+      const r = el.getBoundingClientRect();
+      sleep.dy = sleep.y - r.top;
+      const plek = document.createElement("div");
+      plek.className = "plek" + (soort === "sectie" ? " sectieplek" : "");
+      plek.style.height = r.height + "px";
+      el.after(plek);
+      Object.assign(el.style, { position: "fixed", left: r.left + "px", top: r.top + "px", width: r.width + "px", margin: "0" });
+      el.classList.add("sleept");
+      document.body.classList.add("bezig");
+      sleep.plek = plek;
+      sleep.actief = true;
+      requestAnimationFrame(rol);
+    }
+
+    function zoekPlek() {
+      const { el, soort, py: y, plek } = sleep;
+      const boven = (x) => { const b = x.getBoundingClientRect(); return y < b.top + b.height / 2; };
+      let ouder, voor;
+      if (soort === "rij") {
+        let afstand = Infinity;
+        for (const s of alleSecties()) {
+          const b = s.getBoundingClientRect();
+          const d = y < b.top ? b.top - y : y > b.bottom ? y - b.bottom : 0;
+          if (d < afstand) { afstand = d; ouder = lijstVan(s); }
+        }
+        voor = [...ouder.children].filter((x) => x.classList.contains("rij") && x !== el).find(boven) || null;
+      } else {
+        ouder = sessie;
+        voor = sessieSecties().filter((x) => x !== el).find(boven) || null;
+      }
+      let na = plek.nextElementSibling;
+      if (na === el) na = na.nextElementSibling;
+      if (plek.parentNode === ouder && na === voor) return;
+      verschuif(soort, el, () => ouder.insertBefore(plek, voor));
+    }
+
+    function beweeg() {
+      sleep.el.style.top = sleep.py - sleep.dy + "px";
+      zoekPlek();
+    }
+
+    // Rol de pagina mee als je bij de rand van het scherm sleept.
+    function rol() {
+      if (!sleep?.actief) return;
+      const marge = 64, y = sleep.py;
+      const v = y < marge ? -(marge - y) / 3 : y > innerHeight - marge ? (y - (innerHeight - marge)) / 3 : 0;
+      if (v) { scrollBy(0, v); zoekPlek(); }
+      requestAnimationFrame(rol);
+    }
+
+    function einde() {
+      const { el, plek, actief, annuleer } = sleep;
+      sleep = null;
+      if (!actief) return;
+      const van = el.getBoundingClientRect();
+      if (annuleer) plek.remove(); else plek.replaceWith(el);
+      el.removeAttribute("style");
+      el.classList.remove("sleept");
+      document.body.classList.remove("bezig");
+      const naar = el.getBoundingClientRect();
+      if (!RUSTIG.matches) {
+        el.animate([{ transform: `translate(${van.left - naar.left}px, ${van.top - naar.top}px)` }, { transform: "none" }],
+          { duration: 180, easing: "ease-out" });
+      }
+      if (annuleer) return;
+      bewaar();
+      nummer();
+      meld(el);
+    }
+
+    function maakGreep(el, soort) {
+      const knop = document.createElement("button");
+      knop.type = "button";
+      knop.className = "greep";
+      knop.innerHTML = GREEP;
+      const wat = soort === "rij" ? `onderdeel "${titelVan(el)}"` : `blok "${titelVan(el)}"`;
+      knop.setAttribute("aria-label", `Verplaats ${wat}. Sleep, of gebruik pijl omhoog en pijl omlaag.`);
+
+      knop.addEventListener("pointerdown", (e) => {
+        if (e.button !== 0 || sleep) return;
+        e.preventDefault();
+        knop.setPointerCapture(e.pointerId);
+        sleep = { el, soort, knop, id: e.pointerId, x: e.clientX, y: e.clientY, py: e.clientY, actief: false };
+      });
+      knop.addEventListener("pointermove", (e) => {
+        if (sleep?.knop !== knop) return;
+        sleep.py = e.clientY;
+        if (!sleep.actief) {
+          if (Math.hypot(e.clientX - sleep.x, e.clientY - sleep.y) < 4) return;
+          begin();
+        }
+        beweeg();
+      });
+      knop.addEventListener("pointercancel", () => { if (sleep?.knop === knop) sleep.annuleer = true; });
+      knop.addEventListener("lostpointercapture", () => { if (sleep?.knop === knop) einde(); });
+
+      knop.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
+        e.preventDefault();
+        const op = e.key === "ArrowUp";
+        let gelukt = false;
+        verschuif(soort, el, () => { gelukt = soort === "rij" ? verplaatsRij(el, op) : verplaatsSectie(el, op); });
+        if (!gelukt) return;
+        knop.focus();
+        knop.scrollIntoView({ block: "nearest" });
+        bewaar();
+        nummer();
+        meld(el);
+      });
+      return knop;
+    }
+
+    // Met de pijltoetsen: één plek op of neer. Aan de rand van een blok gaat het onderdeel naar het vorige of volgende blok.
+    function verplaatsRij(r, op) {
+      const buur = op ? r.previousElementSibling : r.nextElementSibling;
+      if (buur) { op ? buur.before(r) : buur.after(r); return true; }
+      const secties = alleSecties();
+      const doel = secties[secties.indexOf(r.closest(".sectie")) + (op ? -1 : 1)];
+      if (!doel) return false;
+      op ? lijstVan(doel).append(r) : lijstVan(doel).prepend(r);
+      return true;
+    }
+    function verplaatsSectie(s, op) {
+      const buur = op ? s.previousElementSibling : s.nextElementSibling;
+      if (!buur?.classList.contains("sectie")) return false;
+      op ? buur.before(s) : buur.after(s);
+      return true;
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && sleep?.actief) {
+        sleep.annuleer = true;
+        sleep.knop.releasePointerCapture(sleep.id);
+      }
+    });
+
+    herstel.addEventListener("click", () => {
+      try { localStorage.removeItem(OPSLAG); } catch { /* geen opslag */ }
+      verschuif("rij", null, () => zetVolgorde(BEGIN));
+      nummer();
+      melding.textContent = "De beginvolgorde is terug.";
+    });
+
+    // Start: opgeslagen volgorde terugzetten, grepen toevoegen, nummeren.
+    try {
+      const opgeslagen = JSON.parse(localStorage.getItem(OPSLAG) || "null");
+      if (opgeslagen) zetVolgorde(opgeslagen);
+    } catch { /* geen of kapotte opslag: beginvolgorde */ }
+    document.querySelectorAll(".rij").forEach((r) => r.prepend(maakGreep(r, "rij")));
+    sessieSecties().forEach((s) => s.querySelector("h2").prepend(maakGreep(s, "sectie")));
+    document.getElementById("balk").hidden = false;
+    nummer();
+  })();
 </script>
 </body>
 </html>

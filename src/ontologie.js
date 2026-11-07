@@ -1,4 +1,4 @@
-/* Ontologie uitgelegd (2a). Vast script, geen netwerkaanroepen, geen imports.
+/* Ontologie uitgelegd (reserve bij 3a; de uitleg zelf staat in architectuur.html, #8). Vast script, geen netwerkaanroepen, geen imports.
    Opbouw: ruwe tekst → gemarkeerde fragmenten → begrippen en relaties → één regel per melding
    → het patroon → wat het oplost. Elke stap zet body[data-stap], de klasse "aan" op de fragmenten
    en toont de vakken waarvan data-vanaf ≤ stap ≤ data-tot (stappen tellen vanaf 1).

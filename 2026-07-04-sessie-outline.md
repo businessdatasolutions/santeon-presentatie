@@ -50,8 +50,8 @@ De Golden Circle begint bij het waarom. Daarna komen het hoe en het wat. Het pub
 |---|---|---|---|
 | Opening | Wie spreekt er, en wat komt er? | Welkom, agenda en een belofte over veiligheid. | 5 min |
 | **Waarom** | Waarom is AI belangrijk voor het kwaliteitsvak? | AI is een kans om het vak beter te maken. Iedereen staat nog aan het begin. | 10 min |
-| **Hoe** | Hoe gebruik je AI veilig? | Expliciete regels, een groeimodel in drie niveaus en drie veiligheidsvragen. | 33 min |
-| **Wat** | Wat kan AI vandaag al? | Een werkend prototype op het VIM-proces. Het publiek vergelijkt het eigen oordeel met de AI. | 32 min |
+| **Hoe** | Hoe gebruik je AI veilig? | Expliciete regels, een groeimodel in drie niveaus en drie veiligheidsvragen. | 30 min |
+| **Wat** | Wat kan AI vandaag al? | Een werkend prototype op het VIM-proces. Het publiek vergelijkt het eigen oordeel met de AI. | 35 min |
 | Afsluiting | Wat doe je morgen? | Terug naar het waarom. Een eerste stap voor morgen. | 10 min |
 
 **Opmerking:** de vaste structuur van het project is Opening → Deel 1 → Brug → Deel 2 → Afsluiting. In deze versie zijn Waarom en Hoe 2a samen Deel 1. Hoe 2b en 2c zijn de Brug: eerst het groeimodel op het VIM-proces, dan de drie veiligheidsvragen. Wat is Deel 2.
@@ -79,6 +79,7 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 | Arbeidsmarkt en adoptie (reserve) | Nieuw: Stanford Digital Economy Lab. Canaries Dashboard (Amerikaanse loondata van ADP, tot september 2026). Adoption Monitor (stand juli 2026). |
 | Groeimodel (Hoe) | Ask → Assist → Automate (Beutler), met een regel voor governance (wie beslist, en wie is verantwoordelijk). |
 | Technisch patroon van de demo (Wat) | Luminai/Dinakaran (skelet van een triage-agent). Document intelligence (nauwkeurigheid van extractie). LandingAI (extract → validate → orchestrate). |
+| Harness en kennisvormen (extra materiaal) | De visualisaties in `businessdatasolutions/architecture-of-scale`: "Same problems, same architecture" (LLM = processor, harness = besturingssysteem) en "Four ways to answer one question" (contextvenster, RAG, kennisgraaf, LLM-wiki). Die volgen de wikipagina over de agent-harness. |
 | Eigen VIM-materiaal | `vim-workflow.excalidraw` en `.svg`, notities over NEN 8009, KNMG "veilig melden", bevindingen van PSEBench (alles in `background-material/`). |
 
 ---
@@ -143,38 +144,26 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 
 ---
 
-### 2. HOE — 33 min
+### 2. HOE — 30 min
 
 **Kernboodschap:** "AI werkt pas betrouwbaar als de kwaliteitsstandaarden expliciet zijn. Dat werk is jouw vak, niet de techniek."
 
-#### 2a. Expliciete regels: rules of engagement (11 min)
+#### 2a. Expliciete regels: rules of engagement (8 min)
 
 1. Geef de kernstelling: AI werkt pas betrouwbaar als de kwaliteitsstandaarden en de KPI's expliciet zijn. Die standaarden opschrijven is een professionele taak, geen technische taak.
 2. Onderbouw de kernstelling met Manditereza (ontologie voor industriële AI).
    - Citaat: *"traditional databases store records; ontologies model operational reality"*.
    - Het voorbeeld in die bron is een domein met Quality, Inspection en Defect.
    - Vertaling voor het publiek: "Je kwaliteitshandboek is de ontologie die AI nodig heeft."
-3. **Leg uit wat een ontologie is (3 min).** Kies op de startpagina "Wat is een ontologie?". Klik verder met de pijltjes of de klikker.
-   - **Wat het is:** een ontologie legt vast welke begrippen er zijn. Ze legt ook vast welke waarden een begrip mag hebben en hoe de begrippen samenhangen.
-   - **Het probleem:** vrije tekst kun je niet tellen en niet vergelijken. Melders beschrijven hetzelfde soort incident met andere woorden. Een AI die alleen de ruwe tekst leest, kiest zelf een betekenis. Dan weet je niet waarop de uitkomst rust.
-   - **De oplossing:** de ontologie legt één taal vast. Die taal geldt binnen het ziekenhuis en tussen de Santeon-ziekenhuizen.
-   - **De pagina heeft zes stappen:**
-     1. Twee meldingen van Geriatrie: VIM-2026-0418 en VIM-2026-0470. Zoek op "val". De zoekactie vindt niets, want het woord "val" staat in geen van beide teksten.
-     2. De fragmenten lichten op: wat er gebeurde, waar, het gevolg en de omstandigheid. Zeg: "Jij leest twee valincidenten. Een computer ziet alleen woorden."
-     3. De ontologie: begrippen, waarden en relaties, zoals `Incident heeftCategorie → Categorie`. Zeg: "Deze lijst stellen jullie vast, niet de AI."
-     4. Eén regel per melding. Beide meldingen krijgen de categorie Val en de afdeling Geriatrie. Elke waarde heeft een citaat. In de demo vult de agent deze regel in. Daarom heeft de regel de AI-markering.
-     5. Het patroon: zoek op Categorie = Val en Afdeling = Geriatrie. Nu vind je beide meldingen. In beide meldingen stond het bed te hoog. Dat is een signaal op het niveau Ask (2b). De kwaliteitsadviseur beslist.
-     6. Wat het oplost: je kunt tellen en vergelijken, over afdelingen heen (route 3) en in het netwerk. De ontologie maakt ook de twee eisen uit 2c mogelijk. Elke waarde is te herleiden. Een melding die in geen begrip past, gaat naar een mens.
-   - **Let op:** de pagina toont geen SAC-score, geen basisoorzaak en geen vervolgactie. De live AI geeft daar per keer een ander antwoord. De score van 0470 stelt een mens vast (zie de casus 0470). Zeg dus niets over de ernst van 0470.
-   - **Getest op 6 november:** 0418 en 0470 krijgen allebei de categorie Val en de afdeling Geriatrie. Dat geldt voor de live AI (twee keer getest) en voor de fallback.
-4. Onderbouw de kernstelling met Peron (Philips, MIT SMR).
+   - Leg de ontologie hier nog niet uit. Zeg: "Wat een ontologie precies is, zie je straks in de keten (3a)."
+3. Onderbouw de kernstelling met Peron (Philips, MIT SMR).
    - Peron noemt de grootste barrière voor AI in de zorg: *"data quality and standardization from the get-go"*.
    - Peron is clinicus. Manditereza is engineer. De twee bronnen zeggen hetzelfde.
-5. Onderbouw de kernstelling met AgentSpec (Wang).
+4. Onderbouw de kernstelling met AgentSpec (Wang).
    - AgentSpec legt rules of engagement vast als regel → aanleiding → controle → handhaving.
    - Voorbeeld: "Als X gebeurt, controleer Y. Doe dan Z: pauzeer voor een mens, stop, of ga door."
    - Boodschap: elke kwaliteitsstandaard kan zo'n regel worden.
-6. Verbind de regels met het waarom: toezicht op AI werkt zoals "veilig melden". Het toezicht kijkt naar het systeem, niet naar een persoon.
+5. Verbind de regels met het waarom: toezicht op AI werkt zoals "veilig melden". Het toezicht kijkt naar het systeem, niet naar een persoon.
 
 **Reserve (nieuw):**
 
@@ -185,7 +174,7 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
   - Let op: de bron is een adviespartner die een eigen rapport toelicht. Gebruik dit als richting, niet als bewijs.
 - **Hill (Harvard).** Wie bepaalt hoeveel risico acceptabel is? Ook dat is geen technische vraag. Besturen bespreken hun risicobereidheid zelden expliciet. Die risicobereidheid moet er zijn vóórdat AI komt. Anders bepaalt de schrijver van het beleid het risico, en niet de persoon die verantwoordelijk is.
 
-**Opmerking:** Peron is een van de weinige bronnen in de wiki die specifiek over AI in de zorg gaan. Stap 6 gebruikt de kernwaarde van het publiek als model voor toezicht op AI.
+**Opmerking:** Peron is een van de weinige bronnen in de wiki die specifiek over AI in de zorg gaan. Stap 5 gebruikt de kernwaarde van het publiek als model voor toezicht op AI.
 
 #### 2b. Groeimodel: Ask → Assist → Automate op het VIM-proces (13 min)
 
@@ -313,7 +302,7 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
    - **Toetssteen 2:** art. 9 lid 6 Wkkgz. Gegevens over intern gemelde incidenten zijn geen bewijs en geen grond voor een disciplinaire maatregel. Uitzonderingen: calamiteiten en geweld in de zorgrelatie. Er is ook een beperkte uitzondering voor strafrechtelijk bewijs.
    - **Vertaling:** richt AI op patronen in het systeem. Richt AI nooit op personen. Doe dus geen analyses als "wie meldt het meest" of "wie veroorzaakt het meest".
    - **Open vraag voor de eigen jurist of FG:** blijven gegevens die de AI maakt (samenvattingen, classificaties) binnen het beschermde register? Of komt er een kopie buiten die bescherming?
-   - Verbind vraag 3 met stap 6 uit 2a: "veilig melden" is het model voor toezicht op AI.
+   - Verbind vraag 3 met stap 5 uit 2a: "veilig melden" is het model voor toezicht op AI.
 
 5. Toon de tekst op de dia: *"Is het veilig? Veilig voor de gegevens · veilig voor de patiënt · veilig voor de melder."*
 6. Zeg de boodschap: "Bij alle drie de vragen bepalen de afspraken rond de technologie het antwoord. Dat zijn weer de rules of engagement."
@@ -324,23 +313,52 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 
 ---
 
-### 3. WAT — 32 min
+### 3. WAT — 35 min
 
 **Kernboodschap:** "Dit kan vandaag al, op het niveau Ask."
 
-#### 3a. Live demo (15–17 min)
+#### 3a. Live demo (20 min)
 
-**Eerst: de keten in beeld (4 min)**
+**Eerst: de keten in beeld, met uitleg (10 min)**
+
+In 2b zag het publiek de termen en hun plek in de keten. Hier leg je ze uit, bij het station waar ze horen. In de live demo zie je daarna hoe één ziekenhuis (St. Machteld) ze heeft ingericht.
 
 - **Starten:** kies op de startpagina "Van melding naar signaal". Klik verder met de pijltjes, de spatiebalk of de klikker.
-- **Deel 1, hoog over (6 stappen):** de happy flow. Zo werkt de keten als alles goed gaat. De vijf lagen staan als een stapel in 3D. De meldingen gaan automatisch van onder naar boven. Bij de laag AI-agent lichten vier kennisbestanden op. Lijnen lopen naar de agent. Zo zie je welke kennis de agent leest.
+- **Deel 1, hoog over (6 stappen, 2 min):** de happy flow. Zo werkt de keten als alles goed gaat. De vijf lagen staan als een stapel in 3D. De meldingen gaan automatisch van onder naar boven. Bij de laag AI-agent lichten vier kennisbestanden op. Lijnen lopen naar de agent. Zo zie je welke kennis de agent leest.
 - **Bij de laatste stap van deel 1:** zeg "Dit is de keten als alles goed gaat. Vandaag zit er nog een mens tussen." Zo sluit het beeld aan op het groeipad uit 2b.
-- **Deel 2, twee meldingen (6 stappen):** dit is vandaag, op niveau Ask. VIM-2026-0470 (Geriatrie, geen letsel) en VIM-2026-0485 (IC, overleden) gaan samen langs zes stations.
-- **Wijs op drie momenten:**
-  1. Ontologie: in 0470 staat het woord "val" niet. Toch is het een val. Verwijs terug naar 2a. Leg de ontologie niet opnieuw uit.
-  2. OKF-kennis: voor 0485 leest de agent één bestand extra, het draaiboek voor de IGJ.
-  3. Mens beslist: de AI doet een voorstel. Een mens bevestigt beide meldingen. Zo begin je.
+- **Deel 2, twee meldingen (13 stappen, 8 min):** dit is vandaag, op niveau Ask. VIM-2026-0470 (Geriatrie, geen letsel) en VIM-2026-0485 (IC, overleden) gaan samen langs zes stations. Bij drie stations staat eerst een uitleg. Daarna zie je de twee meldingen.
+- **Station Ontologie (4 stappen, 3 min):**
+  1. Het probleem. Zoek op het woord "val": 0470 wordt niet gevonden. Zoek op het begrip Categorie = Val: 0470 wordt wel gevonden. Zeg: "Melders beschrijven hetzelfde met andere woorden. Een AI die alleen de tekst leest, kiest zelf een betekenis."
+  2. Wat het is. Een ontologie legt vast welke begrippen er zijn, welke waarden ze mogen hebben en hoe ze samenhangen. Zeg: "Deze lijst stellen jullie vast, niet de AI."
+  3. De twee meldingen. In 0470 staat het woord "val" niet. Via de ontologie is het toch een val.
+  4. Wat het oplost: tellen en vergelijken (over afdelingen heen en tussen de Santeon-ziekenhuizen), herleiden, en escaleren bij twijfel. Dat zijn de eisen uit 2c.
+- **Station OKF-kennis (3 stappen, 2 min):**
+  1. Het probleem en wat het is. Een taalmodel kent jouw SAC-drempels niet, en ook je draaiboek en de termijn voor de IGJ niet. Wat niet is opgeschreven, vult het model zelf in. OKF (Open Knowledge Format) is een bundel kleine bestanden. Elk bestand bevat één stuk kennis: een begrip, een drempel of een draaiboek. Mensen schrijven ze op. De agent leest ze bij elke melding.
+  2. De twee meldingen. Voor 0485 leest de agent één bestand extra: het draaiboek voor de IGJ.
+  3. Wat het oplost:
+     - Elke melding volgt dezelfde regels.
+     - Mensen kunnen de bestanden lezen en aanpassen.
+     - Je ziet welke bestanden de agent las.
+     - Zeg: "De ontologie zegt wat iets is. OKF zegt wat je ermee doet."
+- **Station AI-agent (3 stappen, 2 min):**
+  1. Wat het is. Een taalmodel leest tekst en schrijft een antwoord. Een agent gebruikt een taalmodel om een taak in stappen uit te voeren, binnen vaste grenzen. Noem de vier onderdelen met hun tegenhanger in het vak:
+     - context: het dossier;
+     - skills: protocollen en werkinstructies;
+     - tools: navragen bij een collega;
+     - harness: het kwaliteitssysteem rond de professional.
+  2. De twee meldingen. De AI doet een voorstel, met een citaat uit de melding als bewijs. Pas nu krijgen de meldingen een SAC-kleur.
+  3. Wat er mis kan gaan, en wat het opvangt:
+     - een antwoord zonder grond: verankering met een citaat;
+     - een ontbrekend feit: doorvragen (0501);
+     - tegenstrijdige feiten: escaleren (0505);
+     - eigen huiswerk nakijken: een tweede AI toetst.
+     - Zeg: "Die twee meldingen zie je zo in de live demo."
+- **Mens beslist:** de AI doet een voorstel. Een mens bevestigt beide meldingen. Zo begin je.
 - **Let op:** deel 2 is een vast script. De live demo kan voor 0470 een andere SAC-score geven. Zeg dat als het gebeurt.
+- **Reserve:** `ontologie-uitleg.html` legt de ontologie uitgebreider uit. De pagina toont het patroon in 0418 en 0470: twee vallen door een te hoog bed op Geriatrie. Gebruik die pagina alleen bij vragen.
+- **Extra materiaal bij het station AI-agent:** `harness.html`. Gebruik het bij vragen, of deel het na de sessie.
+  - Deel 1: een agent heeft dezelfde opbouw als een computer, en als een ziekenhuis. De professional is de processor. Het kwaliteitssysteem is de harness. Daarna gaat melding 0501 stap voor stap door de harness.
+  - Deel 2: vier manieren om kennis bij het taalmodel te krijgen: alleen het model, RAG, een kennisgraaf en een LLM-wiki. Elke manier krijgt drie VIM-vragen. Zeg: "Geen vorm wint altijd. Kies per vraag de eenvoudigste vorm die werkt."
 - **Overgang:** "Dit was het script. Nu doet de AI het echt." Open daarna de live demo.
 
 **Het prototype**
@@ -357,17 +375,19 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 
 > ⚠️ **Presenteer vanaf de lokale server, niet vanaf witusj.github.io.** De gehoste versie is oud. Die versie heeft geen doorvraag-lus, geen verificatie en geen meldingen 0501 en 0505. Die versie bereikt de AI ook niet. Controleer vóór de sessie de statusregel op de startpagina: "AI-verbinding werkt".
 
-**Spreekinstructies**
+**Spreekinstructies voor de live demo (10 min)**
 
 1. **Zeg waar de gegevens heen gaan (1 min).** Alle meldingen in de demo zijn verzonnen (St. Machteld). Dat is een bewuste keuze. In deze demo gaat de tekst van de melding naar een extern taalmodel. Met echte meldingen mag dat alleen in een omgeving die aan art. 9 Wkkgz voldoet (vraag 1 uit 2c). Zo toont de demo zelf hoe je de veiligheidsvraag beantwoordt.
-2. **Toon kort het scherm Semantische laag (30 seconden).** Kies in de demo "Semantische laag". Wijs op de relaties, zoals `Incident heeftCategorie → Categorie`. Zeg: "Dit is de ontologie uit 2a. De agent gebruikt alleen deze begrippen."
+2. **Toon hoe St. Machteld het heeft ingericht (1 min).** Leg niets opnieuw uit. Verwijs terug naar de stations in de keten.
+   - Kies in de demo "Semantische laag". Wijs op de relaties, zoals `Incident heeftCategorie → Categorie`. Zeg: "Dit is de ontologie van dit ziekenhuis. De agent gebruikt alleen deze begrippen."
+   - Kies "OKF-kennisbundel". Klik op "Escalatie calamiteit naar IGJ" (`runbook-calamiteit-igj.md`). Zeg: "Dit is het draaiboek dat de agent bij 0485 las. Een mens heeft het opgeschreven."
 3. **Toon melding VIM-2026-0501.** De melding is onvolledig. De agent vraagt door ("Is de dubbelcheck uitgevoerd?"). De agent gokt niet. Dit is het antwoord op vraag 2 uit 2c, in de praktijk. (Getest op 4 november: drie vragen aan de InfoProvider, daarna SAC 2 en "Geverifieerd".)
-4. **Leg het label "Geverifieerd" uit.** Een aparte aanroep controleert de triage tegen het draaiboek (de OKF-kennisbundel). Dat is de regel "Laat een agent nooit zijn eigen huiswerk nakijken" (wiki, nieuw). Ook Hippocratic AI laat zijn zorgagenten door een apart model testen.
+4. **Wijs op het label "Geverifieerd".** Dit is de tweede controle uit de keten (station AI-agent). Een aparte aanroep controleert de triage tegen het draaiboek (de OKF-kennisbundel). Dat is de regel "Laat een agent nooit zijn eigen huiswerk nakijken" (wiki, nieuw). Ook Hippocratic AI laat zijn zorgagenten door een apart model testen.
 5. Laat de AI live gesimuleerde meldingen van meerdere afdelingen lezen.
 6. Laat zien dat de AI een patroon over afdelingen signaleert.
 7. Laat zien dat de AI daar stopt voor het oordeel van een mens. Dit bevestigt de belofte van het niveau Ask.
 8. Noem eerlijk de grens van de nauwkeurigheid: generieke extractie haalt 80–90%. Een betrouwbare pijplijn heeft ongeveer 99,x% nodig.
-9. Leg grounding uit (verankering in de bron): elke uitspraak van de AI is te herleiden naar de brontekst. Daardoor kun je de AI controleren en vertrouwen.
+9. Wijs op de verankering in de bron (grounding), uit de keten. Elke uitspraak van de AI is te herleiden naar de brontekst. Daardoor kun je de AI controleren en vertrouwen.
 10. Trek de conclusie: "Daarom is Ask het juiste startniveau. Assist en Automate komen later."
 
 **Voorbereiding:** Witek bouwt het prototype. De contactpersoon controleert en corrigeert het prototype voor de sessie.
