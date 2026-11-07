@@ -16,6 +16,11 @@ import QRCode from "qrcode";
 import { SAC, TEGENSTRIJDIG } from "./meldingen.js";
 
 const BASIS = (import.meta.env.VITE_STEMTOOL_URL || "").replace(/\/+$/, "");
+// Zonder adres. Lokaal: .env mist VITE_STEMTOOL_URL. Openbare versie (GitHub Pages): de build
+// leest .env bewust niet, want het dashboard heeft geen inlog.
+const ZONDER = import.meta.env.DEV
+  ? { qr: "Zet VITE_STEMTOOL_URL in .env", status: "Stemtool: geen adres in .env", bron: "Geen adres van de stemtool · steek je hand op" }
+  : { qr: "Geen stemtool in de openbare versie", status: "Stemtool: niet in de openbare versie", bron: "Geen stemtool · steek je hand op" };
 const COLLEGE = "santeon";
 const TIK = 2000;
 
@@ -66,7 +71,7 @@ function woorden(code) {
 }
 
 function bronTekst(code) {
-  if (!BASIS) return "Geen adres van de stemtool · steek je hand op";
+  if (!BASIS) return ZONDER.bron;
   if (verbonden === false) return "Geen verbinding · steek je hand op";
   const d = live[code];
   if (!d || !d.aantal) return "Nog geen antwoorden";
@@ -138,7 +143,7 @@ function tekenBronnen() {
 
 function tekenVerbinding() {
   const el = $("verbinding");
-  if (!BASIS) { el.textContent = "Stemtool: geen adres in .env"; el.className = "verbinding uit"; return; }
+  if (!BASIS) { el.textContent = ZONDER.status; el.className = "verbinding uit"; return; }
   if (verbonden === null) { el.textContent = "Stemtool: verbinden…"; el.className = "verbinding"; return; }
   if (!verbonden) { el.textContent = "Stemtool: geen verbinding"; el.className = "verbinding uit"; return; }
   el.textContent = `Stemtool: verbonden · ${openTitel ? `open: ${openTitel}` : "geen vraag open"}`;
@@ -195,7 +200,7 @@ async function tik() {
 function maakQr() {
   const vakken = document.querySelectorAll(".qr");
   if (!BASIS) {
-    vakken.forEach((el) => { el.innerHTML = '<p class="geen-qr">Zet VITE_STEMTOOL_URL in .env</p>'; });
+    vakken.forEach((el) => { el.innerHTML = `<p class="geen-qr">${ZONDER.qr}</p>`; });
     return;
   }
   QRCode.toString(`${BASIS}/${COLLEGE}/mee`, {

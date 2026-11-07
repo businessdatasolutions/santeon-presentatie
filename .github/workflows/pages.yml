@@ -1,0 +1,46 @@
+name: GitHub Pages
+
+# Bouwt de openbare versie van de presentatie en zet die op GitHub Pages.
+# - Hier bestaat geen .env. De API-sleutel en het stemtool-adres kunnen dus niet in de build komen.
+# - De openbare versie heeft geen live AI: die werkt alleen via de proxy van npm start op je eigen computer.
+# - npm run build draait na vite build scripts/controleer-build.mjs. Vindt die een lek, dan stopt de deploy.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write   # OIDC-identiteit voor actions/deploy-pages; geen geheim
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

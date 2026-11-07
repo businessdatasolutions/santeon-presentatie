@@ -396,11 +396,15 @@
   </span>
 </footer>
 
-<script>
+<script type="module">
+  /* Lokaal (npm start) vraagt de check /api/status aan de Vite-server. De openbare versie
+     (GitHub Pages) heeft geen server en geen live AI: daar zegt de check dat direct. */
+  const box = document.getElementById("status");
+  const tekst = document.getElementById("status-tekst");
+  const model = document.getElementById("status-model");
+  const opnieuw = document.getElementById("status-opnieuw");
+
   async function controleer() {
-    const box = document.getElementById("status");
-    const tekst = document.getElementById("status-tekst");
-    const model = document.getElementById("status-model");
     box.className = "status";
     tekst.textContent = "AI-verbinding controleren…";
     model.textContent = "";
@@ -415,8 +419,13 @@
       tekst.textContent = "Lokale server niet bereikbaar — start met npm start";
     }
   }
-  document.getElementById("status-opnieuw").addEventListener("click", controleer);
-  controleer();
+  if (import.meta.env.DEV) {
+    opnieuw.addEventListener("click", controleer);
+    controleer();
+  } else {
+    tekst.textContent = "Openbare versie zonder live AI";
+    opnieuw.remove();
+  }
 </script>
 
 <script>

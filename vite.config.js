@@ -1,17 +1,62 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
+import { readFileSync } from "node:fs";
 
-// Lokale presentatieserver.
+// Lokale presentatieserver (npm start).
 // - /api/anthropic/*  → proxy naar de Anthropic-API. De API-sleutel uit .env wordt hier,
 //   aan de serverkant, toegevoegd en komt nooit in de browser.
 // - /api/status       → controle vooraf: is er een sleutel, en is het demo-model bereikbaar?
 //   (Haalt alleen modelinformatie op; kost geen tokens.)
+//
+// Openbare versie (npm run build → GitHub Pages).
+// - Leest .env niet (envDir: false). Zo komen de sleutel en VITE_STEMTOOL_URL nooit in dist/.
+// - Heeft geen proxy en geen /api/status: live AI werkt alleen op de lokale server.
+// - Alleen de pagina's in PAGINAS en de bestanden in STATISCH gaan mee. Nooit een glob:
+//   in de root staan ook vertrouwelijke bestanden (zie .gitignore).
 
 const API = "https://api.anthropic.com";
 const API_VERSION = "2026-10-21";
 const DEMO_MODEL = "claude-sonnet-4-6"; // moet overeenkomen met het model in vim-okf-simulatie.jsx
 
-export default defineConfig(({ mode }) => {
+const PAGINAS = [
+  "index.html",
+  "demo.html",
+  "ziekenhuis.html",
+  "vim-proces.html",
+  "vim-swimlane.html",
+  "groeimodel.html",
+  "groeipad.html",
+  "architectuur.html",
+  "meedoen.html",
+  "ontologie-uitleg.html",
+  "harness.html",
+  "vim-agent-animatie.html",
+];
+
+// Bestanden waar de startpagina en de atlas naar linken. Ze gaan ongewijzigd mee.
+const STATISCH = [
+  "background-material/2026-03-ai-monitor-ziekenhuizen-2026-mxi.pdf",
+  "background-material/2026-07-01-ai-maturity-frameworks-visuals.html",
+  "background-material/2026-07-01-tin-man-vs-octopus.excalidraw",
+  "background-material/2026-07-01-cisco-5-foundations.excalidraw",
+  "background-material/vendor/d3-7.9.0.min.js",
+  "background-material/vendor/rough-4.6.6.js",
+  "background-material/vendor/mermaid-10.9.1.min.js",
+];
+
+export default defineConfig(({ command, mode, isPreview }) => {
+  // vite preview toont dist/ zoals GitHub Pages het toont: zonder proxy.
+  if (command === "build" || isPreview) {
+    return {
+      base: "./",
+      envDir: false,
+      plugins: [react(), kopieerStatisch()],
+      build: {
+        rollupOptions: { input: Object.fromEntries(PAGINAS.map((p) => [p.replace(/\.html$/, ""), p])) },
+      },
+    };
+  }
+
   const env = loadEnv(mode, process.cwd(), "");
   // .env gebruikt de naam ANTHROPIC-API-KEY; de gebruikelijke ANTHROPIC_API_KEY werkt ook.
   const apiKey = env.ANTHROPIC_API_KEY || env["ANTHROPIC-API-KEY"] || "";
@@ -40,6 +85,17 @@ export default defineConfig(({ mode }) => {
     },
   };
 });
+
+function kopieerStatisch() {
+  return {
+    name: "kopieer-statisch",
+    generateBundle() {
+      for (const pad of STATISCH) {
+        this.emitFile({ type: "asset", fileName: pad, source: readFileSync(pad) });
+      }
+    },
+  };
+}
 
 function statusEndpoint(apiKey) {
   return {
