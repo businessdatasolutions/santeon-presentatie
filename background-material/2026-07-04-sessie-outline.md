@@ -3,7 +3,7 @@
 - **Opbouw:** de Golden Circle van Simon Sinek (Waarom → Hoe → Wat).
 - **Taal:** vereenvoudigd Nederlands, met de schrijfregels van ASD-STE100.
 - **Bron van de opdracht:** het actiepunt in `notes-22-06-2026.md`.
-- **Stand:** bijgewerkt met de wiki-update van 4 november 2026.
+- **Stand:** bijgewerkt met de wiki-update van 4 november 2026. Blok 1 (Waarom) is op 7 november herschreven met de AI Monitor Ziekenhuizen 2026.
 
 ---
 
@@ -49,7 +49,7 @@ De Golden Circle begint bij het waarom. Daarna komen het hoe en het wat. Het pub
 | Laag | Vraag | Inhoud | Tijd |
 |---|---|---|---|
 | Opening | Wie spreekt er, en wat komt er? | Welkom, agenda en een belofte over veiligheid. | 5 min |
-| **Waarom** | Waarom is AI belangrijk voor het kwaliteitsvak? | AI is een kans om het vak beter te maken. Iedereen staat nog aan het begin. | 10 min |
+| **Waarom** | Waarom is AI belangrijk voor het kwaliteitsvak? | AI komt snel en breed in het ziekenhuis. Het kwaliteitsproces doet nog bijna niet mee. Iedereen staat nog aan het begin. | 10 min |
 | **Hoe** | Hoe gebruik je AI veilig? | Expliciete regels, een groeimodel in drie niveaus en drie veiligheidsvragen. | 30 min |
 | **Wat** | Wat kan AI vandaag al? | Een werkend prototype op het VIM-proces. Het publiek vergelijkt het eigen oordeel met de AI. | 35 min |
 | Afsluiting | Wat doe je morgen? | Terug naar het waarom. Een eerste stap voor morgen. | 10 min |
@@ -58,7 +58,7 @@ De Golden Circle begint bij het waarom. Daarna komen het hoe en het wat. Het pub
 
 ### Afspraken
 
-- De sessie gebruikt alleen de kernmodellen uit de frameworks-atlas: de realitycheck (sectie 0) en Ask → Assist → Automate (sectie 9). Zo blijft de sessie kort en concreet.
+- Het Waarom steunt op de AI Monitor Ziekenhuizen 2026. Uit de frameworks-atlas gebruikt de sessie alleen Ask → Assist → Automate (sectie 9). De realitycheck (sectie 0) is reserve. Zo blijft de sessie kort en concreet.
 - De live demo blijft op het niveau Ask. De AI geeft een signaal, en een mens beslist. Calamiteiten en twijfelgevallen gaan altijd naar een mens.
 - Deelnemers voeren geen echte meldingen in de demo in.
 - Het honorariumvoorstel is een apart traject. Dit document bevat dat voorstel niet.
@@ -70,7 +70,7 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 
 | Onderdeel | Bron |
 |---|---|
-| Realitycheck (Waarom) | Sectie 0 van `background-material/2026-07-01-ai-maturity-frameworks-visuals.html`. De getallen zijn niet veranderd. De atlas is bijgewerkt op 4 november. |
+| AI in ziekenhuizen (Waarom) | AI Monitor Ziekenhuizen 2026 van M&I/Partners (maart 2026), in `background-material/`. Perspectief en reserve: `reports/Nieuwe onderzoeken naar AI volwassenheid.md` (Deloitte, RIVM, CBS, NHS England, Poon e.a.). Reserve: sectie 0 van `background-material/2026-07-01-ai-maturity-frameworks-visuals.html`, met oude cijfers. |
 | Expliciete regels (Hoe) | Manditereza (ontologie), Peron/Philips (MIT SMR), AgentSpec (Wang). Nieuw: Keneally (BCG): zorgorganisaties moeten hun richtlijnen expliciet beschikbaar maken voor AI. |
 | Veiligheidsvragen (Hoe) | Wkkgz art. 9 (incidentenregister, versie per 1-1-2026) en art. 11 (meldplicht calamiteiten), KNMG "veilig melden". Beide staan in `background-material/`. |
 | Afwegingskader (Hoe) | Jagged frontier, Böckeler (kans × impact × detecteerbaarheid). Nieuw: METR (de grens is van binnenuit niet te zien). Nieuw: Lakhani (AI "talks really well", ook bij een fout antwoord). |
@@ -104,43 +104,98 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 
 ### 1. WAAROM — 10 min
 
-**Kernboodschap:** "AI is een kans om het vak beter te maken, niet alleen sneller."
+**Kernboodschap:** "AI is al in je ziekenhuis. Of AI de zorg beter maakt, is een vraag voor jouw vak."
 
-#### 1a. Het doel achter het vak (5 min)
+**Bron:** de AI Monitor Ziekenhuizen 2026 van M&I/Partners (achtste editie, maart 2026). Het pdf-bestand staat in `background-material/2026-03-ai-monitor-ziekenhuizen-2026-mxi.pdf`. 52 ziekenhuizen deden mee: 73% van alle Nederlandse ziekenhuizen. Alle zeven Santeon-ziekenhuizen staan op de deelnemerslijst. De paginanummers hieronder zijn die van het pdf-bestand.
 
-1. Zeg de kernboodschap.
-2. Geef de stip op de horizon: "Meer tijd op de werkvloer bij de professionals. Minder tijd achter schermen."
-3. Verbind de kernboodschap met een waarde die het publiek al kent: KNMG "veilig melden". Een melding is er om te leren. Een melding is er niet om een persoon af te rekenen.
-4. Citeer Peron (Philips): "AI is here to add, not to take over."
+#### 1a. Hoe snel gaat het? (3 min)
 
-**Opmerking:** het publiek hoort zo dat AI bij de eigen kernwaarde past. AI vervangt het vak niet.
+1. Noem de bron. Zeg: "Jullie eigen ziekenhuizen zitten in deze cijfers. Alle zeven Santeon-ziekenhuizen deden mee."
+2. Geef het tempo met één reeks: het gebruik van generatieve AI (p. 30).
+   - 2024: 57% van de ziekenhuizen.
+   - 2025: 75%.
+   - 2026: 90%.
+   - Zeg: "In drie jaar ging generatieve AI van nieuw naar bijna overal."
+3. Geef de diepte met de trechter (p. 26). Zeg: "Een ziekenhuis heeft gemiddeld 18 AI-toepassingen. Acht zijn nog een idee. Eén is opgeschaald."
+4. Noem de schaal (p. 25). 8% van de ziekenhuizen gebruikt AI op grote schaal. Geen enkel ziekenhuis gebruikt AI op zeer grote schaal.
+5. Noem de opbrengst over de afgelopen drie jaar (p. 37).
+   - In de meeste ziekenhuizen had AI geen positief en geen negatief effect op de vijf doelen van de quintuple aim.
+   - Alleen bij de ervaring van medewerkers meldt meer dan de helft van de ziekenhuizen (55%) een positief effect.
+   - Bijna de helft van de ziekenhuizen (47%) meldt hogere zorgkosten door AI.
+6. Geef het perspectief in één zin: "Buiten Nederland zie je hetzelfde. Bij grote zorgorganisaties in zes landen heeft 2% AI in de hele organisatie."
+7. Zeg de boodschap: "AI komt snel. AI gaat nog niet diep. Iedereen staat nog aan het begin."
 
-#### 1b. Realitycheck: hoe volwassen is AI echt? (5 min)
+**Opmerking:** de monitor is een enquête van een adviesbureau, vooral onder CIO's. De cijfers zijn zelfrapportage. De monitor definieert "grote schaal" niet. Het getal van 2% in stap 6 komt van Deloitte (december 2025): 180 bestuurders van grote zorgorganisaties, ook uit Nederland.
 
-1. Toon de volwassenheidsbalk (sectie 0 van de HTML-atlas).
-2. Geef de cijfers: vijf onafhankelijke onderzoeken. In alle onderzoeken is 1–15% van de organisaties "mature". De adoptie is al 78–88%.
-3. Zeg de boodschap: "De adoptie is hoog. Volwassenheid is zeldzaam."
-4. Verbind de boodschap met het signaal uit het netwerk: "We horen dat je nog zoekt. Dat is geen achterstand. Zo ziet bijna elke organisatie eruit."
+#### 1b. Waar zit AI al? (3 min)
 
-**Opmerking:** het publiek loopt dus niet achter. Een lage volwassenheid is overal de norm. Dit verlaagt de drempel. Dit voorkomt ook een gevoel van hype.
+1. Noem de vijf processen met de meeste AI (p. 27):
+   - administratie en facturatie, met verslaglegging: 80% (2025: 48%);
+   - diagnostiek, met vroegsignalering: 71%;
+   - communicatie, met chatbots: 65% (2025: 35%);
+   - wetenschappelijk onderzoek: 53%;
+   - zorglogistiek: 49%.
+2. Noem de verschuiving (p. 28). In 2024 noemde 78% van de ziekenhuizen de radiologie als afdeling met hun belangrijkste AI-toepassingen. In 2026 is dat 41%. Zeg: "AI gaat van de radiologie naar het hele ziekenhuis."
+3. Geef per gebied één voorbeeld uit de monitor:
+   - **Beeld:** fractuurdetectie. In het Máxima MC maakt AI 's avonds een eerste selectie. De radioloog beoordeelt de beelden de volgende dag (p. 41).
+   - **Administratie:** ICD-10-codering voor de DHD, en controle van declaraties (p. 29).
+   - **Verslaglegging:** spraakgestuurd rapporteren. 69% van de ziekenhuizen is ermee begonnen. Gemiddeld gebruikt 21% van de beoogde zorgverleners het echt (p. 31).
+   - **Kennis:** een eigen, veilige variant van ChatGPT. Medewerkers doorzoeken er protocollen en richtlijnen mee (p. 29).
+   - **Agents:** 48% van de ziekenhuizen verkent AI-agents. 16% zet concrete stappen, meestal in een pilot. Voorbeelden zijn minder telefoondruk en antwoorden op e-mail (p. 32).
+4. Noem de belangrijkste drijfveer. Alle ziekenhuizen (100%) willen met AI de werkdruk verlagen (p. 35).
+5. Zeg de boodschap: "AI begint waar de werkdruk hoog is: bij administratie en communicatie."
 
-**Reserve (niet op een dia, bijgewerkt 4 november):**
+#### 1c. Wat raakt het kwaliteitsmanagement? (3 min)
 
-- De vijf getallen gelden nog.
-- Andere cijfers sinds juli:
-  - Ongeveer 3 van de 10 pilots komen in productie. Dit getal komt uit de index van één AI-bedrijf, genoemd in BBC *AI Decoded*.
-  - Volgens BCG haalt maar 26% van de organisaties echt waarde uit AI.
-- Als iemand doorvraagt over de 78–88% adoptie: ook die cijfers zijn minder hard dan ze lijken. Volgens Goldman Sachs komt de sprong in Amerikaanse bedrijfsadoptie door een ruimere enquêtevraag. De enquête vraagt nu naar gebruik "in een bedrijfsfunctie" in plaats van "in de productie". Zoeken is dus echt normaal.
-- Nieuw: het gebruik is breed, maar niet diep (Stanford Adoption Monitor, juli 2026).
-  - 62% van de Amerikaanse volwassenen gebruikt generatieve AI. Maar slechts 15% gebruikt het elke dag. Dat is ongeveer een kwart van de gebruikers.
-  - Over gebruik op het werk zijn de enquêtes het niet eens. Twee enquêtes zien een stijging naar ongeveer de helft van de werkenden. Eén enquête ziet in een jaar een daling van 46% naar 33%.
-- Nieuw: adoptiecijfers liggen tussen ongeveer 20% en 88%. Het getal hangt af van wat er geteld wordt:
-  - Telt elk gebruik mee, of alleen gebruik in de productie?
-  - Gaat het om één product, of om alle AI?
-  - Gaat het om kleine of om grote bedrijven? Bij de OECD gebruikt meer dan de helft van de grote bedrijven AI. Bij de kleine bedrijven is dat ongeveer 17%.
-- Vuistregel voor de zaal: vraag bij elk adoptiecijfer wát er gemeten is.
+1. Noem de tweede drijfveer. 88% van de ziekenhuizen wil met AI de kwaliteit van zorg verbeteren (p. 35).
+2. Zeg wat ontbreekt: "Het kwaliteitsproces zelf staat niet in de monitor."
+   - De lijst met processen heeft geen categorie voor kwaliteit of patiëntveiligheid (p. 27).
+   - Melden en leren komt niet voor. Bij agents gaat "afhandelen van meldingen" over e-mail en storingen van medische techniek (p. 32).
+3. Noem wie er aan tafel zit. 60% van de ziekenhuizen heeft een AI-board of AI-regiegroep (p. 20). Daarin zitten vooral de CMIO of CNIO (82%), de CIO (70%) en de klinisch fysicus (50%). "Manager Kwaliteit" staat alleen bij "anders" (p. 21).
+4. Vraag de zaal om handopsteken. Vraag: "Wie zit in de AI-board of AI-regiegroep van het eigen ziekenhuis?"
+5. Noem wat AI wel van het vak vraagt. 76% van de ziekenhuizen heeft nu AI-beleid; in 2024 was dat 30% (p. 16). De onderwerpen in dat beleid zijn kwaliteitswerk:
+   - menselijke controle en eindverantwoordelijkheid;
+   - validatie, monitoring en evaluatie van AI-toepassingen;
+   - een proces voor intake, toetsing en besluiten over AI.
+6. Citeer radioloog Firdaus Mohamed Hoesein (UMC Utrecht, p. 44): "We zien niet altijd directe tijdswinst, maar wel kwaliteitswinst." Vraag de zaal: "Wie meet die kwaliteitswinst?"
+7. Zeg de boodschap: "AI raakt je vak op twee manieren. Elke AI-toepassing vraagt kwaliteitszorg. En AI kan je eigen proces helpen, zoals melden en leren. Dat tweede is bijna nergens begonnen."
 
-**Overgang naar Hoe:** "AI is dus een kans, en iedereen staat aan het begin. Hoe gebruik je die kans veilig?"
+**Opmerking:** verwacht weinig handen bij stap 4. Maak er geen verwijt van. De monitor noemt de kwaliteitsmanager alleen als losse vermelding. Het gat zit dus in de organisatie.
+
+#### 1d. Brug naar het programma (1 min)
+
+1. Vat samen: "AI komt snel en breed. Het kwaliteitsproces doet nog bijna niet mee. Daar ligt een kans voor jouw vak."
+2. Noem het patroon dat terugkomt: "In het Máxima MC maakt AI een eerste selectie, en de radioloog beslist. Dat patroon passen we vandaag toe op VIM-meldingen."
+3. Geef de route van de sessie:
+   - Hoe: eerst de regels die AI nodig heeft (2a). Dan het groeimodel op het VIM-proces (2b). Dan de drie veiligheidsvragen (2c).
+   - Wat: een werkend prototype op VIM-meldingen (3a). Daarna vergelijk je je eigen oordeel met dat van de AI (3b).
+
+**Reserve (niet op een dia):**
+
+- **Santeon in de monitor.** De monitor geeft geen cijfers per ziekenhuis. Noem dus nooit een Santeon-ziekenhuis bij een cijfer.
+  - Topklinische ziekenhuizen schatten hun eigen AI-positie gemiddeld op 68 van 100: een "snelle volger". De umc's schatten zich op 93, algemene ziekenhuizen op 38 (p. 13).
+  - Geen enkel ziekenhuis heeft alle zeven onderdelen van AI-readiness op orde. Drie topklinische ziekenhuizen hebben er vijf of zes op orde (p. 38).
+- **Samen optrekken.** Het Máxima MC werkt in mProve samen met andere topklinische ziekenhuizen. Ze testen samen verschillende AI-scribes. Carlijn de Ruijter (Raad van Bestuur, p. 41–42): "Op termijn willen we weten wie het snelst kan acteren, waarna we 'proudly copy' en landelijk convergeren." Santeon is ook zo'n netwerk.
+- **Kosten en waarde.** Carlijn de Ruijter over AI op de radiologie (p. 41): "Onder de streep is het niet goedkoper, maar de waarde is groter."
+- **Een veilige omgeving.** 29% van de ziekenhuizen biedt medewerkers een eigen, veilige AI-omgeving. 54% heeft spelregels voor eigen AI-tools van medewerkers (p. 17). Dit sluit aan op de vraag voor de FG in de afsluiting (stap 5).
+- **AI-verordening.** 53% van de ziekenhuizen gebruikt al hoogrisico-AI. 16% heeft de risico-indeling nog niet gedaan (p. 33). 96% werkt aan AI-geletterdheid (p. 18).
+- **Is een fout van AI een incident?** De Wkkgz noemt een incident "een niet-beoogde of onverwachte gebeurtenis, die betrekking heeft op de kwaliteit van de zorg, en heeft geleid, had kunnen leiden of zou kunnen leiden tot schade bij de cliënt". Een fout in een verslag van een AI-scribe kan daaronder vallen. Dit is een eigen interpretatie. Laat een jurist dit controleren (vervolgstap 4).
+- **Incidentmeldingen buiten Nederland.**
+  - Het Engelse landelijke meldsysteem (LFPSE) krijgt ruim 2,6 miljoen meldingen per jaar. Mensen kunnen er ongeveer 10.000 lezen. De projectleider verwacht dat machine learning dat omdraait. Het interview heeft geen datum, dus de stand in 2026 is niet bevestigd.
+  - Van 43 Amerikaanse zorgsystemen noemt 56% patiëntveiligheid of kwaliteit als een van de twee belangrijkste doelen voor AI. De enige gemeten veiligheidstoepassing is valrisico: 36% heeft een vorm van inzet, 19% volledige inzet (Poon e.a., JAMIA 2025).
+  - Een model voor de ernst van meldingen in de radiotherapie werkte goed in het eigen instituut (AUROC 0,82). In een ander instituut zakte het naar 0,42–0,56 (arXiv, september 2025). Dat steunt de keuze in de demo. De agent werkt met de eigen regels van het ziekenhuis. Twijfel gaat naar een mens.
+- **Vraag bij elk cijfer wat er gemeten is.**
+  - De monitor telt ziekenhuizen. 90% gebruikt generatieve AI. Dat zegt niets over het aantal gebruikers.
+  - Het RIVM telt zorgverleners: 53% van de artsen en 41% van de verpleegkundigen gebruikt minstens één AI-toepassing (Monitor Digitale Zorg 2025). Het RIVM waarschuwt: de vraag is veranderd, dus vergelijk niet met 2024.
+  - Het CBS telt bedrijven: 33% van de Nederlandse bedrijven met 10 of meer werkzame personen gebruikt AI (2025, voorlopig).
+  - Een studie van de Europese Commissie (2025) waarschuwt dat enquêtes het gebruik van AI in de zorg overschatten.
+  - In de Amerikaanse zorg komt 30% van de afgeronde proeven (proof of concept) in productie (Bessemer, AWS en Bain, 2025, ruim 400 organisaties).
+- **Buiten de zorg** (sectie 0 van de atlas). De atlas toont nog de oude cijfers. Metingen uit 2025–2026 met een strenge definitie komen uit op 5–13%: McKinsey 6%, BCG 7,5%, Gartner 13%. MIT CISR meet 18%, op een kleine steekproef (N=152). Zie `reports/Nieuwe onderzoeken naar AI volwassenheid.md`.
+- **Twee fouten in de monitor.**
+  - De tekst zegt "Bij 53% blijft AI nog kleinschalig" (p. 6 en 25). De grafiek op p. 25 geeft voor 2026 42%; 53% is de waarde van 2025. Noem dus 42%, of noem het getal niet. Ook "+23%" bij gemiddelde schaal klopt niet: van 33% naar 46% is +13.
+  - De inleiding noemt veldwerk in "januari tot en met februari 2025" (p. 4). Dat is vrijwel zeker 2026.
+
+**Overgang naar Hoe:** "AI is er al, en iedereen staat aan het begin. Hoe gebruik je AI veilig in je eigen vak?"
 
 ---
 
@@ -163,7 +218,7 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
    - AgentSpec legt rules of engagement vast als regel → aanleiding → controle → handhaving.
    - Voorbeeld: "Als X gebeurt, controleer Y. Doe dan Z: pauzeer voor een mens, stop, of ga door."
    - Boodschap: elke kwaliteitsstandaard kan zo'n regel worden.
-5. Verbind de regels met het waarom: toezicht op AI werkt zoals "veilig melden". Het toezicht kijkt naar het systeem, niet naar een persoon.
+5. Verbind de regels met een waarde die het publiek al kent: KNMG "veilig melden". Toezicht op AI werkt zoals "veilig melden". Het toezicht kijkt naar het systeem, niet naar een persoon.
 
 **Reserve (nieuw):**
 
@@ -458,7 +513,7 @@ In 2b zag het publiek de termen en hun plek in de keten. Hier leg je ze uit, bij
 
 1. Toon één samenvattende dia: expliciete kwaliteitsstandaarden → Ask → Assist → Automate. Zet de drie veiligheidsvragen ernaast: gegevens · patiënt · melder.
 2. Noem de harde grens als vast anker: calamiteiten en twijfelgevallen gaan altijd naar een mens.
-3. Herhaal de kernboodschap van het waarom: "AI is een kans om het vak beter te maken, niet alleen sneller."
+3. Herhaal de kernboodschap van het waarom: "AI is al in je ziekenhuis. Of AI de zorg beter maakt, is een vraag voor jouw vak."
 4. Geef de eerste stap voor morgen: "Schrijf je top-3 van terugkerende incidenttypen op. Schrijf ook je bestaande risicomatrix expliciet op. Dat is je eerste document met rules of engagement."
 5. Geef één vraag mee voor de FG of de informatiebeveiliger. De vraag is: "In welke goedgekeurde omgeving mogen wij AI op VIM-meldingen gebruiken?" Is het antwoord "nog nergens"? Dan ken je de eerste stap van je organisatie.
 6. Geef ruimte voor vragen. Gebruik de voorbereide antwoorden hieronder.
@@ -499,10 +554,10 @@ Er zijn voorbeelden in de buurt, maar nog niet voor incidentanalyse:
 - Hippocratic AI belt patiënten voor routinecontact, zonder diagnose.
 - BCG ziet dat patiënten AI al als eerste stap gebruiken.
 
-De geraadpleegde bronnen geven geen praktijkvoorbeeld van AI-analyse van incidentmeldingen over afdelingen heen. Zeg dat eerlijk: "Daarom laten we een prototype zien, en geen product."
+De geraadpleegde bronnen geven geen praktijkvoorbeeld van AI-analyse van incidentmeldingen over afdelingen heen. Ook de AI Monitor Ziekenhuizen 2026 noemt geen toepassing voor incidentmeldingen. Zeg dat eerlijk: "Daarom laten we een prototype zien, en geen product."
 
 **"Moeten we iets met de Europese AI-verordening?"**
-Voor deze zaal is vooral artikel 4 belangrijk (van kracht sinds februari 2025). Organisaties moeten zorgen dat medewerkers voldoende AI-geletterd zijn. Valt een specifieke toepassing onder strengere regels? Dat hangt af van het gebruik. Laat dat per toepassing toetsen.
+Voor deze zaal is vooral artikel 4 belangrijk (van kracht sinds februari 2025). Organisaties moeten zorgen dat medewerkers voldoende AI-geletterd zijn. Valt een specifieke toepassing onder strengere regels? Dat hangt af van het gebruik. Laat dat per toepassing toetsen. Volgens de AI Monitor Ziekenhuizen 2026 gebruikt 53% van de ziekenhuizen al hoogrisico-AI, en heeft 16% de risico-indeling nog niet gedaan.
 
 ---
 
@@ -524,7 +579,7 @@ Voor deze zaal is vooral artikel 4 belangrijk (van kracht sinds februari 2025). 
 3. Vraag Carien:
    1. ~~Wat is de opstelling van de zaal: tafels of theater?~~ **Antwoord: theater.** Daarom stemt de zaal in 3b met de telefoon (zie stap 7).
    2. Is er in het netwerk al AI-beleid, of een standpunt van FG's of CISO's? Dan kan 2c daarnaar verwijzen.
-4. Laat een FG of jurist uit het netwerk de juridische punten kort controleren: Wkkgz art. 9 en 11, AI-verordening art. 4, en de voorbereide antwoorden. De Wkkgz-citaten komen uit de wettekst in `background-material/`. De vertaling naar AI is een eigen interpretatie.
+4. Laat een FG of jurist uit het netwerk de juridische punten kort controleren: Wkkgz art. 9 en 11, AI-verordening art. 4, de voorbereide antwoorden en de vraag of een fout van AI een incident is (reserve bij blok 1). De Wkkgz-citaten komen uit de wettekst in `background-material/`. De vertaling naar AI is een eigen interpretatie.
 5. Oefen de sessie hardop, met een klok. De tijd is krap met een live demo en een interactief deel. Plan daarom een buffer van 5 minuten.
 6. **De wiki-update van 4 november is verwerkt.** De trace staat in `background-material/2026-07-01-hospital-quality-ai-presentation-query-trace.md`. De atlas is bijgewerkt. De nieuwe punten zijn spreeknotities en reserve, **geen extra dia's**. Kies bij het oefenen (stap 5) per blok hooguit één nieuw punt om echt te zeggen. Neem de nieuwe citaten mee in de controle door de FG of jurist (stap 4).
 7. **Zet de stemtool klaar.** De vragen staan in `stemtool.json`. De dienst is de stemtool van de HAN-colleges (repo `a-cluster`). Die leest dit bestand via `stemtool/gastbronnen.txt`.
@@ -533,3 +588,7 @@ Voor deze zaal is vooral artikel 4 belangrijk (van kracht sinds februari 2025). 
    3. Controleer in de zaal het mobiele bereik. Deelnemers stemmen via 4G, niet via de wifi van de zaal.
    4. Controleer of de QR-code vanaf de achterste rij te scannen is.
    5. Na de sessie: haal de antwoorden op als CSV. Haal daarna de regel uit `gastbronnen.txt`.
+8. **Controleer de cijfers van blok 1 in het pdf-bestand van de monitor.**
+   1. Kijk naar p. 25 (schaal), 26 (trechter), 27 (processen), 30 (generatieve AI) en 37 (opbrengst).
+   2. Gebruik bij "kleine schaal" de grafiek (42%), niet de tekst (53%).
+   3. Maak een beeld voor blok 1, of gebruik de grafieken uit de monitor met bronvermelding.
