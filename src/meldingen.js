@@ -41,3 +41,13 @@ export const MELDINGEN = [
     categorie: "Medisch hulpmiddel",
   },
 ];
+
+// De tegenstrijdige melding van "Mens tegen agent" (3b, meedoen.html). De tekst is gelijk aan
+// INCIDENTS in vim-okf-simulatie.jsx, de escalatiereden aan CASES in vim-agent-animatie.html.
+// Bewust gebrekkig: niet "verbeteren".
+export const TEGENSTRIJDIG = {
+  id: "VIM-2026-0505", afdeling: "Chirurgie", melder: "Coassistent", datum: "2026-06-18",
+  tekst: "Volgens de verpleegkundige rapportage was sprake van een korte periode van bewusteloosheid na de ingreep; de dienstdoende arts noteert in hetzelfde dossier dat de patiënt 'alert en aanspreekbaar' bleef gedurende de hele opname. Geen vervolgonderzoek gedaan om dit te verifiëren, patiënt inmiddels ontslagen.",
+  markeer: ["korte periode van bewusteloosheid", "'alert en aanspreekbaar'"],
+  escalatie: "Verpleegkundige en arts noteren tegenstrijdige waarnemingen over het bewustzijn van de patiënt; geen vervolgonderzoek beschikbaar om dit op te helderen.",
+};

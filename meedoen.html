@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De zaal doet mee</title>
+<link rel="stylesheet" href="/src/architectuur.css">
+<link rel="stylesheet" href="/src/meedoen.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <div class="eyebrow">3b · De zaal doet mee</div>
+    <h1 id="kop">Pak je telefoon</h1>
+  </div>
+  <div class="teller" id="teller" aria-live="polite"></div>
+</header>
+<div class="voortgang" aria-hidden="true"><i id="balk"></i></div>
+
+<main class="meedoen">
+
+  <!-- Stap 1: iedereen scant de code -->
+  <section class="stap" data-naam="start">
+    <div class="start">
+      <div class="qr groot" aria-label="QR-code naar de vragen"></div>
+      <div class="start-tekst">
+        <p class="groot">Scan de code met je telefoon.</p>
+        <p>Houd de pagina open. De vragen verschijnen vanzelf.</p>
+        <p class="klein">Je stemt anoniem. Je hoeft niet in te loggen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stap 2: de zaal scoort de tegenstrijdige melding -->
+  <section class="stap" data-naam="sac">
+    <div class="twee">
+      <article class="melding" data-melding></article>
+      <div class="uitslag">
+        <div class="balken" data-code="sac-0505" data-soort="sac"></div>
+        <p class="bron" data-bron="sac-0505"></p>
+      </div>
+    </div>
+    <div class="qr hoek" aria-label="QR-code naar de vragen"></div>
+  </section>
+
+  <!-- Stap 3: wat doet de agent? -->
+  <section class="stap" data-naam="agent">
+    <div class="twee">
+      <article class="melding" data-melding></article>
+      <div class="uitslag">
+        <div class="agent">
+          <span class="ai-tag"><span class="bot-i"></span>AI-agent</span>
+          <p class="besluit-ai">Geen score. Naar een mens.</p>
+          <p class="reden" id="reden"></p>
+        </div>
+        <p class="zaal-kop">De zaal</p>
+        <div class="balken klein" data-code="sac-0505" data-soort="sac"></div>
+        <p class="bron" data-bron="sac-0505"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stap 4–6: de drie veiligheidsvragen, één voor één -->
+  <section class="stap" data-naam="gegevens">
+    <div class="vraagblok">
+      <p class="sub">Kun je dit vandaag beantwoorden voor je eigen ziekenhuis?</p>
+      <div class="balken" data-code="veilig-gegevens" data-soort="weet"></div>
+      <p class="bron" data-bron="veilig-gegevens"></p>
+    </div>
+    <div class="qr hoek" aria-label="QR-code naar de vragen"></div>
+  </section>
+
+  <section class="stap" data-naam="patient">
+    <div class="vraagblok">
+      <p class="sub">Kun je dit vandaag beantwoorden voor je eigen ziekenhuis?</p>
+      <div class="balken" data-code="veilig-patient" data-soort="weet"></div>
+      <p class="bron" data-bron="veilig-patient"></p>
+    </div>
+    <div class="qr hoek" aria-label="QR-code naar de vragen"></div>
+  </section>
+
+  <section class="stap" data-naam="melder">
+    <div class="vraagblok">
+      <p class="sub">Kun je dit vandaag beantwoorden voor je eigen ziekenhuis?</p>
+      <div class="balken" data-code="veilig-melder" data-soort="weet"></div>
+      <p class="bron" data-bron="veilig-melder"></p>
+    </div>
+    <div class="qr hoek" aria-label="QR-code naar de vragen"></div>
+  </section>
+
+  <!-- Stap 7: de drie naast elkaar; waar zit het meeste "weet ik niet"? -->
+  <section class="stap" data-naam="overzicht">
+    <div class="overzicht">
+      <div class="kolom" data-kolom="veilig-gegevens"><h2>Gegevens</h2><div class="stapel" data-stapel="veilig-gegevens"></div><p class="bron" data-bron="veilig-gegevens"></p></div>
+      <div class="kolom" data-kolom="veilig-patient"><h2>Patiënt</h2><div class="stapel" data-stapel="veilig-patient"></div><p class="bron" data-bron="veilig-patient"></p></div>
+      <div class="kolom" data-kolom="veilig-melder"><h2>Melder</h2><div class="stapel" data-stapel="veilig-melder"></div><p class="bron" data-bron="veilig-melder"></p></div>
+    </div>
+    <div class="legenda" aria-hidden="true">
+      <span><i class="weet"></i>Ja, dat weet ik</span>
+      <span><i class="wie"></i>Ik weet wie het weet</span>
+      <span><i class="niet"></i>Ik weet niet wie het weet</span>
+    </div>
+    <p class="opdracht">Bespreek met je buur: wie in jouw ziekenhuis weet het antwoord? Je hebt 2 minuten.</p>
+  </section>
+
+  <!-- Stap 8: wie vraag je morgen? -->
+  <section class="stap" data-naam="wie">
+    <div class="wolkblok">
+      <p class="sub">Typ een functie, geen naam.</p>
+      <div class="wolk" data-wolk="wie"></div>
+      <p class="bron" data-bron="wie"></p>
+    </div>
+    <div class="qr hoek" aria-label="QR-code naar de vragen"></div>
+  </section>
+
+  <!-- Stap 9: evaluatie; de cijfers gaan nooit naar de beamer -->
+  <section class="stap" data-naam="evaluatie">
+    <div class="start">
+      <div class="qr groot" aria-label="QR-code naar de vragen"></div>
+      <div class="start-tekst">
+        <p class="groot">Drie vragen, tien seconden.</p>
+        <p>Informatie, interactie en inspiratie: geef elk 1 tot 5 sterren.</p>
+        <p class="klein">Anoniem. Ik zie alleen de gemiddelden.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="bediening">
+  <button type="button" id="terug" aria-label="Vorige stap">←</button>
+  <button type="button" id="verder" class="volgende" aria-label="Volgende stap">→</button>
+  <span>Pijltjes, spatie of klikker</span>
+  <span class="verbinding" id="verbinding" aria-live="polite"></span>
+  <a href="index.html">Startpagina</a>
+  <span class="merk">
+    <svg viewBox="0 0 32 32" role="img" aria-label="Logo Business Data Solutions"><g fill="#1a1a1a"><polygon points="9,29 11,10 17,10 19,29"/><polygon points="8,8.5 20,8.5 19,10 9,10"/><rect x="11" y="5" width="6" height="3.5"/><path d="M10.5 5 Q10.5 1.5 14 1.5 Q17.5 1.5 17.5 5 Z"/><rect x="13.5" y="0" width="1" height="1.8"/></g><rect x="13" y="6" width="2" height="2" fill="#d4db3e"/><g stroke="#d4db3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 4 L26 7 L21 10"/><path d="M26 4 L31 7 L26 10"/></g></svg>
+    Business Data Solutions
+  </span>
+</nav>
+
+<script type="module" src="/src/meedoen.js"></script>
+</body>
+</html>

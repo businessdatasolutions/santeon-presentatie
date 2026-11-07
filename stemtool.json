@@ -1,0 +1,89 @@
+{
+  "id": "santeon",
+  "naam": "AI en kwaliteitsmanagement in de zorg",
+  "vak": "Santeon-inspiratiedag · 10 november 2026",
+  "kop": "Santeon · AI en kwaliteit",
+  "thema": {
+    "accent": "#d4db3e",
+    "op_accent": "#1a1a1a",
+    "nadruk": "#1a1a1a",
+    "inkt": "#1a1a1a",
+    "papier": "#ffffff",
+    "achtergrond": "#f9f8f4",
+    "grijs": "#4b5563",
+    "lettertype": "systeem"
+  },
+  "activiteiten": [
+    {
+      "code": "sac-0505",
+      "titel": "Mens tegen agent · VIM-2026-0505",
+      "vorm": "keuze",
+      "vraag": "Welke SAC-score geef jij deze melding?",
+      "toelichting": "Lees de melding op het scherm. Kies op je eerste indruk.",
+      "opties": [
+        {"sleutel": "1", "tekst": "SAC 1 · Calamiteit"},
+        {"sleutel": "2", "tekst": "SAC 2 · Ernstig"},
+        {"sleutel": "3", "tekst": "SAC 3 · Matig"},
+        {"sleutel": "4", "tekst": "SAC 4 · Gering"}
+      ]
+    },
+    {
+      "code": "veilig-gegevens",
+      "titel": "Veilig voor de gegevens",
+      "vorm": "keuze",
+      "vraag": "Veilig voor de gegevens: waar gaat een melding naartoe, en wie kan meelezen?",
+      "toelichting": "Kun je dit vandaag beantwoorden voor je eigen ziekenhuis?",
+      "opties": [
+        {"sleutel": "A", "tekst": "Ja, dat weet ik"},
+        {"sleutel": "B", "tekst": "Nee, maar ik weet wie het weet"},
+        {"sleutel": "C", "tekst": "Nee, en ik weet niet wie het weet"}
+      ]
+    },
+    {
+      "code": "veilig-patient",
+      "titel": "Veilig voor de patiënt",
+      "vorm": "keuze",
+      "vraag": "Veilig voor de patiënt: kun je de uitkomst van de AI vertrouwen?",
+      "toelichting": "Kun je dit vandaag beantwoorden voor je eigen ziekenhuis?",
+      "opties": [
+        {"sleutel": "A", "tekst": "Ja, dat weet ik"},
+        {"sleutel": "B", "tekst": "Nee, maar ik weet wie het weet"},
+        {"sleutel": "C", "tekst": "Nee, en ik weet niet wie het weet"}
+      ]
+    },
+    {
+      "code": "veilig-melder",
+      "titel": "Veilig voor de melder",
+      "vorm": "keuze",
+      "vraag": "Veilig voor de melder: blijft melden veilig als AI meeleest?",
+      "toelichting": "Kun je dit vandaag beantwoorden voor je eigen ziekenhuis?",
+      "opties": [
+        {"sleutel": "A", "tekst": "Ja, dat weet ik"},
+        {"sleutel": "B", "tekst": "Nee, maar ik weet wie het weet"},
+        {"sleutel": "C", "tekst": "Nee, en ik weet niet wie het weet"}
+      ]
+    },
+    {
+      "code": "wie",
+      "titel": "Wie vraag je morgen?",
+      "vorm": "tekst",
+      "vraag": "Aan wie stel je morgen een van deze vragen?",
+      "toelichting": "Typ een functie, geen naam.",
+      "plaatshouder": "Bijvoorbeeld: FG",
+      "maxlengte": 40
+    },
+    {
+      "code": "evaluatie",
+      "titel": "Evaluatie · hoe was deze sessie?",
+      "vorm": "sterren",
+      "vraag": "Hoe was deze sessie?",
+      "toelichting": "Drie vragen, tien seconden. Anoniem: ik zie alleen de gemiddelden, niet wie wat gaf.",
+      "schaal": 5,
+      "deelvragen": [
+        {"sleutel": "informatie", "kop": "Informatie", "vraag": "Hoe waardevol vond je de opgedane kennis?"},
+        {"sleutel": "interactie", "kop": "Interactie", "vraag": "Hoeveel ruimte was er om zelf met de materie aan de slag te gaan?"},
+        {"sleutel": "inspiratie", "kop": "Inspiratie", "vraag": "In hoeverre heeft de sessie je nieuwe inzichten en/of ideeën gegeven?"}
+      ]
+    }
+  ]
+}

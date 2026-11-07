@@ -376,27 +376,48 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 
 **Bewust géén echte meldingen.** De demo heeft geen invoerveld. Echte meldingen uit de eigen ziekenhuizen horen niet in een demo-omgeving (vraag 1 uit 2c). Zeg dat hardop: "Dit is het veiligheidsverhaal in de praktijk."
 
+**Werkvorm: de zaal stemt met de telefoon.** De zaal zit in een theateropstelling. Een gesprek in groepjes lukt daar niet. Daarom stemt iedereen met de eigen telefoon, via de stemtool. Open de pagina "De zaal doet mee" (`meedoen.html`). Open het dashboard van de stemtool op je eigen telefoon: druk op D, of open `/docent/santeon`. Zet een vraag op het dashboard open vlak voordat je de stap toont. Zet de vraag dicht als je verder gaat.
+
+**Opmerking:** zonder verbinding blijven de staven leeg. De pagina zegt dan "steek je hand op". Laat de zaal dan met de hand stemmen. Bij de SAC-score steekt iedereen 1 tot 4 vingers op. Bij een veiligheidsvraag gaan eerst de handen omhoog voor "weet ik", daarna voor "weet ik niet". De pagina toont nooit een verzonnen uitslag, want die stuurt de stemmers.
+
+**Iedereen doet mee (ongeveer 1 min)**
+
+1. Toon stap 1: de QR-code.
+2. Laat iedereen de code scannen.
+3. Zeg: "Houd de pagina open. De vragen verschijnen vanzelf."
+
 **Mens tegen agent (ongeveer 4 min)**
 
-1. Toon de tegenstrijdige melding VIM-2026-0505. Volgens de verpleging was de patiënt een tijd bewusteloos. Volgens de arts was de patiënt "alert en aanspreekbaar".
-2. Laat de zaal eerst zelf een SAC-score kiezen. De deelnemers steken 1 tot 4 vingers op.
-3. De zaal is het waarschijnlijk onderling oneens. Benoem dat.
-4. Toon daarna de agent. De agent kiest géén score. De agent escaleert, met de tegenstrijdigheid als reden.
+1. Toon stap 2: de tegenstrijdige melding VIM-2026-0505. Volgens de verpleging was de patiënt een tijd bewusteloos. Volgens de arts was de patiënt "alert en aanspreekbaar".
+2. Zet "Mens tegen agent" open. Laat de zaal een SAC-score kiezen.
+3. De zaal is het waarschijnlijk onderling oneens. De staven laten dat zien. Benoem dat.
+4. Zet de vraag dicht. Toon stap 3: de agent. De agent kiest géén score. De agent escaleert, met de tegenstrijdigheid als reden. Wil je de agent live laten zien? Open dan de demo.
 5. Zeg de boodschap: "Bij twijfel is escaleren het goede antwoord. Ook voor AI."
 
 **Opmerking:** ook de fallback escaleert deze melding. Lakhani raadt de volgorde "eerst zelf scoren, dan de machine" ook aan. Zo blijf je het vak leren (zie Assist in 2b).
 
-**Gesprek in kleine groepen (ongeveer 8 min)**
+**Drie veiligheidsvragen (ongeveer 3 min)**
 
-1. Vorm groepen. Zet bij voorkeur iemand uit een ander Santeon-ziekenhuis in elke groep.
-2. Stel de vraag: "Welke van de drie veiligheidsvragen kun je voor je eigen ziekenhuis vandaag al beantwoorden? En bij wie ligt het antwoord op de andere vragen?"
+1. Toon stap 4, 5 en 6: gegevens, patiënt, melder. Zet per stap de vraag open.
+2. Elke deelnemer kiest: "Ja, dat weet ik", "Nee, maar ik weet wie het weet" of "Nee, en ik weet niet wie het weet".
+3. Benoem per vraag wat je ziet.
 
-**Opmerking:** de werkvorm hangt af van de zaal (zie Vervolgstappen). Bij tafels: gemengde tafels. Bij een theateropstelling: gesprekken met drie buren.
+**Gesprek met je buur (2 min)**
+
+1. Toon stap 7: de drie vragen naast elkaar. De vraag met het meeste "weet ik niet" krijgt een gele streep.
+2. Laat iedereen 2 minuten met de buur praten over die vraag: wie in jouw ziekenhuis weet het antwoord?
+
+**Opmerking:** een gesprek met twee mensen lukt in een rij. Een gesprek met drie of meer mensen lukt daar niet.
+
+**Wie vraag je morgen? (ongeveer 2 min)**
+
+1. Toon stap 8. Zet "Wie vraag je morgen?" open.
+2. Iedereen typt een functie, geen naam. De woordwolk laat zien bij wie in het netwerk de antwoorden liggen.
 
 **Plenaire oogst (ongeveer 3 min)**
 
-1. Laat twee of drie groepen hun antwoord delen.
-2. Noteer welke vraag het vaakst "weet ik niet" oplevert.
+1. Vraag wie bij de vraag met de gele streep wél "weet ik" koos. Geef één van hen de microfoon. Vraag: "Hoe weet je dat?"
+2. Wijs de grootste woorden in de woordwolk aan.
 3. Zeg: "Daar ligt jouw eerste stap voor morgen."
 
 **Opmerking:** dit deel maakt het doel letterlijk waar: "Ik kan hier morgen mee beginnen."
@@ -418,6 +439,7 @@ Het publiek zoekt nog wat er mogelijk is. Geef daarom eerst het overzicht. Ga da
 4. Geef de eerste stap voor morgen: "Schrijf je top-3 van terugkerende incidenttypen op. Schrijf ook je bestaande risicomatrix expliciet op. Dat is je eerste document met rules of engagement."
 5. Geef één vraag mee voor de FG of de informatiebeveiliger. De vraag is: "In welke goedgekeurde omgeving mogen wij AI op VIM-meldingen gebruiken?" Is het antwoord "nog nergens"? Dan ken je de eerste stap van je organisatie.
 6. Geef ruimte voor vragen. Gebruik de voorbereide antwoorden hieronder.
+7. Toon stap 9 van "De zaal doet mee": de evaluatie. Zet de evaluatie open op het dashboard. Alleen jij ziet de cijfers, op het dashboard. Ze komen nooit op de beamer.
 
 **Opmerking:** de sessie eindigt waar de sessie begon: bij het waarom. Zo sluit de Golden Circle.
 
@@ -477,8 +499,14 @@ Voor deze zaal is vooral artikel 4 belangrijk (van kracht sinds februari 2025). 
    - Nog te doen: een generale repetitie op de presentatielaptop en op het netwerk van de zaal. Zonder internet gebruikt de demo de fallback.
    - Optioneel: werk de oude versie op witusj.github.io bij, of haal die offline. Dan gebruikt niemand de verkeerde link.
 3. Vraag Carien:
-   1. Wat is de opstelling van de zaal: tafels of theater? Dat bepaalt de werkvorm in 3b.
+   1. ~~Wat is de opstelling van de zaal: tafels of theater?~~ **Antwoord: theater.** Daarom stemt de zaal in 3b met de telefoon (zie stap 7).
    2. Is er in het netwerk al AI-beleid, of een standpunt van FG's of CISO's? Dan kan 2c daarnaar verwijzen.
 4. Laat een FG of jurist uit het netwerk de juridische punten kort controleren: Wkkgz art. 9 en 11, AI-verordening art. 4, en de voorbereide antwoorden. De Wkkgz-citaten komen uit de wettekst in `background-material/`. De vertaling naar AI is een eigen interpretatie.
 5. Oefen de sessie hardop, met een klok. De tijd is krap met een live demo en een interactief deel. Plan daarom een buffer van 5 minuten.
 6. **De wiki-update van 4 november is verwerkt.** De trace staat in `background-material/2026-07-01-hospital-quality-ai-presentation-query-trace.md`. De atlas is bijgewerkt. De nieuwe punten zijn spreeknotities en reserve, **geen extra dia's**. Kies bij het oefenen (stap 5) per blok hooguit één nieuw punt om echt te zeggen. Neem de nieuwe citaten mee in de controle door de FG of jurist (stap 4).
+7. **Zet de stemtool klaar.** De vragen staan in `stemtool.json`. De dienst is de stemtool van de HAN-colleges (repo `a-cluster`). Die leest dit bestand via `stemtool/gastbronnen.txt`.
+   1. Rol de stemtool uit vanuit de a-cluster-repo: `verzamel.py`, daarna `gcloud run deploy`.
+   2. Test op de presentatielaptop: open `meedoen.html`, druk op D, zet een vraag open en stem met je eigen telefoon.
+   3. Controleer in de zaal het mobiele bereik. Deelnemers stemmen via 4G, niet via de wifi van de zaal.
+   4. Controleer of de QR-code vanaf de achterste rij te scannen is.
+   5. Na de sessie: haal de antwoorden op als CSV. Haal daarna de regel uit `gastbronnen.txt`.
