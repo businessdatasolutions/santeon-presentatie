@@ -19,56 +19,95 @@
       "titel": "Mens tegen agent · VIM-2026-0505",
       "vorm": "keuze",
       "vraag": "Welke SAC-score geef jij deze melding?",
-      "toelichting": "Lees de melding op het scherm. Kies op je eerste indruk.",
+      "toelichting": "De melding staat op het scherm. Kies op je eerste indruk.",
       "opties": [
-        {"sleutel": "1", "tekst": "SAC 1 · Calamiteit"},
-        {"sleutel": "2", "tekst": "SAC 2 · Ernstig"},
-        {"sleutel": "3", "tekst": "SAC 3 · Matig"},
-        {"sleutel": "4", "tekst": "SAC 4 · Gering"}
+        {
+          "sleutel": "1",
+          "tekst": "SAC 1 · Calamiteit"
+        },
+        {
+          "sleutel": "2",
+          "tekst": "SAC 2 · Ernstig"
+        },
+        {
+          "sleutel": "3",
+          "tekst": "SAC 3 · Matig"
+        },
+        {
+          "sleutel": "4",
+          "tekst": "SAC 4 · Gering"
+        }
       ]
     },
     {
       "code": "veilig-gegevens",
       "titel": "Veilig voor de gegevens",
       "vorm": "keuze",
-      "vraag": "Veilig voor de gegevens: waar gaat een melding naartoe, en wie kan meelezen?",
-      "toelichting": "Kun je dit vandaag beantwoorden voor je eigen ziekenhuis?",
+      "vraag": "Weet je wie een melding kan lezen als je ziekenhuis er AI voor gebruikt?",
+      "toelichting": "Vraag 1 van 3 · Veilig voor de gegevens. Denk ook aan de leverancier van de AI.",
       "opties": [
-        {"sleutel": "A", "tekst": "Ja, dat weet ik"},
-        {"sleutel": "B", "tekst": "Nee, maar ik weet wie het weet"},
-        {"sleutel": "C", "tekst": "Nee, en ik weet niet wie het weet"}
+        {
+          "sleutel": "A",
+          "tekst": "Ja"
+        },
+        {
+          "sleutel": "B",
+          "tekst": "Nee, maar ik weet wie het weet"
+        },
+        {
+          "sleutel": "C",
+          "tekst": "Nee, en ik weet niet wie het weet"
+        }
       ]
     },
     {
       "code": "veilig-patient",
       "titel": "Veilig voor de patiënt",
       "vorm": "keuze",
-      "vraag": "Veilig voor de patiënt: kun je de uitkomst van de AI vertrouwen?",
-      "toelichting": "Kun je dit vandaag beantwoorden voor je eigen ziekenhuis?",
+      "vraag": "Weet je hoe je ziekenhuis controleert of de uitkomst van de AI klopt?",
+      "toelichting": "Vraag 2 van 3 · Veilig voor de patiënt.",
       "opties": [
-        {"sleutel": "A", "tekst": "Ja, dat weet ik"},
-        {"sleutel": "B", "tekst": "Nee, maar ik weet wie het weet"},
-        {"sleutel": "C", "tekst": "Nee, en ik weet niet wie het weet"}
+        {
+          "sleutel": "A",
+          "tekst": "Ja"
+        },
+        {
+          "sleutel": "B",
+          "tekst": "Nee, maar ik weet wie het weet"
+        },
+        {
+          "sleutel": "C",
+          "tekst": "Nee, en ik weet niet wie het weet"
+        }
       ]
     },
     {
       "code": "veilig-melder",
       "titel": "Veilig voor de melder",
       "vorm": "keuze",
-      "vraag": "Veilig voor de melder: blijft melden veilig als AI meeleest?",
-      "toelichting": "Kun je dit vandaag beantwoorden voor je eigen ziekenhuis?",
+      "vraag": "Weet je hoe je ziekenhuis een melder beschermt als AI de meldingen leest?",
+      "toelichting": "Vraag 3 van 3 · Veilig voor de melder. Een melding mag nooit leiden tot maatregelen tegen de melder.",
       "opties": [
-        {"sleutel": "A", "tekst": "Ja, dat weet ik"},
-        {"sleutel": "B", "tekst": "Nee, maar ik weet wie het weet"},
-        {"sleutel": "C", "tekst": "Nee, en ik weet niet wie het weet"}
+        {
+          "sleutel": "A",
+          "tekst": "Ja"
+        },
+        {
+          "sleutel": "B",
+          "tekst": "Nee, maar ik weet wie het weet"
+        },
+        {
+          "sleutel": "C",
+          "tekst": "Nee, en ik weet niet wie het weet"
+        }
       ]
     },
     {
       "code": "wie",
       "titel": "Wie vraag je morgen?",
       "vorm": "tekst",
-      "vraag": "Aan wie stel je morgen een van deze vragen?",
-      "toelichting": "Typ een functie, geen naam.",
+      "vraag": "Wie vraag je morgen om een antwoord?",
+      "toelichting": "Kies een vraag waarop je ‘nee’ antwoordde. Typ een functie, geen naam.",
       "plaatshouder": "Bijvoorbeeld: FG",
       "maxlengte": 40
     },
@@ -80,9 +119,21 @@
       "toelichting": "Drie vragen, tien seconden. Anoniem: ik zie alleen de gemiddelden, niet wie wat gaf.",
       "schaal": 5,
       "deelvragen": [
-        {"sleutel": "informatie", "kop": "Informatie", "vraag": "Hoe waardevol vond je de opgedane kennis?"},
-        {"sleutel": "interactie", "kop": "Interactie", "vraag": "Hoeveel ruimte was er om zelf met de materie aan de slag te gaan?"},
-        {"sleutel": "inspiratie", "kop": "Inspiratie", "vraag": "In hoeverre heeft de sessie je nieuwe inzichten en/of ideeën gegeven?"}
+        {
+          "sleutel": "informatie",
+          "kop": "Informatie",
+          "vraag": "Hoe waardevol vond je de opgedane kennis?"
+        },
+        {
+          "sleutel": "interactie",
+          "kop": "Interactie",
+          "vraag": "Hoeveel ruimte was er om zelf met de materie aan de slag te gaan?"
+        },
+        {
+          "sleutel": "inspiratie",
+          "kop": "Inspiratie",
+          "vraag": "In hoeverre heeft de sessie je nieuwe inzichten en/of ideeën gegeven?"
+        }
       ]
     }
   ]

@@ -28,19 +28,19 @@ const VRAGEN = ["veilig-gegevens", "veilig-patient", "veilig-melder"];
 const STAPPEN = [
   { naam: "start", kop: "Pak je telefoon", codes: [] },
   { naam: "sac", kop: "Welke SAC-score geef jij deze melding?", codes: ["sac-0505"] },
-  { naam: "agent", kop: "En wat doet de agent?", codes: ["sac-0505"] },
-  { naam: "gegevens", kop: "Veilig voor de gegevens: waar gaat een melding naartoe, en wie kan meelezen?", codes: ["veilig-gegevens"] },
-  { naam: "patient", kop: "Veilig voor de patiënt: kun je de uitkomst van de AI vertrouwen?", codes: ["veilig-patient"] },
-  { naam: "melder", kop: "Veilig voor de melder: blijft melden veilig als AI meeleest?", codes: ["veilig-melder"] },
-  { naam: "overzicht", kop: "Waar zit het meeste ‘weet ik niet’?", codes: VRAGEN },
-  { naam: "wie", kop: "Aan wie stel je morgen een van deze vragen?", codes: ["wie"] },
+  { naam: "agent", kop: "Wat doet de AI-agent met deze melding?", codes: ["sac-0505"] },
+  { naam: "gegevens", kop: "Weet je wie een melding kan lezen als je ziekenhuis er AI voor gebruikt?", codes: ["veilig-gegevens"] },
+  { naam: "patient", kop: "Weet je hoe je ziekenhuis controleert of de uitkomst van de AI klopt?", codes: ["veilig-patient"] },
+  { naam: "melder", kop: "Weet je hoe je ziekenhuis een melder beschermt als AI de meldingen leest?", codes: ["veilig-melder"] },
+  { naam: "overzicht", kop: "Bij welke vraag weet de zaal het minst?", codes: VRAGEN },
+  { naam: "wie", kop: "Wie vraag je morgen om een antwoord?", codes: ["wie"] },
   { naam: "evaluatie", kop: "Hoe was deze sessie?", codes: [] },
 ];
 
 const OPTIES = {
   sac: [1, 2, 3, 4].map((n) => ({ sleutel: String(n), tekst: SAC[n].label })),
   weet: [
-    { sleutel: "A", klasse: "weet", tekst: "Ja, dat weet ik" },
+    { sleutel: "A", klasse: "weet", tekst: "Ja" },
     { sleutel: "B", klasse: "wie", tekst: "Nee, maar ik weet wie het weet" },
     { sleutel: "C", klasse: "niet", tekst: "Nee, en ik weet niet wie het weet" },
   ],
@@ -106,7 +106,7 @@ function tekenStapel(el) {
   });
 }
 
-// de vraag met het grootste deel "ik weet niet wie het weet" krijgt een vlag; zonder antwoorden geen vlag
+// de vraag met het grootste deel C ("nee, en ik weet niet wie het weet") krijgt een vlag; zonder antwoorden geen vlag
 function markeerMeeste() {
   const deel = (code) => {
     const n = aantallen(code, 3);

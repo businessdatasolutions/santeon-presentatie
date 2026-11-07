@@ -398,7 +398,7 @@ In 2b zag het publiek de termen en hun plek in de keten. Hier leg je ze uit, bij
 
 **Werkvorm: de zaal stemt met de telefoon.** De zaal zit in een theateropstelling. Een gesprek in groepjes lukt daar niet. Daarom stemt iedereen met de eigen telefoon, via de stemtool. Open de pagina "De zaal doet mee" (`meedoen.html`). Open het dashboard van de stemtool op je eigen telefoon: druk op D, of open `/docent/santeon`. Zet een vraag op het dashboard open vlak voordat je de stap toont. Zet de vraag dicht als je verder gaat.
 
-**Opmerking:** zonder verbinding blijven de staven leeg. De pagina zegt dan "steek je hand op". Laat de zaal dan met de hand stemmen. Bij de SAC-score steekt iedereen 1 tot 4 vingers op. Bij een veiligheidsvraag gaan eerst de handen omhoog voor "weet ik", daarna voor "weet ik niet". De pagina toont nooit een verzonnen uitslag, want die stuurt de stemmers.
+**Opmerking:** zonder verbinding blijven de staven leeg. De pagina zegt dan "steek je hand op". Laat de zaal dan met de hand stemmen. Bij de SAC-score steekt iedereen 1 tot 4 vingers op. Bij een veiligheidsvraag gaan eerst de handen omhoog voor "ja", daarna voor "nee, en ik weet niet wie het weet". De pagina toont nooit een verzonnen uitslag, want die stuurt de stemmers.
 
 **Iedereen doet mee (ongeveer 1 min)**
 
@@ -419,12 +419,15 @@ In 2b zag het publiek de termen en hun plek in de keten. Hier leg je ze uit, bij
 **Drie veiligheidsvragen (ongeveer 3 min)**
 
 1. Toon stap 4, 5 en 6: gegevens, patiënt, melder. Zet per stap de vraag open.
-2. Elke deelnemer kiest: "Ja, dat weet ik", "Nee, maar ik weet wie het weet" of "Nee, en ik weet niet wie het weet".
+2. Elke vraag begint met "Weet je …?". Elke deelnemer kiest: "Ja", "Nee, maar ik weet wie het weet" of "Nee, en ik weet niet wie het weet".
+   - Gegevens: "Weet je wie een melding kan lezen als je ziekenhuis er AI voor gebruikt?"
+   - Patiënt: "Weet je hoe je ziekenhuis controleert of de uitkomst van de AI klopt?"
+   - Melder: "Weet je hoe je ziekenhuis een melder beschermt als AI de meldingen leest?"
 3. Benoem per vraag wat je ziet.
 
 **Gesprek met je buur (2 min)**
 
-1. Toon stap 7: de drie vragen naast elkaar. De vraag met het meeste "weet ik niet" krijgt een gele streep.
+1. Toon stap 7: de drie vragen naast elkaar. De vraag met het meeste "nee, en ik weet niet wie het weet" krijgt een gele streep.
 2. Laat iedereen 2 minuten met de buur praten over die vraag: wie in jouw ziekenhuis weet het antwoord?
 
 **Opmerking:** een gesprek met twee mensen lukt in een rij. Een gesprek met drie of meer mensen lukt daar niet.
@@ -436,7 +439,7 @@ In 2b zag het publiek de termen en hun plek in de keten. Hier leg je ze uit, bij
 
 **Plenaire oogst (ongeveer 3 min)**
 
-1. Vraag wie bij de vraag met de gele streep wél "weet ik" koos. Geef één van hen de microfoon. Vraag: "Hoe weet je dat?"
+1. Vraag wie bij de vraag met de gele streep wél "ja" koos. Geef één van hen de microfoon. Vraag: "Hoe weet je dat?"
 2. Wijs de grootste woorden in de woordwolk aan.
 3. Zeg: "Daar ligt jouw eerste stap voor morgen."
 
