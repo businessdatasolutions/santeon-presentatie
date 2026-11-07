@@ -51,6 +51,15 @@ for (const pad of bestanden(DIST)) {
   for (const v of verboden) if (inhoud.includes(v.tekst)) fouten.push(`${rel}: bevat ${v.wat}`);
 }
 
+// d3 zegt "sideEffects": false. Dan laat de bundler d3-transition weg als geen naam eruit wordt
+// geïmporteerd. Maar .transition() en .interrupt() op een selectie bestaan alleen door een
+// neveneffect van d3-transition. Zonder dat breken de pagina's in dist/ (npm start werkt wel).
+// Alleen dist/assets: de atlas heeft zijn eigen d3 in background-material/vendor.
+const bundels = [...bestanden(join(DIST, "assets"))].filter((p) => p.endsWith(".js")).map((p) => readFileSync(p, "utf8"));
+if (!bundels.some((t) => t.includes("prototype.interrupt"))) {
+  fouten.push("d3-transition ontbreekt: .transition() en .interrupt() werken niet (import \"d3-transition\" vergeten?)");
+}
+
 if (fouten.length) {
   console.error(`Controle mislukt. dist/ mag zo niet online:\n- ${fouten.join("\n- ")}`);
   process.exit(1);

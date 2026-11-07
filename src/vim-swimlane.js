@@ -8,6 +8,7 @@
    Dit is het proces van vandaag: mensen doen het werk. Daarom staat hier geen AI-markering. */
 
 import * as d3 from "d3";
+import "d3-transition"; // voor .interrupt(); zonder deze regel laat vite build het weg (d3: sideEffects false)
 import { animate, stagger } from "motion";
 
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;

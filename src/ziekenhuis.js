@@ -10,6 +10,7 @@
 
 import * as THREE from "three";
 import * as d3 from "d3";
+import "d3-transition"; // voor .transition(); zonder deze regel laat vite build het weg (d3: sideEffects false)
 import { animate, stagger } from "motion";
 import { bouwMaquette, zetNacht, KAMERS, NAMEN } from "./ziekenhuis-maquette.js";
 
