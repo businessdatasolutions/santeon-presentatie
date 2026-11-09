@@ -108,7 +108,7 @@ const STAPPEN = [
     laag: "1d · Het programma van vandaag", titel: "De volgende dag beslist de radioloog",
     tekst: ["De radioloog beoordeelt de beelden.", "De radioloog hoeft 's nachts niet meer uit bed voor standaardbeoordelingen."], bron: "p. 41" },
   { focus: ["kwaliteit"], cam: { ...kamerCam("kwaliteit", 2.5), tz: 5.0 }, roep: ["aiKw", "kwAdviseur"], actie: "vim", route: true,
-    laag: "1d · Het programma van vandaag", titel: "Vandaag: hetzelfde patroon op VIM-meldingen",
+    laag: "1d · Het programma van vandaag", titel: "Vandaag: hetzelfde patroon op het VIM-proces",
     tekst: ["De AI geeft een signaal. De kwaliteitsadviseur beslist.", "Dit is een prototype. Het staat niet in de monitor."] },
   { plaat: true, cam: OVERZICHT, kamers: true,
     laag: "Blok 1 · Waarom", titel: "AI is al in je ziekenhuis",

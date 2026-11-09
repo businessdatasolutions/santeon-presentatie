@@ -178,10 +178,10 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 
 #### 1d. Brug naar het programma (1 min)
 
-**Beeld:** stap 9–12 (de radiologie 's avonds en de volgende dag, hetzelfde patroon op VIM-meldingen, de hele plaat).
+**Beeld:** stap 9–12 (de radiologie 's avonds en de volgende dag, hetzelfde patroon op het VIM-proces, de hele plaat).
 
 1. Vat samen: "AI komt snel en breed. Het kwaliteitsproces doet nog bijna niet mee. Daar ligt een kans voor jouw vak."
-2. Noem het patroon dat terugkomt: "In het Máxima MC maakt AI een eerste selectie, en de radioloog beslist. Dat patroon passen we vandaag toe op VIM-meldingen."
+2. Noem het patroon dat terugkomt: "In het Máxima MC maakt AI een eerste selectie, en de radioloog beslist. Dat patroon passen we vandaag toe op het VIM-proces."
 3. Geef de route van de sessie:
    - Hoe: eerst de regels die AI nodig heeft (2a). Dan het groeimodel op het VIM-proces (2b). Dan de drie veiligheidsvragen (2c).
    - Wat: een werkend prototype op VIM-meldingen (3a). Daarna vergelijk je je eigen oordeel met dat van de AI (3b).
