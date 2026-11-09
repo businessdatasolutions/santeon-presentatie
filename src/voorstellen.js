@@ -132,7 +132,8 @@ async function kaartTextuur(app) {
   if (app.id === "opgeruimd" && img) {
     c.drawImage(img, 120, 0, 720, 540, 34, 34, 572, 380);
   } else if (img) {
-    c.fillStyle = app.id === "plinkie" ? INK : "#eef3ff"; c.fillRect(34, 34, 572, 380);
+    // Achter het logo: de achtergrondkleur van de app zelf (Plinkie: "ochtend" van plinkie.nl)
+    c.fillStyle = app.id === "plinkie" ? "#fff6ea" : "#eef3ff"; c.fillRect(34, 34, 572, 380);
     const s = 300; c.drawImage(img, 320 - s / 2, 224 - s / 2, s, s);
   } else { // Newmuzes: een golfvorm en toetsen
     c.fillStyle = INK; c.fillRect(34, 34, 572, 380);

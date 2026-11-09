@@ -5,7 +5,8 @@
 
 import repos from "./voorstellen/repos.json"; // [{d: "2024-05-01", n: "naam" | null, o, t}]
 import bonmonBeeld from "./voorstellen/bonmon-icon.png";
-import plinkieBeeld from "./voorstellen/plinkie-icon.svg";
+// Het merk uit de kop van plinkie.nl (daar in CSS getekend: .plk-merk). Niet het favicon: dat is nog de oude munt.
+import plinkieBeeld from "./voorstellen/plinkie-logo.svg";
 import opgeruimdBeeld from "./voorstellen/opgeruimd-netjes.jpg";
 
 export { repos };
