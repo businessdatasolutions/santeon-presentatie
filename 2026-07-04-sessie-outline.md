@@ -491,9 +491,9 @@ In 2b zag het publiek de termen en hun plek in de keten. Hier leg je ze uit, bij
 
 1. Toon stap 4, 5 en 6: gegevens, patiënt, melder. Zet per stap de vraag open.
 2. Elke vraag begint met "Weet je …?". Elke deelnemer kiest: "Ja", "Nee, maar ik weet wie het weet" of "Nee, en ik weet niet wie het weet".
-   - Gegevens: "Weet je wie een melding kan lezen als je ziekenhuis er AI voor gebruikt?"
-   - Patiënt: "Weet je hoe je ziekenhuis controleert of de uitkomst van de AI klopt?"
-   - Melder: "Weet je hoe je ziekenhuis een melder beschermt als AI de meldingen leest?"
+   - Gegevens: "Weet je of je ziekenhuis een AI-toepassing heeft goedgekeurd voor meldingen?"
+   - Patiënt: "In 71% van de ziekenhuizen werkt AI al bij de diagnostiek. Weet je hoe je ziekenhuis controleert of die AI klopt?"
+   - Melder: "Weet je of het VIM-reglement van je ziekenhuis iets zegt over AI?"
 3. Benoem per vraag wat je ziet.
 
 **Gesprek met je buur (2 min)**
