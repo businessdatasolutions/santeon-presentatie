@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Even voorstellen</title>
+<link rel="stylesheet" href="/src/architectuur.css">
+<link rel="stylesheet" href="/src/voorstellen.css">
+</head>
+<body class="voorstellen">
+<header class="top">
+  <div class="intro">
+    <div class="eyebrow">0 · Even voorstellen</div>
+    <h1>Witek ten Hove</h1>
+    <p class="zin">Van de handelsvloer, via het hoger onderwijs, naar <b>AI-engineering</b>.</p>
+  </div>
+  <div class="teller" id="teller" aria-live="polite"></div>
+</header>
+<div class="voortgang" aria-hidden="true"><i id="balk"></i></div>
+
+<main class="koers">
+  <section class="paneel" aria-labelledby="k1">
+    <h2 id="k1">Loopbaan en wat ik bouw, op één tijdlijn</h2>
+    <div id="grafiek" role="img" aria-label="Tijdlijn van 1995 tot 2026. Boven de loopbaan: effectenhandelaar bij Van der Moolen (1996–2001), senior trader zuivel (2004–2007), docent-onderzoeker aan de HAN (sinds 2007), eigenaar van Business Data Solutions (sinds 2019), promotieonderzoek aan de VU (2020–2024). Onder elke repo als stip, per jaar gestapeld: van een handvol per jaar tot 58 in 2025 en 59 in 2026."></div>
+  </section>
+  <section class="paneel" aria-labelledby="k2">
+    <h2 id="k2">Waar ik trots op ben</h2>
+    <div id="kaarten"></div>
+    <div id="detail" role="dialog" aria-labelledby="detail-naam" aria-live="polite">
+      <button class="sluit" type="button" aria-label="Sluiten">×</button>
+      <div class="status"></div>
+      <h3 id="detail-naam"></h3>
+      <p></p>
+      <ul></ul>
+    </div>
+  </section>
+</main>
+
+<nav class="bediening">
+  <button type="button" id="terug" aria-label="Vorige stap">←</button>
+  <button type="button" id="verder" class="volgende" aria-label="Volgende stap">→</button>
+  <span>Pijltjes, spatie of klikker</span>
+  <a href="index.html">Startpagina</a>
+  <span class="merk">
+    <svg viewBox="0 0 32 32" role="img" aria-label="Logo Business Data Solutions"><g fill="#1a1a1a"><polygon points="9,29 11,10 17,10 19,29"/><polygon points="8,8.5 20,8.5 19,10 9,10"/><rect x="11" y="5" width="6" height="3.5"/><path d="M10.5 5 Q10.5 1.5 14 1.5 Q17.5 1.5 17.5 5 Z"/><rect x="13.5" y="0" width="1" height="1.8"/></g><rect x="13" y="6" width="2" height="2" fill="#d4db3e"/><g stroke="#d4db3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 4 L26 7 L21 10"/><path d="M26 4 L31 7 L26 10"/></g></svg>
+    Business Data Solutions
+  </span>
+</nav>
+
+<script type="module" src="/src/voorstellen.js"></script>
+</body>
+</html>

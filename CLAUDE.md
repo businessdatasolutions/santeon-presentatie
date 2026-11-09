@@ -98,6 +98,14 @@ The architecture follows the story the demo tells: **data lake → semantische l
 
 Self-contained vanilla HTML, CSS and JS with no network calls. Open it directly in a browser. It replays five cases (`CASES`) with hard-coded results that show the same pipeline step by step: extraction, boundary condition with quote, verify fix, judge score, and IGJ escalation. Its CSS variables mirror the `C` palette object in the JSX.
 
+### `voorstellen.html` (block 0, Opening): even voorstellen
+
+The speaker's short introduction. It is design A ("De koers") from `~/Projects/aiso-voorstellen-ontwerpen/`, made for the HAN AISO lesdagen and adapted here. Speaker-paced (same keys, `#stap-N`, header and nav as the pages below); it loads `src/voorstellen.js` and `src/voorstellen.css` on top of `src/architectuur.css`, and imports `three`, `d3` and `motion` from npm, so it is served by Vite. No network calls.
+- **Left (D3):** the career as five bars (`LOOPBAAN`) and every repo as a dot, stacked per year on one time axis. The 2025–2026 dots carry the AI marker (warm black with a chartreuse ring, plus a Bot label "sinds AI meebouwt"). The design had a plain yellow fill there, which the house style does not allow as an AI sign. The Business Data Solutions bar stays chartreuse as the brand accent.
+- **Right (Three.js):** four apps as cards (`APPS`, drawn as canvas textures). A card tilts towards the mouse; a click opens its detail. Steps: 1 = overview, 2–5 = one app open while the other cards fade. For a bottom card the detail sits at the top, so the card stays visible.
+- **Content** lives in `src/voorstellen-data.js`, copied from the design folder's `data.js`. The images and `repos.json` (creation dates from `gh repo list`; private repos as a date only, without a name) are in `src/voorstellen/` and are imported, so Vite bundles them and nothing goes in `STATISCH`. The "117" in the outline is the 2025–2026 count from `repos.json`.
+- The user chose on 9 November to show all four apps, including Opgeruimd and Newmuzes, which were not public yet. Dropped from the design: the closing line "En jij? Naam, rol en organisatie" (no round of introductions with 60+ people) and the hint "Klik op een kaart" (a stage direction).
+
 ### `ziekenhuis.html` (block 1, Waarom): the hospital maquette
 
 The praatplaat for block 1. Speaker-paced (same keys, `#stap-N`, header and nav as the pages below); it loads `src/ziekenhuis.js`, `src/ziekenhuis-maquette.js` and `src/ziekenhuis.css` on top of `src/architectuur.css`, and imports `three`, `d3` and `motion` from npm, so it is served by Vite. No network calls and no model files: the building is code (Blender is not used).

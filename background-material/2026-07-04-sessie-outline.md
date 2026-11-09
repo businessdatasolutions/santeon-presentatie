@@ -91,7 +91,11 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 ### 0. Opening — 5 min
 
 1. Heet het publiek welkom.
-2. Vertel kort wie je bent.
+2. Vertel kort wie je bent. Toon daarbij de pagina "Even voorstellen" (`voorstellen.html`). Gebruik er hooguit een minuut voor.
+   - Links staat je loopbaan op één tijdlijn. Je ziet de handel, de HAN, Business Data Solutions en je promotieonderzoek naar planning in de thuiszorg.
+   - Onder de tijdlijn staat elke repo als stip. Sinds 2025 bouwt AI mee: 117 nieuwe repos in twee jaar.
+   - Die stippen zijn zwart met geel. Zeg: "Zwart met geel en een robotje betekent vandaag steeds: dit doet de AI."
+   - Rechts staan vier apps. Open hooguit één app. Klik op de kaart, of druk op → tot de app openstaat.
 3. Vertel waarom je deze sessie geeft.
 4. Noem dat alle Santeon-ziekenhuizen in de zaal zitten.
 5. Noem meteen de vraag uit het netwerk: "Is AI wel veilig om te gebruiken?"
@@ -99,6 +103,8 @@ De bronnen komen uit `background-material/2026-07-01-hospital-quality-ai-present
 7. Geef de agenda: "Eerst vertel ik waarom dit belangrijk is. Dan laat ik zien hoe het veilig kan. Dan laten we het echt werken zien."
 
 **Opmerking:** door de belofte in stap 6 blijft niemand de hele sessie met de veiligheidsvraag zitten.
+
+**Opmerking:** van de vier apps past Plinkie het best bij deze sessie. De AI publiceert daar nooit zelf een getal. Elk getal komt uit code, met een bron en een datum. Hetzelfde idee komt terug in de demo: de AI geeft een signaal, en een mens beslist.
 
 ---
 

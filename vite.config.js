@@ -21,6 +21,7 @@ const DEMO_MODEL = "claude-sonnet-4-6"; // moet overeenkomen met het model in vi
 const PAGINAS = [
   "index.html",
   "demo.html",
+  "voorstellen.html",
   "ziekenhuis.html",
   "vim-proces.html",
   "vim-swimlane.html",
