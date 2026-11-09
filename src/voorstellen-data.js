@@ -26,6 +26,7 @@ export const APPS = [
     zin: "Bon fotograferen, AI leest alles uit, klaar voor je btw-aangifte.",
     feiten: ["Btw per regel, voor Nederland, Duitsland, België en Frankrijk", "Gegevens blijven in de EU"],
     beeld: bonmonBeeld,
+    beeldHoek: 0.229, // het icoon heeft witte hoeken; de ronding is 88 van 384 px
   },
   {
     id: "plinkie", naam: "Plinkie", status: "Live sinds 26 september 2026",

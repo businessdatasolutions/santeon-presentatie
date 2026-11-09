@@ -134,7 +134,11 @@ async function kaartTextuur(app) {
   } else if (img) {
     // Achter het logo: de achtergrondkleur van de app zelf (Plinkie: "ochtend" van plinkie.nl)
     c.fillStyle = app.id === "plinkie" ? "#fff6ea" : "#eef3ff"; c.fillRect(34, 34, 572, 380);
-    const s = 300; c.drawImage(img, 320 - s / 2, 224 - s / 2, s, s);
+    const s = 300, x0 = 320 - s / 2, y0 = 224 - s / 2;
+    // Een icoon met witte (niet doorzichtige) hoeken snijden we af langs zijn eigen ronding,
+    // 2 px naar binnen, zodat ook de lichte rand van het icoon wegvalt.
+    if (app.beeldHoek) { c.beginPath(); c.roundRect(x0 + 2, y0 + 2, s - 4, s - 4, s * app.beeldHoek - 2); c.clip(); }
+    c.drawImage(img, x0, y0, s, s);
   } else { // Newmuzes: een golfvorm en toetsen
     c.fillStyle = INK; c.fillRect(34, 34, 572, 380);
     c.strokeStyle = ACCENT; c.lineWidth = 5; c.beginPath();
@@ -161,6 +165,9 @@ async function kaartTextuur(app) {
 
 // [x, y, draaiing om de y-as]; de kaarten staan iets naar elkaar toe gedraaid
 const POSITIES = [[-1.05, 1.36, 0.12], [1.05, 1.36, -0.12], [-1.05, -1.36, 0.08], [1.05, -1.36, -0.08]];
+// Tussen twee kaarten zit 0,35 ruimte (2,72 − 2,375). Zweven (2 × ZWEEF) plus 7% groter onder de muis (0,08)
+// blijft daar ruim onder, op elke beeldsnelheid.
+const ZWEEF = 0.05;
 const kaarten = [];
 (async () => {
   const texturen = await Promise.all(APPS.map(kaartTextuur));
@@ -168,12 +175,15 @@ const kaarten = [];
     const mat = new THREE.MeshBasicMaterial({ map: texturen[i], transparent: true });
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 2.375), mat);
     const [px, py, ry] = POSITIES[i];
-    mesh.position.set(px, py - 4, -2);
+    // De groep vliegt in (motion); de kaart zweeft erin (tekenlus). Zo zitten ze elkaar niet in de weg.
+    const groep = new THREE.Group();
+    groep.position.set(px, py - 4, -2);
+    groep.add(mesh);
     mesh.rotation.y = ry;
     mesh.userData = { index: i, basisRy: ry, fase: i * 1.7 };
-    scene.add(mesh);
+    scene.add(groep);
     kaarten.push(mesh);
-    animate(mesh.position, { y: py, z: 0 },
+    animate(groep.position, { y: py, z: 0 },
       rustig ? { duration: 0 } : { type: "spring", visualDuration: 0.9, bounce: 0.3, delay: 1.2 + i * 0.15 });
   });
 })();
@@ -286,7 +296,8 @@ renderer.setAnimationLoop(() => {
     // Staat er een app open, dan wijken de andere drie.
     const o = gekozen !== null && !open ? 0.4 : 1;
     k.material.opacity += (o - k.material.opacity) * 0.12;
-    if (!rustig) k.position.y += Math.sin(t * 0.9 + u.fase) * 0.0018;
+    // Een vaste afstand tot de eigen plek, afhankelijk van de tijd, niet van het aantal beelden per seconde
+    if (!rustig) k.position.y = Math.sin(t * 0.9 + u.fase) * ZWEEF;
   }
   renderer.render(scene, camera);
 });
