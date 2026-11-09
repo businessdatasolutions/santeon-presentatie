@@ -551,9 +551,11 @@ function maakReis() {
         <div class="relaties">
           <div class="rel"><span class="ding">Incident</span><span class="pijl">heeftCategorie →</span><span class="begrip">Categorie</span><span class="waarden"><b>Val</b> · Medicatie · Decubitus · Agressie · …</span></div>
           <div class="rel"><span class="ding">Incident</span><span class="pijl">vondPlaatsOp →</span><span class="begrip">Afdeling</span><span class="waarden"><b>Geriatrie</b> · IC · SEH · Chirurgie · …</span></div>
+          <div class="rel"><span class="ding">Incident</span><span class="pijl">heeftUitkomst →</span><span class="begrip">Uitkomst</span><span class="waarden">Bijna-incident · … · Overlijden</span></div>
           <div class="rel"><span class="ding">Incident</span><span class="pijl">heeftErnst →</span><span class="begrip">Ernst (SAC)</span><span class="waarden">SAC 1 · SAC 2 · SAC 3 · SAC 4</span></div>
           <div class="rel"><span class="ding">Incident</span><span class="pijl">heeftBasisoorzaak →</span><span class="begrip">Basisoorzaak</span><span class="waarden">Technisch · Organisatorisch · Menselijk · …</span></div>
-        </div></div></div>`,
+        </div>
+        <p class="legenda"><b>Geel</b>: de waarden van melding 0470.</p></div></div>`,
     ontoOplost: () => `<h3>Wat de ontologie oplost</h3>${tegels([
       ["Tellen en vergelijken", "Over afdelingen heen, en tussen de Santeon-ziekenhuizen."],
       ["Herleiden", "Elke waarde wijst naar een stuk tekst. Je ziet waarop de uitkomst rust."],
