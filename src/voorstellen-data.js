@@ -31,7 +31,7 @@ export const APPS = [
   {
     id: "plinkie", naam: "Plinkie", status: "Live sinds 26 september 2026",
     zin: "Eén eerlijke prijs voor private lease van een elektrische auto. Elke nacht opnieuw berekend.",
-    feiten: ["Eerste run: 19 bronnen, 826 pagina's, 30.149 aanbiedingen", "De AI publiceert nooit zelf een getal: elk getal komt uit code, met bron en datum"],
+    feiten: ["Stand 9 november: 22 aanbieders, 545 auto's en 69.426 aanbiedingen", "De AI publiceert nooit zelf een getal: elk getal komt uit code, met bron en datum"],
     beeld: plinkieBeeld,
   },
   {
