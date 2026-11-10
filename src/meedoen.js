@@ -1,8 +1,10 @@
 /* De zaal doet mee (3b en de evaluatie). Door de spreker bediend, met de stemtool uit de
    a-cluster-repo achter één QR-code.
 
-   - De vragen staan in stemtool.json in de root van deze repo. De koppen in STAPPEN
-     en de opties (OPTIES) zijn er een kopie van: pas ze samen aan.
+   - De vragen staan in stemtool.json in de root van deze repo. De koppen in STAPPEN en de
+     opties (OPTIES) komen daar rechtstreeks uit. De telefoons krijgen hun vragen van de
+     uitgerolde stemtool. Die heeft een eigen kopie, die pas na verzamel.py en een nieuwe
+     deploy in de a-cluster-repo meekomt. Wijkt die kopie af, dan zegt de statusregel het.
    - Het adres van de dienst staat in .env als VITE_STEMTOOL_URL, niet in git. Het dashboard
      van de stemtool heeft geen inlog, en deze repo is publiek.
    - De QR-code wijst naar /santeon/mee, niet naar /mee. Zo kan een HAN-vraag die nog
@@ -13,7 +15,8 @@
    - Toets D opent het dashboard (start, stop, wissen) in een nieuw tabblad. */
 
 import QRCode from "qrcode";
-import { SAC, TEGENSTRIJDIG } from "./meldingen.js";
+import { TEGENSTRIJDIG } from "./meldingen.js";
+import STEMTOOL from "../stemtool.json";
 
 const BASIS = (import.meta.env.VITE_STEMTOOL_URL || "").replace(/\/+$/, "");
 // Zonder adres. Lokaal: .env mist VITE_STEMTOOL_URL. Openbare versie (GitHub Pages): de build
@@ -29,26 +32,27 @@ const tekst = (t) => String(t ?? "").replace(/[<>&"]/g, (c) => ({ "<": "&lt;", "
 
 const VRAGEN = ["veilig-gegevens", "veilig-patient", "veilig-melder"];
 
-// kop = de vraag zoals de telefoon hem toont (stemtool.json → vraag)
+const ACTIVITEIT = Object.fromEntries(STEMTOOL.activiteiten.map((a) => [a.code, a]));
+const vraag = (code) => ACTIVITEIT[code].vraag;
+
+// kop = de vraag zoals de telefoon hem toont, behalve op de stappen zonder eigen vraag
 const STAPPEN = [
   { naam: "start", kop: "Pak je telefoon", codes: [] },
-  { naam: "sac", kop: "Welke SAC-score geef jij deze melding?", codes: ["sac-0505"] },
+  { naam: "sac", kop: vraag("sac-0505"), codes: ["sac-0505"] },
   { naam: "agent", kop: "Wat doet de AI-agent met deze melding?", codes: ["sac-0505"] },
-  { naam: "gegevens", kop: "Weet je of je ziekenhuis een AI-toepassing heeft goedgekeurd voor meldingen?", codes: ["veilig-gegevens"] },
-  { naam: "patient", kop: "In 71% van de ziekenhuizen werkt AI al bij de diagnostiek. Weet je hoe je ziekenhuis controleert of die AI klopt?", codes: ["veilig-patient"] },
-  { naam: "melder", kop: "Weet je of het VIM-reglement van je ziekenhuis iets zegt over AI?", codes: ["veilig-melder"] },
+  { naam: "gegevens", kop: vraag("veilig-gegevens"), codes: ["veilig-gegevens"] },
+  { naam: "patient", kop: vraag("veilig-patient"), codes: ["veilig-patient"] },
+  { naam: "melder", kop: vraag("veilig-melder"), codes: ["veilig-melder"] },
   { naam: "overzicht", kop: "Bij welke vraag weet de zaal het minst?", codes: VRAGEN },
-  { naam: "wie", kop: "Wie vraag je morgen om een antwoord?", codes: ["wie"] },
-  { naam: "evaluatie", kop: "Hoe was deze sessie?", codes: [] },
+  { naam: "wie", kop: vraag("wie"), codes: ["wie"] },
+  { naam: "evaluatie", kop: vraag("evaluatie"), codes: [] },
 ];
 
+// de klasse kleurt de staaf: A weet het, B weet wie het weet, C weet het niet
+const KLASSE = { A: "weet", B: "wie", C: "niet" };
 const OPTIES = {
-  sac: [1, 2, 3, 4].map((n) => ({ sleutel: String(n), tekst: SAC[n].label })),
-  weet: [
-    { sleutel: "A", klasse: "weet", tekst: "Ja" },
-    { sleutel: "B", klasse: "wie", tekst: "Nee, maar ik weet wie het weet" },
-    { sleutel: "C", klasse: "niet", tekst: "Nee, en ik weet niet wie het weet" },
-  ],
+  sac: ACTIVITEIT["sac-0505"].opties,
+  weet: ACTIVITEIT["veilig-gegevens"].opties.map((o) => ({ ...o, klasse: KLASSE[o.sleutel] })),
 };
 
 // live[code] = de laatste uitslag die de dienst gaf, ook als die nog 0 antwoorden telt
@@ -56,6 +60,8 @@ const live = {};
 const heeftAntwoorden = (code) => Boolean(live[code] && live[code].aantal > 0);
 let verbonden = null;   // null = nog niet geprobeerd
 let openTitel = null;
+let afwijkend = [];     // codes waarvan de telefoon een andere vraag toont dan stemtool.json
+let gemeld = "";
 let stap = -1;
 
 /* ---------------------------------------------------------------- de uitslag van één vraag */
@@ -146,6 +152,7 @@ function tekenVerbinding() {
   if (!BASIS) { el.textContent = ZONDER.status; el.className = "verbinding uit"; return; }
   if (verbonden === null) { el.textContent = "Stemtool: verbinden…"; el.className = "verbinding"; return; }
   if (!verbonden) { el.textContent = "Stemtool: geen verbinding"; el.className = "verbinding uit"; return; }
+  if (afwijkend.length) { el.textContent = "Stemtool: andere vragen dan op deze pagina"; el.className = "verbinding uit"; return; }
   el.textContent = `Stemtool: verbonden · ${openTitel ? `open: ${openTitel}` : "geen vraag open"}`;
   el.className = "verbinding aan";
 }
@@ -173,6 +180,19 @@ function tekenMelding() {
 
 /* ---------------------------------------------------------------- de stemtool */
 
+// Vergelijk de vragen van de dienst met stemtool.json. Een verschil betekent: de vragen zijn
+// aangepast, maar de stemtool is daarna niet opnieuw uitgerold.
+function vergelijk(lijst) {
+  const opDienst = Object.fromEntries(lijst.map((a) => [a.code, a.vraag]));
+  afwijkend = STEMTOOL.activiteiten.filter((a) => opDienst[a.code] !== a.vraag).map((a) => a.code);
+  const sleutel = afwijkend.join(",");
+  if (sleutel && sleutel !== gemeld) {
+    console.warn(`De stemtool toont andere vragen dan stemtool.json: ${sleutel}.`
+      + " Draai in de a-cluster-repo python3 stemtool/verzamel.py en rol de stemtool opnieuw uit.");
+  }
+  gemeld = sleutel;
+}
+
 async function haal(pad) {
   const r = await fetch(`${BASIS}/api/${COLLEGE}${pad}`, { cache: "no-store" });
   if (!r.ok) throw new Error(`${r.status} op ${pad}`);
@@ -189,6 +209,7 @@ async function tik() {
     ]);
     const open = lijst.activiteiten.find((a) => a.open);
     openTitel = open ? open.titel : null;
+    vergelijk(lijst.activiteiten);
     for (const d of uitslagen) live[d.code] = d;   // ook na Wissen op het dashboard: dan weer leeg
     verbonden = true;
   } catch {
